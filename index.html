@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>3D Space Game</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      touch-action: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    let scene, camera, renderer;
+    let spacecraft;
+    let objects = [];
+    let roll = 0, pitch = 0;
+    const speed = 0.1;
+
+    function init() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      const geometry = new THREE.ConeGeometry(0.5, 1, 32);
+      const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+      spacecraft = new THREE.Mesh(geometry, material);
+      spacecraft.rotation.x = Math.PI / 2;
+      scene.add(spacecraft);
+
+      camera.position.z = 5;
+
+      for (let i = 0; i < 50; i++) {
+        const objectGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+        const objectMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const object = new THREE.Mesh(objectGeometry, objectMaterial);
+        object.position.set(Math.random() * 20 - 10, Math.random() * 20 - 10, Math.random() * 100 - 50);
+        scene.add(object);
+        objects.push(object);
+      }
+
+      window.addEventListener('resize', onWindowResize, false);
+      window.addEventListener('deviceorientation', handleOrientation, true);
+      document.addEventListener('click', goFullScreen, false);
+
+      goFullScreen(); // Automatically request full-screen on page load
+      animate();
+    }
+
+    function goFullScreen() {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+      } else if (document.documentElement.mozRequestFullScreen) {
+        document.documentElement.mozRequestFullScreen();
+      } else if (document.documentElement.webkitRequestFullscreen) {
+        document.documentElement.webkitRequestFullscreen();
+      } else if (document.documentElement.msRequestFullscreen) {
+        document.documentElement.msRequestFullscreen();
+      }
+    }
+
+    function handleOrientation(event) {
+      if (event.alpha !== null) {
+        roll = event.beta / 10;
+        pitch = event.gamma / 10;
+      }
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      spacecraft.rotation.z = pitch;
+      spacecraft.rotation.x = -roll;
+
+      spacecraft.position.x -= pitch * speed;
+      spacecraft.position.y += roll * speed;
+
+      camera.position.x = spacecraft.position.x;
+      camera.position.y = spacecraft.position.y;
+      camera.position.z = spacecraft.position.z + 5;
+
+      for (let object of objects) {
+        object.position.z += speed;
+
+        if (object.position.z > camera.position.z) {
+          object.position.z -= 100;
+          object.position.x = Math.random() * 20 - 10;
+          object.position.y = Math.random() * 20 - 10;
+        }
+
+        if (spacecraft.position.distanceTo(object.position) < 1) {
+          alert('Collision detected!');
+          resetGame();
+        }
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    function resetGame() {
+      spacecraft.position.set(0, 0, 0);
+      for (let object of objects) {
+        object.position.set(Math.random() * 20 - 10, Math.random() * 20 - 10, Math.random() * 100 - 50);
+      }
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>
