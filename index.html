@@ -172,7 +172,7 @@
     function resetGame() {
       spacecraft.position.set(0, 0, 0);
       score = 0;
-      document.getElementById('score').textContent = 'Score: '0;
+      document.getElementById('score').textContent = 'Score: ' + score;
       for (let object of objects) {
         object.position.set(Math.random() * 20 - 10, Math.random() * 20 - 10, Math.random() * 100 - 50);
       }
