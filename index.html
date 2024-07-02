@@ -51,6 +51,7 @@
     let roll = 0, pitch = 0;
     const speed = 0.1;
     let score = 0;
+    let audioContext, oscillator;
 
     document.getElementById('startButton').addEventListener('click', () => {
       goFullScreen();
@@ -59,16 +60,19 @@
     });
 
     function init() {
+      // Initialize audio context
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       document.body.appendChild(renderer.domElement);
 
-      const geometry = new THREE.ConeGeometry(0.5, 1, 32);
-      const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+      // Create a neon green cube for the spacecraft
+      const geometry = new THREE.BoxGeometry(1, 1, 1);
+      const material = new THREE.MeshBasicMaterial({ color: 0x39ff14 });
       spacecraft = new THREE.Mesh(geometry, material);
-      spacecraft.rotation.x = Math.PI / 2;
       scene.add(spacecraft);
 
       camera.position.z = 5;
@@ -125,6 +129,10 @@
     function animate() {
       requestAnimationFrame(animate);
 
+      // Rotate the spacecraft
+      spacecraft.rotation.x += 0.01;
+      spacecraft.rotation.y += 0.01;
+
       spacecraft.rotation.z = pitch;
       spacecraft.rotation.x = -roll;
 
@@ -162,11 +170,26 @@
         if (spacecraft.position.distanceTo(dust.position) < 1) {
           score += 1;
           document.getElementById('score').textContent = 'Score: ' + score;
+          playSound();
           dust.position.set(Math.random() * 20 - 10, Math.random() * 20 - 10, spacecraft.position.z - 100);
         }
       }
 
       renderer.render(scene, camera);
+    }
+
+    function playSound() {
+      oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4 note
+      gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
+
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 0.1); // Play sound for 0.1 seconds
     }
 
     function resetGame() {
@@ -180,8 +203,6 @@
         dust.position.set(Math.random() * 20 - 10, Math.random() * 20 - 10, Math.random() * 100 - 50);
       }
     }
-
-    window.onload = init;
   </script>
 </body>
 </html>
