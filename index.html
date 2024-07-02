@@ -29,17 +29,28 @@
       cursor: pointer;
       z-index: 1;
     }
+    #score {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 24px;
+      color: white;
+      z-index: 1;
+    }
   </style>
 </head>
 <body>
   <button id="startButton">Start</button>
+  <div id="score">Score: 0</div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script>
     let scene, camera, renderer;
     let spacecraft;
     let objects = [];
+    let dusts = [];
     let roll = 0, pitch = 0;
     const speed = 0.1;
+    let score = 0;
 
     document.getElementById('startButton').addEventListener('click', () => {
       goFullScreen();
@@ -64,11 +75,20 @@
 
       for (let i = 0; i < 50; i++) {
         const objectGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-        const objectMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const objectMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
         const object = new THREE.Mesh(objectGeometry, objectMaterial);
         object.position.set(Math.random() * 20 - 10, Math.random() * 20 - 10, Math.random() * 100 - 50);
         scene.add(object);
         objects.push(object);
+      }
+
+      for (let i = 0; i < 20; i++) {
+        const dustGeometry = new THREE.SphereGeometry(0.3, 32, 32);
+        const dustMaterial = new THREE.MeshBasicMaterial({ color: 0x800080 });
+        const dust = new THREE.Mesh(dustGeometry, dustMaterial);
+        dust.position.set(Math.random() * 20 - 10, Math.random() * 20 - 10, Math.random() * 100 - 50);
+        scene.add(dust);
+        dusts.push(dust);
       }
 
       window.addEventListener('resize', onWindowResize, false);
@@ -130,15 +150,38 @@
         }
       }
 
+      for (let dust of dusts) {
+        dust.position.z += speed;
+
+        if (dust.position.z > camera.position.z) {
+          dust.position.z -= 100;
+          dust.position.x = Math.random() * 20 - 10;
+          dust.position.y = Math.random() * 20 - 10;
+        }
+
+        if (spacecraft.position.distanceTo(dust.position) < 1) {
+          score += 1;
+          document.getElementById('score').textContent = 'Score: ' + score;
+          dust.position.set(Math.random() * 20 - 10, Math.random() * 20 - 10, spacecraft.position.z - 100);
+        }
+      }
+
       renderer.render(scene, camera);
     }
 
     function resetGame() {
       spacecraft.position.set(0, 0, 0);
+      score = 0;
+      document.getElementById('score').textContent = 'Score: '0;
       for (let object of objects) {
         object.position.set(Math.random() * 20 - 10, Math.random() * 20 - 10, Math.random() * 100 - 50);
       }
+      for (let dust of dusts) {
+        dust.position.set(Math.random() * 20 - 10, Math.random() * 20 - 10, Math.random() * 100 - 50);
+      }
     }
+
+    window.onload = init;
   </script>
 </body>
 </html>
