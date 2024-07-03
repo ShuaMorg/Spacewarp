@@ -77,14 +77,18 @@
 
       camera.position.z = 5;
 
-      for (let i = 0; i < 50; i++) {
-        const objectGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-        const objectMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-        const object = new THREE.Mesh(objectGeometry, objectMaterial);
-        object.position.set(Math.random() * 20 - 10, Math.random() * 20 - 10, Math.random() * 100 - 50);
-        scene.add(object);
-        objects.push(object);
-      }
+      // Load the texture for the spheres
+      const textureLoader = new THREE.TextureLoader();
+      textureLoader.load('p1.png', function (texture) {
+        for (let i = 0; i < 50; i++) {
+          const objectGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+          const objectMaterial = new THREE.MeshBasicMaterial({ map: texture });
+          const object = new THREE.Mesh(objectGeometry, objectMaterial);
+          object.position.set(Math.random() * 20 - 10, Math.random() * 20 - 10, Math.random() * 100 - 50);
+          scene.add(object);
+          objects.push(object);
+        }
+      });
 
       for (let i = 0; i < 20; i++) {
         const dustGeometry = new THREE.SphereGeometry(0.3, 32, 32);
