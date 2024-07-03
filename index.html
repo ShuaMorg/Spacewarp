@@ -48,6 +48,8 @@
     let spacecraft;
     let objects = [];
     let dusts = [];
+    let background;
+    let bgTexture;
     let roll = 0, pitch = 0;
     const speed = 0.1;
     let score = 0;
@@ -77,8 +79,20 @@
 
       camera.position.z = 5;
 
-      // Load the textures for the spheres
+      // Load the background texture
       const textureLoader = new THREE.TextureLoader();
+      bgTexture = textureLoader.load('bg1.png');
+      bgTexture.wrapS = bgTexture.wrapT = THREE.RepeatWrapping;
+      bgTexture.repeat.set(4, 4);
+
+      // Create background plane
+      const bgGeometry = new THREE.PlaneGeometry(2000, 1488);
+      const bgMaterial = new THREE.MeshBasicMaterial({ map: bgTexture, side: THREE.DoubleSide });
+      background = new THREE.Mesh(bgGeometry, bgMaterial);
+      background.position.z = -1000; // Far behind the objects
+      scene.add(background);
+
+      // Load the textures for the spheres
       const texture1 = textureLoader.load('p1.png');
       const texture2 = textureLoader.load('p2.png');
 
@@ -159,6 +173,10 @@
       camera.position.y = spacecraft.position.y;
       camera.position.z = spacecraft.position.z + 5;
 
+      // Move the background texture
+      bgTexture.offset.x -= pitch * speed * 0.01;
+      bgTexture.offset.y += roll * speed * 0.01;
+
       for (let object of objects) {
         object.position.z += speed;
 
@@ -231,10 +249,139 @@
         dust.position.set(
           Math.random() * 200 - 100,
           Math.random() * 200 - 100,
-          Math.random() * 200 - 100
+Math.random() * 200 - 100,
+        );
+      }
+    
+
+    window.addEventListener('resize', onWindowResize, false);
+    window.addEventListener('deviceorientation', handleOrientation, true);
+
+    animate();
+  }
+
+  function goFullScreen() {
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    } else if (document.documentElement.mozRequestFullScreen) {
+      document.documentElement.mozRequestFullScreen();
+    } else if (document.documentElement.webkitRequestFullscreen) {
+      document.documentElement.webkitRequestFullscreen();
+    } else if (document.documentElement.msRequestFullscreen) {
+      document.documentElement.msRequestFullscreen();
+    }
+  }
+
+  function handleOrientation(event) {
+    if (event.alpha !== null) {
+      roll = event.beta / 10 - 4.5;  // Adjusted to fly straight when phone is upright
+      pitch = event.gamma / 10;
+    }
+  }
+
+  function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    // Rotate the spacecraft
+    spacecraft.rotation.x += 0.01;
+    spacecraft.rotation.y += 0.01;
+
+    spacecraft.rotation.z = pitch;
+    spacecraft.rotation.x = -roll;
+
+    spacecraft.position.x -= pitch * speed;
+    spacecraft.position.y += roll * speed;
+
+    camera.position.x = spacecraft.position.x;
+    camera.position.y = spacecraft.position.y;
+    camera.position.z = spacecraft.position.z + 5;
+
+    // Move the background texture
+    bgTexture.offset.x -= pitch * speed * 0.01;
+    bgTexture.offset.y += roll * speed * 0.01;
+
+    for (let object of objects) {
+      object.position.z += speed;
+
+      if (object.position.distanceTo(spacecraft.position) > 100) {
+        object.position.set(
+          Math.random() * 200 - 100 + spacecraft.position.x,
+          Math.random() * 200 - 100 + spacecraft.position.y,
+          Math.random() * 200 - 100 + spacecraft.position.z
+        );
+      }
+
+      if (spacecraft.position.distanceTo(object.position) < 1) {
+        alert('Collision detected!');
+        resetGame();
+      }
+    }
+
+    for (let dust of dusts) {
+      dust.position.z += speed;
+
+      if (dust.position.distanceTo(spacecraft.position) > 100) {
+        dust.position.set(
+          Math.random() * 200 - 100 + spacecraft.position.x,
+          Math.random() * 200 - 100 + spacecraft.position.y,
+          Math.random() * 200 - 100 + spacecraft.position.z
+        );
+      }
+
+      if (spacecraft.position.distanceTo(dust.position) < 1) {
+        score += 1;
+        document.getElementById('score').textContent = 'Score: ' + score;
+        playSound();
+        dust.position.set(
+          Math.random() * 200 - 100 + spacecraft.position.x,
+          Math.random() * 200 - 100 + spacecraft.position.y,
+          Math.random() * 200 - 100 + spacecraft.position.z
         );
       }
     }
-  </script>
+
+    renderer.render(scene, camera);
+  }
+
+  function playSound() {
+    oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4 note
+    gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
+
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + 0.1); // Play sound for 0.1 seconds
+  }
+
+  function resetGame() {
+    spacecraft.position.set(0, 0, 0);
+    score = 0;
+    document.getElementById('score').textContent = 'Score: ' + score;
+    for (let object of objects) {
+      object.position.set(
+        Math.random() * 200 - 100,
+        Math.random() * 200 - 100,
+        Math.random() * 200 - 100
+      );
+    }
+    for (let dust of dusts) {
+      dust.position.set(
+        Math.random() * 200 - 100,
+        Math.random() * 200 - 100,
+        Math.random() * 200 - 100
+      );
+    }
+  }
+</script>
 </body>
 </html>
