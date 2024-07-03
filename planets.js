@@ -4,7 +4,6 @@ let sunFrames = [];
 let sunFrameIndex = 0;
 let sunFrameDirection = 1;  // 1 for forward, -1 for backward
 const sunFrameRate = 5;  // Change frame every 5 animation loops
-const collisionDistanceFactor = 1.5;  // Factor to determine the collision distance
 
 function loadSunFrames() {
   const sunFrameCount = 52;  // 52 frames in the sun animation
@@ -123,7 +122,8 @@ function updatePlanets(spacecraft, speed) {
       sun.scale.set(0.01, 0.01, 0.01);  // Reset size
     }
 
-    if (spacecraft.position.distanceTo(sun.position) < 2.5 * collisionDistanceFactor) {  // Adjusted collision detection distance
+    const sunRadius = 2.5 * sun.scale.x;  // Adjusted sun radius based on scale
+    if (spacecraft.position.distanceTo(sun.position) < sunRadius + 0.5) {  // Adjusted collision detection distance
       alert('Collision detected!');
       resetGame();
     }
@@ -147,7 +147,8 @@ function updatePlanets(spacecraft, speed) {
       object.scale.set(0.01, 0.01, 0.01);  // Reset size
     }
 
-    if (spacecraft.position.distanceTo(object.position) < 0.5 * collisionDistanceFactor) {  // Adjusted collision detection distance
+    const planetRadius = 0.5 * object.scale.x;  // Adjusted planet radius based on scale
+    if (spacecraft.position.distanceTo(object.position) < planetRadius + 0.5) {  // Adjusted collision detection distance
       alert('Collision detected!');
       resetGame();
     }
