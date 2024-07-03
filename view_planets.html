@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Planets</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      touch-action: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+    .label {
+      position: absolute;
+      color: white;
+      font-size: 16px;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    let scene, camera, renderer;
+    let planets = [];
+    let labels = [];
+
+    function init() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      const textureLoader = new THREE.TextureLoader();
+      const planetTextures = [];
+      for (let i = 1; i <= 9; i++) {
+        planetTextures.push(textureLoader.load(`p${i}.png`));
+      }
+
+      // Create a grid of planets
+      const planetGeometry = new THREE.SphereGeometry(1, 32, 32);
+      const rows = 3;
+      const cols = 3;
+      const spacing = 5;
+      let index = 0;
+
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          const material = new THREE.MeshBasicMaterial({ map: planetTextures[index] });
+          const planet = new THREE.Mesh(planetGeometry, material);
+          planet.position.set(col * spacing - (cols - 1) * spacing / 2, row * spacing - (rows - 1) * spacing / 2, 0);
+          scene.add(planet);
+          planets.push(planet);
+
+          // Create a label
+          const label = document.createElement('div');
+          label.className = 'label';
+          label.innerText = `p${index + 1}.png`;
+          document.body.appendChild(label);
+          labels.push({ element: label, planet: planet });
+
+          index++;
+        }
+      }
+
+      camera.position.z = 15;
+
+      animate();
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      for (let planet of planets) {
+        planet.rotation.y += 0.01;
+      }
+
+      // Update label positions
+      for (let label of labels) {
+        const vector = new THREE.Vector3();
+        label.planet.updateMatrixWorld();
+        vector.setFromMatrixPosition(label.planet.matrixWorld);
+        vector.project(camera);
+
+        const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
+        const y = (vector.y * -0.5 + 0.5) * window.innerHeight;
+
+        label.element.style.left = `${x}px`;
+        label.element.style.top = `${y + 20}px`; // Adjust for the label to appear below the sphere
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    window.addEventListener('resize', onWindowResize, false);
+
+    init();
+  </script>
+</body>
+</html>
