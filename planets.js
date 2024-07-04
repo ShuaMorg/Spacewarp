@@ -148,5 +148,14 @@ function updatePlanets(spacecraft, speed) {
     }
 
     const planetRadius = 0.5 * object.scale.x;  // Adjusted planet radius based on scale
-    if (spacecraft.position.distanceTo(object.position) < planetRadius + 0.5) {  //
+    if (spacecraft.position.distanceTo(object.position) < planetRadius + 0.5) {  // Adjusted collision detection distance
+      loadDynamicPlanetScene(object.material.map.image.src);
+      return;
+    }
+  }
+}
 
+function loadDynamicPlanetScene(texturePath) {
+  const queryString = `?texture=${encodeURIComponent(texturePath)}`;
+  window.location.href = `dynamicPlanet.html${queryString}`;
+}
