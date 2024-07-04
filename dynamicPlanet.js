@@ -1,15 +1,15 @@
 let flatPlanet, spacecraft, renderer, scene, camera;
 let pitch = 0, roll = 0;
-const baseSpeed = 0.05;
-const escapeBaseSpeed = 0.05;
+const baseSpeed = 0.05;  // Base speed for rotation
+const escapeBaseSpeed = 0.05;  // Slower initial speed for moving away from the planet
 const planetRadius = 500;
-const escapeThreshold = 7.5;
-const maxDistanceFactor = 10;
+const escapeThreshold = 7.5;  // Adjusted threshold for flying straight up to escape the planet
+const maxDistanceFactor = 10;  // Maximum distance factor
 let distanceFactor = 1;
 let escapeSpeed = escapeBaseSpeed;
 let escaping = false;
 let escapeTimer = 0;
-const escapeDuration = 4 * 1000;
+const escapeDuration = 4 * 1000; // 4 seconds in milliseconds
 let planetTexturePath;
 
 function init(planetTexturePath) {
