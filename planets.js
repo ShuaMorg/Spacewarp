@@ -124,8 +124,8 @@ function updatePlanets(spacecraft, speed) {
 
     const sunRadius = 2.5 * sun.scale.x;  // Adjusted sun radius based on scale
     if (spacecraft.position.distanceTo(sun.position) < sunRadius + 0.5) {  // Adjusted collision detection distance
-      alert('Collision detected!');
-      resetGame();
+      loadDynamicPlanetScene(sun.material.map.image.src);
+      return;
     }
   }
 
@@ -149,8 +149,13 @@ function updatePlanets(spacecraft, speed) {
 
     const planetRadius = 0.5 * object.scale.x;  // Adjusted planet radius based on scale
     if (spacecraft.position.distanceTo(object.position) < planetRadius + 0.5) {  // Adjusted collision detection distance
-      alert('Collision detected!');
-      resetGame();
+      loadDynamicPlanetScene(object.material.map.image.src);
+      return;
     }
   }
+}
+
+function loadDynamicPlanetScene(texturePath) {
+  const queryString = `?texture=${texturePath}`;
+  window.location.href = `dynamicPlanet.html${queryString}`;
 }
