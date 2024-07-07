@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Planet Surface</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="player.js"></script>
+  <script src="surface_controls.js"></script>
+  <script>
+    // Get the texture from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const textureURL = decodeURIComponent(urlParams.get('texture'));
+
+    let scene, camera, renderer;
+
+    function init() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      const textureLoader = new THREE.TextureLoader();
+      const planetTexture = textureLoader.load(textureURL, function(texture) {
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set(50, 50);  // Adjust these values to control the repetition
+      });
+
+      const surfaceGeometry = new THREE.PlaneGeometry(10000, 10000, 100, 100);
+      const surfaceMaterial = new THREE.MeshBasicMaterial({ map: planetTexture, side: THREE.DoubleSide });
+      const surface = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
+      surface.rotation.x = -Math.PI / 2; // Rotate to make it horizontal
+      scene.add(surface);
+
+      // Add background sphere with repeated texture
+      const bgTexture = textureLoader.load('bg1.png', function(texture) {
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set(10, 10);  // Adjust these values to control the repetition
+      });
+      const bgGeometry = new THREE.SphereGeometry(5000, 32, 32); // Adjust size as needed
+      const bgMaterial = new THREE.MeshBasicMaterial({ map: bgTexture, side: THREE.BackSide });
+      const bgMesh = new THREE.Mesh(bgGeometry, bgMaterial);
+      scene.add(bgMesh);
+
+      // Initialize player-controlled object from player.js
+      createPlayer(scene);  // Ensure this function adds the player object to the scene
+
+      camera.position.z = 10;
+
+      window.addEventListener('resize', onWindowResize, false);
+      window.addEventListener('deviceorientation', handleOrientation, true);
+
+      animate();
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      updatePlayer();  // Call function from surface_controls.js to update the player-controlled object
+
+      renderer.render(scene, camera);
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    init();
+  </script>
+</body>
+</html>

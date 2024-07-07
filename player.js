@@ -1,4 +1,7 @@
 let spacecraft;
+const baseSpeed = 0.1;  // Base forward speed
+const baseTurnSpeed = 0.1;  // Base turn speed
+let shipAudio;
 
 function createPlayer(scene) {
   // Load the texture
@@ -21,16 +24,25 @@ function createPlayer(scene) {
   
   const ambientLight = new THREE.AmbientLight(0x404040); // soft white light
   scene.add(ambientLight);
+
+  // Load and play the audio in a loop
+  shipAudio = new Audio('ship.mp3');
+  shipAudio.loop = true;
+  shipAudio.play().catch(error => {
+    console.log('Failed to play audio:', error);
+  });
 }
 
-function updatePlayer(pitch, roll, speed) {
+function updatePlayer(pitch, roll, forwardSpeedMultiplier) {
   // Apply tilt based on user input
-  spacecraft.rotation.z = pitch * 0.1;
-  spacecraft.rotation.x = -roll * 0.1;
+  spacecraft.rotation.z = pitch * baseTurnSpeed;
+  spacecraft.rotation.x = -roll * baseTurnSpeed;
 
-  // Update the spacecraft's position
-  spacecraft.position.x -= pitch * speed;
-  spacecraft.position.y += roll * speed;
+  // Update the spacecraft's position along the z-axis (forward)
+  const forwardSpeed = baseSpeed * forwardSpeedMultiplier;  // Increase forward speed by the multiplier
+  spacecraft.position.z -= forwardSpeed;
+  spacecraft.position.x -= pitch * baseTurnSpeed;
+  spacecraft.position.y += roll * baseTurnSpeed;
 }
 
 function resetPlayer() {
