@@ -111,7 +111,7 @@ function displayMessage(index) {
     messageDiv.style.bottom = '10%';
     messageDiv.style.left = '50%';
     messageDiv.style.transform = 'translateX(-50%)';
-    messageDiv.style.fontSize = '12px'; // Smaller font size
+    messageDiv.style.fontSize = '12px'; // Consistent font size
     messageDiv.style.fontFamily = '"Press Start 2P", cursive';
     messageDiv.style.color = '#39FF14'; // Neon green color
     messageDiv.style.textAlign = 'center';
@@ -130,7 +130,7 @@ function displayMessage(index) {
             messageDiv.textContent += message[charIndex];
             charIndex++;
             // Random delay between 50ms and 150ms
-            const delay = Math.random() * 120 + 10;
+            const delay = Math.random() * 100 + 50;
             setTimeout(typeCharacter, delay);
         } else {
             // Wait for 5 seconds before removing the message
@@ -139,7 +139,7 @@ function displayMessage(index) {
                 // Wait for 10 seconds before displaying the next message
                 setTimeout(() => {
                     displayMessage(index + 1);
-                }, 20000); // 10 seconds in milliseconds
+                }, 10000); // 10 seconds in milliseconds
             }, 5000); // 5 seconds in milliseconds
         }
     }
