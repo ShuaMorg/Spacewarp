@@ -1,8 +1,8 @@
 let roll = 0, pitch = 0;
-const forwardSpeed = 0.5;
+const forwardSpeed = 8.5;
 const turnSpeed = 0.05;
 const verticalSpeed = 0.5;
-let flyingUpTime = 0;
+const targetHeight = 600;  // Set the target height for leaving the planet
 let lastUpdateTime = Date.now();
 
 function handleOrientation(event) {
@@ -25,18 +25,16 @@ function updatePlayer() {
     // Move the spacecraft forward based on the pitch (forward tilt)
     if (pitch < 0) {
       spacecraft.position.add(forward.multiplyScalar(pitch * forwardSpeed));
-      flyingUpTime = 0;  // Reset flying up time
     } else {
       // Move the spacecraft upward based on the positive pitch (backward tilt)
       spacecraft.position.add(up.multiplyScalar(pitch * verticalSpeed));
-      flyingUpTime += deltaTime;  // Increment flying up time
+    }
 
-      // Check if flying up time exceeds 3 seconds
-      if (flyingUpTime > 3) {
-        // Set the autostart flag in local storage
-        localStorage.setItem('autostart', 'true');
-        window.location.href = 'index.html';
-      }
+    // Check if the spacecraft's height exceeds the target height
+    if (spacecraft.position.y > targetHeight) {
+      // Set the autostart flag in local storage
+      localStorage.setItem('autostart', 'true');
+      window.location.href = 'index.html';
     }
 
     // Rotate the spacecraft based on the roll (left/right tilt)
