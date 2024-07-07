@@ -130,7 +130,7 @@ function displayMessage(index) {
             messageDiv.textContent += message[charIndex];
             charIndex++;
             // Random delay between 50ms and 150ms
-            const delay = Math.random() * 100 + 50;
+            const delay = Math.random() * 120 + 10;
             setTimeout(typeCharacter, delay);
         } else {
             // Wait for 5 seconds before removing the message
@@ -139,7 +139,7 @@ function displayMessage(index) {
                 // Wait for 10 seconds before displaying the next message
                 setTimeout(() => {
                     displayMessage(index + 1);
-                }, 60000); // 10 seconds in milliseconds
+                }, 20000); // 10 seconds in milliseconds
             }, 5000); // 5 seconds in milliseconds
         }
     }
