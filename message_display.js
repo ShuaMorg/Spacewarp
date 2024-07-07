@@ -111,7 +111,7 @@ function displayMessage(index) {
     messageDiv.style.bottom = '10%';
     messageDiv.style.left = '50%';
     messageDiv.style.transform = 'translateX(-50%)';
-    messageDiv.style.fontSize = '12px'; // Smaller font size
+    messageDiv.style.fontSize = '20px'; // Smaller font size
     messageDiv.style.fontFamily = '"Press Start 2P", cursive';
     messageDiv.style.color = '#39FF14'; // Neon green color
     messageDiv.style.textAlign = 'center';
