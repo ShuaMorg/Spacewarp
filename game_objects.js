@@ -31,9 +31,9 @@ function init() {
   background.position.z = -19500;  // Position it far back
   scene.add(background);
 
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 150; i++) {
     const dustGeometry = new THREE.SphereGeometry(0.3, 32, 32);
-    const dustMaterial = new THREE.MeshBasicMaterial({ color: 0x800080 });
+    const dustMaterial = new THREE.MeshBasicMaterial({ color: 0xD3D3D3 });
     const dust = new THREE.Mesh(dustGeometry, dustMaterial);
     dust.position.set(
       Math.random() * 9200 - 100,
