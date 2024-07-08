@@ -1,3 +1,4 @@
+
 let scene, camera, renderer;
 let dusts = [];
 let background;
@@ -10,7 +11,7 @@ function init() {
   audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
   scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100000);
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
@@ -27,7 +28,7 @@ function init() {
   const bgGeometry = new THREE.PlaneGeometry(4000, 4000);  // Make the plane larger
   const bgMaterial = new THREE.MeshBasicMaterial({ map: bgTexture, side: THREE.DoubleSide });
   background = new THREE.Mesh(bgGeometry, bgMaterial);
-  background.position.z = -1500;  // Position it far back
+  background.position.z = -19500;  // Position it far back
   scene.add(background);
 
   for (let i = 0; i < 20; i++) {
@@ -35,9 +36,9 @@ function init() {
     const dustMaterial = new THREE.MeshBasicMaterial({ color: 0x800080 });
     const dust = new THREE.Mesh(dustGeometry, dustMaterial);
     dust.position.set(
-      Math.random() * 200 - 100,
-      Math.random() * 200 - 100,
-      Math.random() * 200 - 100
+      Math.random() * 9200 - 100,
+      Math.random() * 9200 - 100,
+      Math.random() * 9200 - 100
     );
     dust.scale.set(0.01, 0.01, 0.01);  // Start very small
     dust.growthRate = 0.001;  // Set a slower growth rate
@@ -134,3 +135,4 @@ function resetGame() {
     );
   }
 }
+

@@ -1,3 +1,4 @@
+
 let roll = 0, pitch = 0;
 
 function goFullScreen() {

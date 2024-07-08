@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Three.js Solar System</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    let scene, camera, renderer;
+    let objects = [];
+    let suns = [];
+    const sunFrames = [];
+
+    init();
+    animate();
+
+    function init() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100000);
+      camera.position.z = 5000;
+
+      renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      loadSunFrames(() => {
+        createSunsAndPlanets();
+      });
+
+      window.addEventListener('resize', onWindowResize, false);
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function loadSunFrames(callback) {
+      const sunFrameCount = 52;
+      let loadedCount = 0;
+      for (let i = 0; i < sunFrameCount; i++) {
+        let frameNumber = i.toString().padStart(2, '0');
+        const texture = new THREE.TextureLoader().load(`suns/frame_${frameNumber}_delay-0.07s.gif`, () => {
+          loadedCount++;
+          if (loadedCount === sunFrameCount) {
+            callback();
+          }
+        });
+        sunFrames.push(texture);
+      }
+    }
+
+    function loadPlanetTextures() {
+      return Array.from({ length: 9 }, (_, i) =>
+        new THREE.TextureLoader().load(`p${i + 1}.png`)
+      );
+    }
+
+    function createSunsAndPlanets() {
+      const planetTextures = loadPlanetTextures();
+
+      for (let i = 0; i < 30; i++) {
+        const sun = createSun();
+        suns.push(sun);
+        scene.add(sun);
+
+        const numPlanets = Math.floor(Math.random() * 18) + 3;
+        for (let j = 0; j < numPlanets; j++) {
+          const planet = createPlanet(planetTextures, sun.position);
+          objects.push(planet);
+          scene.add(planet);
+        }
+      }
+    }
+
+    function createSun() {
+      const sunGeometry = new THREE.SphereGeometry(100, 32, 32);
+      const sunMaterial = new THREE.MeshBasicMaterial({ map: sunFrames[0], transparent: true });
+      const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+      sun.position.set(
+        (Math.random() * 10000 + 10000) * (Math.random() < 0.5 ? 1 : -1),
+        (Math.random() * 10000 + 10000) * (Math.random() < 0.5 ? 1 : -1),
+        (Math.random() * 10000 + 10000) * (Math.random() < 0.5 ? 1 : -1)
+      );
+      return sun;
+    }
+
+    function createPlanet(planetTextures, sunPosition) {
+      const planetGeometry = new THREE.SphereGeometry(10, 32, 32);
+      const planetMaterial = new THREE.MeshBasicMaterial({ map: planetTextures[Math.floor(Math.random() * planetTextures.length)] });
+      const planet = new THREE.Mesh(planetGeometry, planetMaterial);
+
+      const distance = Math.random() * 2500 + 500;
+      const angle = Math.random() * Math.PI * 2;
+
+      planet.position.set(
+        sunPosition.x + distance * Math.cos(angle),
+        sunPosition.y + distance * Math.sin(angle),
+        sunPosition.z + (Math.random() - 0.5) * 1000
+      );
+
+      return planet;
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    }
+  </script>
+</body>
+</html>
