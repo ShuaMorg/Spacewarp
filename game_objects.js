@@ -24,7 +24,7 @@ function init() {
   bgTexture.wrapS = bgTexture.wrapT = THREE.RepeatWrapping;
   bgTexture.repeat.set(10, 10);  // Increase the repeat to cover a larger area
 
-  const bgGeometry = new THREE.PlaneGeometry(4000, 4000);  // Make the plane larger
+  const bgGeometry = new THREE.PlaneGeometry(54000, 54000);  // Make the plane larger
   const bgMaterial = new THREE.MeshBasicMaterial({ map: bgTexture, side: THREE.DoubleSide });
   background = new THREE.Mesh(bgGeometry, bgMaterial);
   background.position.z = -1500;  // Position it far back
