@@ -18,7 +18,7 @@ function updatePlanets(spacecraft, speed) {
     if (distanceToSpacecraft < 8000) {
       sun.position.z += speed * 5;
     }
-    if (distanceToSpacecraft > 8000) {
+    if (distanceToSpacecraft > 80000) {
       sun.position.set(
         Math.random() * 1000 - 10000 + spacecraft.position.x,
         Math.random() * 1000 - 10000 + spacecraft.position.y,
