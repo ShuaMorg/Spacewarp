@@ -65,7 +65,7 @@ function updatePlanets(spacecraft, speed) {
 
 function checkAndAddSuns(spacecraft) {
   const requiredSuns = 20;
-  const distanceThreshold = 80000;
+  const distanceThreshold = 8000;
 
   while (suns.length < requiredSuns) {
     addNewSun(spacecraft);
