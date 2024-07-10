@@ -15,7 +15,7 @@ function updatePlanets(spacecraft, speed) {
     sun.material.map.needsUpdate = true;
 
     const distanceToSpacecraft = sun.position.distanceTo(spacecraft.position);
-    if (distanceToSpacecraft < 8000) {
+    if (distanceToSpacecraft < 5000) {
       sun.position.z += speed * 5;
     }
     if (distanceToSpacecraft > 80000) {
@@ -65,7 +65,7 @@ function updatePlanets(spacecraft, speed) {
 
 function checkAndAddSuns(spacecraft) {
   const requiredSuns = 20;
-  const distanceThreshold = 8000;
+  const distanceThreshold = 10000;
 
   while (suns.length < requiredSuns) {
     addNewSun(spacecraft);
