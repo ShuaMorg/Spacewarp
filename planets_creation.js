@@ -72,7 +72,7 @@ function createPlanets(scene) {
   }
 
   // Create many more rogue planets
-  for (let i = 0; i < 40; i++) {  // Assume 400 rogue planets for this example
+  for (let i = 0; i < 400; i++) {  // Assume 400 rogue planets for this example
     const objectGeometry = new THREE.SphereGeometry(10, 32, 32);  // 20 times larger than the original
     const objectMaterial = new THREE.MeshBasicMaterial({ map: planetTextures[Math.floor(Math.random() * planetTextures.length)] });
     const object = new THREE.Mesh(objectGeometry, objectMaterial);
