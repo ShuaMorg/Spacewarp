@@ -44,9 +44,9 @@ function createPlanets(scene) {
     const sunMaterial = new THREE.MeshBasicMaterial({ map: sunFrames[0], transparent: true });
     const sun = new THREE.Mesh(sunGeometry, sunMaterial);
     sun.position.set(
-      Math.random() * 20000 - 10000,  // Spread out the suns more
-      Math.random() * 20000 - 10000,
-      Math.random() * 20000 - 10000
+      Math.random() * 10000 - 5000,  // Spread out the suns more
+      Math.random() * 10000 - 5000,
+      Math.random() * 10000 - 5000
     );
     scene.add(sun);
     suns.push(sun);
