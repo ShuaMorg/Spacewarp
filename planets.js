@@ -5,6 +5,37 @@ let sunFrameIndex = 0;
 let sunFrameDirection = 1;  // 1 for forward, -1 for backward
 const sunFrameRate = 5;  // Change frame every 5 animation loops
 
+const sunPositions = [
+  { x: 500, y: 500, z: -500 },
+  { x: -500, y: 500, z: 500 },
+  { x: 500, y: -500, z: 500 },
+  { x: 1000, y: 0, z: 0 },
+  { x: -1000, y: 0, z: 0 }
+];
+
+const planetPositions = [
+  { x: 200, y: 200, z: -200 },
+  { x: -200, y: 200, z: 200 },
+  { x: 200, y: -200, z: 200 },
+  { x: 300, y: 300, z: -300 },
+  { x: -300, y: 300, z: 300 },
+  { x: 300, y: -300, z: 300 },
+  { x: 400, y: 400, z: -400 },
+  { x: -400, y: 400, z: 400 },
+  { x: 400, y: -400, z: 400 },
+  { x: 500, y: 500, z: -500 },
+  { x: 600, y: 600, z: -600 },
+  { x: -600, y: 600, z: 600 },
+  { x: 600, y: -600, z: 600 },
+  { x: 700, y: 700, z: -700 },
+  { x: -700, y: 700, z: 700 },
+  { x: 700, y: -700, z: 700 },
+  { x: 800, y: 800, z: -800 },
+  { x: -800, y: 800, z: 800 },
+  { x: 800, y: -800, z: 800 },
+  { x: 900, y: 900, z: -900 }
+];
+
 function loadSunFrames() {
   const sunFrameCount = 52;  // 52 frames in the sun animation
   for (let i = 0; i < sunFrameCount; i++) {
@@ -35,63 +66,26 @@ function createPlanets(scene) {
   loadSunFrames();  // Preload all sun frames
   const planetTextures = loadPlanetTextures();  // Preload all planet textures
 
-  const roguePlanets = [];
-
-  // Create suns and group planets around them
-  for (let i = 0; i < 5; i++) {  // Assume 5 suns for this example
-    const sunGeometry = new THREE.SphereGeometry(2.5, 32, 32);  // 5 times bigger than the planets
+  // Create suns at specific positions
+  for (let i = 0; i < sunPositions.length; i++) {
+    const sunGeometry = new THREE.SphereGeometry(100, 32, 32);  // 40 times bigger than the original
     adjustUVs(sunGeometry);  // Adjust UV mapping to focus on the central part of the texture
     const sunMaterial = new THREE.MeshBasicMaterial({ map: sunFrames[0], transparent: true });
     const sun = new THREE.Mesh(sunGeometry, sunMaterial);
-    sun.position.set(
-      Math.random() * 200 - 100,
-      Math.random() * 200 - 100,
-      Math.random() * 200 - 100
-    );
-    sun.scale.set(0.01, 0.01, 0.01);  // Start very small
-    sun.growthRate = 0.002;  // Set a slower growth rate
+    sun.position.set(sunPositions[i].x, sunPositions[i].y, sunPositions[i].z);
     scene.add(sun);
     suns.push(sun);
-
-    // Create planets around the sun
-    const numPlanets = Math.floor(Math.random() * 11) + 2;  // 2 to 12 planets
-    for (let j = 0; j < numPlanets; j++) {
-      const objectGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-      const objectMaterial = new THREE.MeshBasicMaterial({ map: planetTextures[Math.floor(Math.random() * planetTextures.length)] });
-      const object = new THREE.Mesh(objectGeometry, objectMaterial);
-      
-      const distance = Math.random() * 30 + 10;  // Distance from the sun
-      const angle = Math.random() * Math.PI * 2;  // Angle around the sun
-
-      object.position.set(
-        sun.position.x + distance * Math.cos(angle),
-        sun.position.y + distance * Math.sin(angle),
-        sun.position.z + (Math.random() - 0.5) * 10  // Random z position within a range
-      );
-      object.scale.set(0.01, 0.01, 0.01);  // Start very small
-      object.growthRate = 0.001;  // Set a slower growth rate
-      scene.add(object);
-      objects.push(object);
-    }
   }
 
-  // Create rogue planets
-  for (let i = 0; i < 10; i++) {  // Assume 10 rogue planets for this example
-    const objectGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+  // Create planets at specific positions
+  for (let i = 0; i < planetPositions.length; i++) {
+    const objectGeometry = new THREE.SphereGeometry(10, 32, 32);  // 20 times larger than the original
     const objectMaterial = new THREE.MeshBasicMaterial({ map: planetTextures[Math.floor(Math.random() * planetTextures.length)] });
     const object = new THREE.Mesh(objectGeometry, objectMaterial);
-    object.position.set(
-      Math.random() * 200 - 100,
-      Math.random() * 200 - 100,
-      Math.random() * 200 - 100
-    );
-    object.scale.set(0.01, 0.01, 0.01);  // Start very small
-    object.growthRate = 0.001;  // Set a slower growth rate
+    object.position.set(planetPositions[i].x, planetPositions[i].y, planetPositions[i].z);
     scene.add(object);
-    roguePlanets.push(object);
+    objects.push(object);
   }
-
-  objects.push(...roguePlanets);
 }
 
 function updatePlanets(spacecraft, speed) {
@@ -105,52 +99,81 @@ function updatePlanets(spacecraft, speed) {
   for (let sun of suns) {
     sun.material.map = currentSunFrame;
     sun.material.map.needsUpdate = true;
-    sun.position.z += speed;
 
-    if (sun.scale.x < 1) {  // Grow until full size
-      sun.scale.x += sun.growthRate;
-      sun.scale.y += sun.growthRate;
-      sun.scale.z += sun.growthRate;
+    const distanceToSpacecraft = sun.position.distanceTo(spacecraft.position);
+    if (distanceToSpacecraft < 80000) {
+      sun.position.z += speed * 5;
+    }
+    if (distanceToSpacecraft > 80000) {
+      // Do nothing, suns remain in their predetermined positions
     }
 
-    if (sun.position.distanceTo(spacecraft.position) > 100) {
-      sun.position.set(
-        Math.random() * 200 - 100 + spacecraft.position.x,
-        Math.random() * 200 - 100 + spacecraft.position.y,
-        Math.random() * 200 - 100 + spacecraft.position.z
-      );
-      sun.scale.set(0.01, 0.01, 0.01);  // Reset size
-    }
-
-    const sunRadius = 2.5 * sun.scale.x;  // Adjusted sun radius based on scale
-    if (spacecraft.position.distanceTo(sun.position) < sunRadius + 0.5) {  // Adjusted collision detection distance
+    const sunRadius = 100;
+    if (spacecraft.position.distanceTo(sun.position) < sunRadius + 0.5) {
       alert('Collision detected!');
       resetGame();
     }
   }
 
   for (let object of objects) {
-    object.position.z += speed;
-
-    if (object.scale.x < 1) {  // Grow until full size
-      object.scale.x += object.growthRate;
-      object.scale.y += object.growthRate;
-      object.scale.z += object.growthRate;
+    const distanceToSpacecraft = object.position.distanceTo(spacecraft.position);
+    if (distanceToSpacecraft < 80000) {
+      object.position.z += speed * 5;
     }
 
-    if (object.position.distanceTo(spacecraft.position) > 100) {
-      object.position.set(
-        Math.random() * 200 - 100 + spacecraft.position.x,
-        Math.random() * 200 - 100 + spacecraft.position.y,
-        Math.random() * 200 - 100 + spacecraft.position.z
-      );
-      object.scale.set(0.01, 0.01, 0.01);  // Reset size
+    if (distanceToSpacecraft > 80000) {
+      // Do nothing, planets remain in their predetermined positions
     }
 
-    const planetRadius = 0.5 * object.scale.x;  // Adjusted planet radius based on scale
-    if (spacecraft.position.distanceTo(object.position) < planetRadius + 0.5) {  // Adjusted collision detection distance
-      alert('Collision detected!');
-      resetGame();
+    const planetRadius = 10;
+    if (spacecraft.position.distanceTo(object.position) < planetRadius + 0.5) {
+      transitionToSurface(object);
     }
+  }
+}
+
+function transitionToSurface(planet) {
+  const planetTexture = planet.material.map.image.currentSrc || planet.material.map.image.src;
+  const planetURL = encodeURIComponent(planetTexture);
+  window.location.href = `planet_surface.html?texture=${planetURL}`;
+}
+
+function updatePlayer(pitch, roll, speed) {
+  if (onPlanetSurface && currentPlanet) {
+    const forward = new THREE.Vector3().subVectors(currentPlanet.position, spacecraft.position).normalize();
+    const right = new THREE.Vector3().crossVectors(forward, spacecraft.up).normalize();
+    const up = new THREE.Vector3().crossVectors(right, forward).normalize();
+
+    spacecraft.position.add(right.multiplyScalar(pitch * speed));
+    spacecraft.position.add(up.multiplyScalar(roll * speed));
+    spacecraft.lookAt(currentPlanet.position);
+  } else {
+    spacecraft.rotation.z = pitch * 0.1;
+    spacecraft.rotation.x = -roll * 0.1;
+
+    spacecraft.position.x -= pitch * speed;
+    spacecraft.position.y += roll * speed;
+  }
+}
+
+function resetGame() {
+  onPlanetSurface = false;
+  currentPlanet = null;
+  spacecraft.position.set(0, 0, 0);
+  score = 0;
+  document.getElementById('score').textContent = 'Score: ' + score;
+  for (let object of objects) {
+    object.position.set(
+      Math.random() * 8000 - 2000,
+      Math.random() * 8000 - 2000,
+      Math.random() * 8000 - 2000
+    );
+  }
+  for (let dust of dusts) {
+    dust.position.set(
+      Math.random() * 4000 - 2000,
+      Math.random() * 4000 - 2000,
+      Math.random() * 4000 - 2000
+    );
   }
 }
