@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basic Audio Test</title>
+</head>
+<body>
+  <button id="start-audio">Start Audio Context</button>
+  <button id="play-note">Play Note</button>
+  <button id="stop-note">Stop Note</button>
+  <script>
+    let audioContext;
+    let oscillator;
+    let gainNode;
+
+    document.getElementById('start-audio').addEventListener('click', () => {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      console.log('Audio context started');
+    });
+
+    document.getElementById('play-note').addEventListener('click', () => {
+      if (audioContext) {
+        oscillator = audioContext.createOscillator();
+        gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // 440 Hz frequency for A4 note
+        gainNode.gain.setValueAtTime(1, audioContext.currentTime); // Full volume
+
+        oscillator.start();
+        console.log('Playing note at 440Hz');
+      } else {
+        console.error('Audio context is not started');
+      }
+    });
+
+    document.getElementById('stop-note').addEventListener('click', () => {
+      if (oscillator) {
+        oscillator.stop();
+        console.log('Note stopped');
+      } else {
+        console.error('No note to stop');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,18 +1,38 @@
+<!-- This is index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>3D Space Game</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-image: url('start.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
   <button id="startButton">Start</button>
-  <div id="score">Score: 0</div>
+  <div id="neonText"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="controls.js"></script>
-  <script src="planets.js"></script>
+  <script src="planets_creation.js"></script>
+  <script src="planets_update.js"></script>
+  <script src="moon.js"></script>
+  <script src="audio.js"></script>
+  <script src="star.js"></script>
   <script src="player.js"></script>
   <script src="game_objects.js"></script>
   <script src="main.js"></script>
+  <script src="message_display.js"></script>
+  <script src="audio_manager.js"></script> <!-- Add this line -->
 </body>
 </html>

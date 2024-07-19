@@ -1,3 +1,5 @@
+// game_objects.js
+
 let scene, camera, renderer;
 let dusts = [];
 let background;
@@ -10,34 +12,34 @@ function init() {
   audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
   scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100000);
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
   createPlayer(scene);  // Call function from player.js to create the player-controlled object
 
-  camera.position.z = 5;
+  camera.position.set(0, 0, 4);  // Initial camera position
 
   const textureLoader = new THREE.TextureLoader();
   bgTexture = textureLoader.load('bg1.png');
   bgTexture.wrapS = bgTexture.wrapT = THREE.RepeatWrapping;
   bgTexture.repeat.set(10, 10);  // Increase the repeat to cover a larger area
 
-  const bgGeometry = new THREE.PlaneGeometry(4000, 4000);  // Make the plane larger
+  const bgGeometry = new THREE.PlaneGeometry(54000, 54000);  // Make the plane larger
   const bgMaterial = new THREE.MeshBasicMaterial({ map: bgTexture, side: THREE.DoubleSide });
   background = new THREE.Mesh(bgGeometry, bgMaterial);
-  background.position.z = -1500;  // Position it far back
+  background.position.z = -19500;  // Position it far back
   scene.add(background);
 
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 150; i++) {
     const dustGeometry = new THREE.SphereGeometry(0.3, 32, 32);
-    const dustMaterial = new THREE.MeshBasicMaterial({ color: 0x800080 });
+    const dustMaterial = new THREE.MeshBasicMaterial({ color: 0xD3D3D3 });
     const dust = new THREE.Mesh(dustGeometry, dustMaterial);
     dust.position.set(
-      Math.random() * 200 - 100,
-      Math.random() * 200 - 100,
-      Math.random() * 200 - 100
+      Math.random() * 9200 - 100,
+      Math.random() * 9200 - 100,
+      Math.random() * 9200 - 100
     );
     dust.scale.set(0.01, 0.01, 0.01);  // Start very small
     dust.growthRate = 0.001;  // Set a slower growth rate
@@ -46,7 +48,9 @@ function init() {
   }
 
   createPlanets(scene);  // Call function from planets.js to create planets
-
+  createMoons(scene);  // Call function from moon.js to create moons
+  createStars(scene);  // Call function from star.js to create stars
+    
   window.addEventListener('resize', onWindowResize, false);
   window.addEventListener('deviceorientation', handleOrientation, true);
 
@@ -60,13 +64,15 @@ function animate() {
 
   camera.position.x = spacecraft.position.x;
   camera.position.y = spacecraft.position.y;
-  camera.position.z = spacecraft.position.z + 5;
+  camera.position.z = spacecraft.position.z + 4;  // Adjusted camera distance
 
   // Move the background texture to create a sense of motion
   bgTexture.offset.x -= pitch * speed * 0.01;
   bgTexture.offset.y += roll * speed * 0.01;
 
   updatePlanets(spacecraft, speed);  // Call function from planets.js to update planets
+
+  checkProximityAndPlaySound(spacecraft.position);  // Check proximity and play sound
 
   for (let dust of dusts) {
     dust.position.z += speed;
@@ -133,4 +139,10 @@ function resetGame() {
       Math.random() * 200 - 100
     );
   }
+}
+
+function onWindowResize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
 }
