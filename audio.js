@@ -25,7 +25,6 @@ function checkProximityAndPlaySound(position) {
 
     if (distance <= 200) {
       playSound(point.audioFile);
-      break;
     }
   }
 }
