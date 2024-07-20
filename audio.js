@@ -12,8 +12,8 @@ function playSound(fileName) {
 
 function checkProximityAndPlaySound(position) {
   const points = [
-    { x: 0, y: 100, z: -650, audioFile: 'test.wav' },
-    { x: -120, y: -30, z: -300, audioFile: 'test2.wav' }
+    { x: 0, y: 100, z: -450, audioFile: 'test.wav' },
+    { x: -20, y: -30, z: -300, audioFile: 'test2.wav' }
   ];
 
   for (const point of points) {
