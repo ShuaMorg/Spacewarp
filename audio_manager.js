@@ -28,7 +28,7 @@ class AudioPoint {
       Math.pow(position.z - this.z, 2)
     );
 
-    if (distance < 300) {
+    if (distance < 50) {
       this.playAudio();
     }
   }
@@ -36,9 +36,10 @@ class AudioPoint {
 
 // Create instances of AudioPoint outside the function
 const points = [
-  new AudioPoint(0, 20, -300, 'test.wav'),
-  new AudioPoint(-20, -20, -400, 'test2.wav')
+  new AudioPoint(10, 100, -300, 'test.wav'),
+  new AudioPoint(-10, 120, -200, 'test2.wav')
 ];
+
 
 function checkProximityAndPlaySound(position) {
   points.forEach(point => {
