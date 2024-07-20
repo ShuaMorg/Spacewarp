@@ -14,7 +14,7 @@ function createMoons(scene) {
   const moonCoordinates = [
     { x: -30, y: 20, z: -300 },
     
-    { x: 20, y: -50, z: -500 },
+    { x: 20, y: -50, z: -400 },
     
     { x: -200, y: -200, z: -600 }
   ];
