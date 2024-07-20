@@ -24,25 +24,30 @@ class AudioPoint {
       this.isPlaying = false;
     }
   }
-}
 
-function checkProximityAndPlaySound(position) {
-  const points = [
-    new AudioPoint(0, 20, -300, 'test.wav'),
-    new AudioPoint(-20, -20, -400, 'test2.wav')
-  ];
-
-  points.forEach(point => {
+  checkProximity(position) {
     const distance = Math.sqrt(
-      Math.pow(position.x - point.x, 2) +
-      Math.pow(position.y - point.y, 2) +
-      Math.pow(position.z - point.z, 2)
+      Math.pow(position.x - this.x, 2) +
+      Math.pow(position.y - this.y, 2) +
+      Math.pow(position.z - this.z, 2)
     );
 
     if (distance < 300) {
-      point.playAudio();
+      this.playAudio();
     } else {
-      point.stopAudio();
+      this.stopAudio();
     }
+  }
+}
+
+// Create instances of AudioPoint outside the function
+const points = [
+  new AudioPoint(0, 20, -300, 'test.wav'),
+  new AudioPoint(-20, -20, -400, 'test2.wav')
+];
+
+function checkProximityAndPlaySound(position) {
+  points.forEach(point => {
+    point.checkProximity(position);
   });
 }
