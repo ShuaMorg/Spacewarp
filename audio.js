@@ -12,8 +12,8 @@ function playTestSound() {
 
 function checkProximityAndPlaySound(position) {
   const points = [
-    { x: 0, y: 200, z: -300 },
-    { x: -200, y: -200, z: -600 }
+    { x: 10, y: 100, z: -575 },
+  
   ];
 
   for (const point of points) {
