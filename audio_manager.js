@@ -36,7 +36,7 @@ class AudioPoint {
 
 // Create instances of AudioPoint outside the function
 const points = [
-  new AudioPoint(20, -50, -500, 'test2.wav'),
+  new AudioPoint(20, -50, -400, 'test2.wav'),
   new AudioPoint(-30, 20, -300, 'test.wav')
 ];
 
