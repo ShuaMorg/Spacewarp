@@ -12,9 +12,9 @@ function createMoons(scene) {
 
   // Predetermined random coordinates for moons
   const moonCoordinates = [
-    { x: 10, y: 100, z: -300 },
+    { x: 10, y: 50, z: -300 },
     
-    { x: -10, y: 120, z: -200 },
+    { x: -10, y: 20, z: -200 },
     
     { x: -200, y: -200, z: -600 }
   ];
