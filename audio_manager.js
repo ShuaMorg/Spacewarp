@@ -1,4 +1,3 @@
-// audio_manager.js
 class AudioPoint {
   constructor(x, y, z, audioFile) {
     this.x = x;
@@ -14,14 +13,11 @@ class AudioPoint {
         console.log('Failed to play audio:', error);
       });
       this.isPlaying = true;
-    }
-  }
 
-  stopAudio() {
-    if (this.isPlaying) {
-      this.audio.pause();
-      this.audio.currentTime = 0;
-      this.isPlaying = false;
+      // Ensure the isPlaying flag is reset when the audio ends
+      this.audio.onended = () => {
+        this.isPlaying = false;
+      };
     }
   }
 
@@ -34,8 +30,6 @@ class AudioPoint {
 
     if (distance < 300) {
       this.playAudio();
-    } else {
-      this.stopAudio();
     }
   }
 }
