@@ -36,12 +36,12 @@ function createStars(scene) {
 
     // Predetermined random coordinates for stars
     const starCoordinates = [
-      { x: 100, y: 100, z: -300 },
-      { x: -300, y: -300, z: -900 }
+      { x: 100, y: 1900, z: -8500 },
+      { x: -120, y: -30, z: -100 }
     ];
 
     for (let i = 0; i < starCoordinates.length; i++) {
-      const starGeometry = new THREE.SphereGeometry(40, 32, 32);  // Increased size of stars
+      const starGeometry = new THREE.SphereGeometry(100, 32, 32);  // Increased size of stars
       adjustUVs(starGeometry);  // Adjust UV mapping to focus on the central part of the texture
       const star = new THREE.Mesh(starGeometry, starMaterial.clone());  // Clone the material for each star
       star.position.set(starCoordinates[i].x, starCoordinates[i].y, starCoordinates[i].z);

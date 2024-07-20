@@ -12,12 +12,15 @@ function createMoons(scene) {
 
   // Predetermined random coordinates for moons
   const moonCoordinates = [
-    { x: 0, y: 200, z: -300 },
+    { x: 10, y: 100, z: -575 },
+    
+    { x: -10, y: 120, z: -675 },
+    
     { x: -200, y: -200, z: -600 }
   ];
 
   for (let i = 0; i < moonCoordinates.length; i++) {
-    const moonGeometry = new THREE.SphereGeometry(10, 32, 32);  // Increased size of moons
+    const moonGeometry = new THREE.SphereGeometry(5, 32, 32);  // Increased size of moons
     const moon = new THREE.Mesh(moonGeometry, moonMaterial);
     moon.position.set(moonCoordinates[i].x, moonCoordinates[i].y, moonCoordinates[i].z);
     scene.add(moon);

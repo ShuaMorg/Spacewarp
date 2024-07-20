@@ -47,8 +47,10 @@ function init() {
     dusts.push(dust);
   }
 
-  createPlanets(scene);  // Call function from planets.js to create planets
+ createPlanets(scene);  // Call function from planets.js to create planets
   createMoons(scene);  // Call function from moon.js to create moons
+    createWorlds(scene);  // Call function from planet.js to create stars
+    
   createStars(scene);  // Call function from star.js to create stars
     
   window.addEventListener('resize', onWindowResize, false);

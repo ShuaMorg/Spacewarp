@@ -42,7 +42,7 @@ function createPlanets(scene) {
   const roguePlanets = [];
 
   // Create suns and group planets around them
-  for (let i = 0; i < 60; i++) {  // Assume 5 suns for this example
+  for (let i = 0; i < 0; i++) {  // Assume 5 suns for this example
     const sunGeometry = new THREE.SphereGeometry(100, 32, 32);  // 40 times bigger than the original
     adjustUVs(sunGeometry);  // Adjust UV mapping to focus on the central part of the texture
     const sunMaterial = new THREE.MeshBasicMaterial({ map: sunFrames[0], transparent: true });
@@ -56,7 +56,7 @@ function createPlanets(scene) {
     suns.push(sun);
 
     // Create many more planets around the sun
-    const numPlanets = (Math.floor(Math.random() * 21) + 5) * 2;  // 50 to 250 planets
+    const numPlanets = (Math.floor(Math.random() * 0) + 5) * 2;  // 50 to 250 planets
     for (let j = 0; j < numPlanets; j++) {
       const objectGeometry = new THREE.SphereGeometry(10, 32, 32);  // 20 times larger than the original
       const objectMaterial = new THREE.MeshBasicMaterial({ map: planetTextures[Math.floor(Math.random() * planetTextures.length)] });
