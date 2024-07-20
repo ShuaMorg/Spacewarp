@@ -1,19 +1,16 @@
 // audio_manager.js
-const audioFiles = {};
+const audio = new Audio('test.wav');
 
-function playAudio(fileName) {
-  if (!audioFiles[fileName]) {
-    audioFiles[fileName] = new Audio(fileName);
-  }
-  audioFiles[fileName].play().catch(error => {
+function playAudio() {
+  audio.play().catch(error => {
     console.log('Failed to play audio:', error);
   });
 }
 
 function checkProximityAndPlaySound(position) {
   const points = [
-    { x: 0, y: 20, z: -150, audioFile: 'test.wav' },
-    { x: -20, y: -20, z: -100, audioFile: 'test2.wav' }
+    { x: 0, y: 200, z: -300 },
+    { x: -200, y: -200, z: -600 }
   ];
 
   points.forEach(point => {
@@ -24,7 +21,8 @@ function checkProximityAndPlaySound(position) {
     );
 
     if (distance < 200) {
-      playAudio(point.audioFile);
+      playAudio();
     }
   });
 }
+
