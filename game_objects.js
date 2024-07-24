@@ -2,8 +2,8 @@
 
 let scene, camera, renderer;
 let dusts = [];
-let background;
-let bgTexture;
+//let background;
+//let bgTexture;
 let score = 0;
 let audioContext, oscillator;
 const speed = 0.1;
@@ -18,6 +18,7 @@ function init() {
   document.body.appendChild(renderer.domElement);
 
   createPlayer(scene);  // Call function from player.js to create the player-controlled object
+  createPortals(scene);  // Call function from portal.js to create portals
 
   camera.position.set(0, 0, 4);  // Initial camera position
 
@@ -30,7 +31,7 @@ function init() {
   const bgMaterial = new THREE.MeshBasicMaterial({ map: bgTexture, side: THREE.DoubleSide });
   background = new THREE.Mesh(bgGeometry, bgMaterial);
   background.position.z = -19500;  // Position it far back
-  scene.add(background);
+//  scene.add(background);
 
   for (let i = 0; i < 150; i++) {
     const dustGeometry = new THREE.SphereGeometry(0.3, 32, 32);
@@ -49,8 +50,7 @@ function init() {
 
  createPlanets(scene);  // Call function from planets.js to create planets
   createMoons(scene);  // Call function from moon.js to create moons
-    createWorlds(scene);  // Call function from planet.js to create stars
-    
+  createWorlds(scene);  // Call function from planet.js to create stars
   createStars(scene);  // Call function from star.js to create stars
     
   window.addEventListener('resize', onWindowResize, false);
@@ -65,7 +65,7 @@ function animate() {
   updatePlayer(pitch, roll, speed);  // Call function from player.js to update the player-controlled object
 
   camera.position.x = spacecraft.position.x;
-  camera.position.y = spacecraft.position.y;
+  camera.position.y = spacecraft.position.y + 2;
   camera.position.z = spacecraft.position.z + 4;  // Adjusted camera distance
 
   // Move the background texture to create a sense of motion
@@ -73,6 +73,7 @@ function animate() {
   bgTexture.offset.y += roll * speed * 0.01;
 
   updatePlanets(spacecraft, speed);  // Call function from planets.js to update planets
+  checkPortalCollision(spacecraft);  // Call function from portal.js to check portal collision
 
   checkProximityAndPlaySound(spacecraft.position);  // Check proximity and play sound
 
