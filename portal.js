@@ -4,10 +4,11 @@ let portals = [];
 const portalCoordinates = [
 
 // Act 1 - Scene 1
-  { x: 15, y: 0, z: -650, targetX: 100, targetY: 1900, targetZ: -9000 },
-  { x: -15, y: 0, z: -650, targetX: 100, targetY: 1900, targetZ: -9000 },
+  { x: 15, y: 0, z: -200, targetX: 100, targetY: 1900, targetZ: -9000 },
+  { x: -15, y: 0, z: -200, targetX: 100, targetY: 1900, targetZ: -9000 },
 
-  { x: 100, y: 1900, z: -9300, targetX: 0, targetY: 0, targetZ: 0 },
+// Scene 2
+  { x: 100, y: 1900, z: -9300, targetX: 100, targetY: 1900, targetZ: -25000 },
   { x: 0, y: 0, z: -19000, targetX: 100, targetY: 1900, targetZ: -9000 },
 
 
@@ -17,7 +18,7 @@ const portalCoordinates = [
 
 function createPortals(scene) {
   const textureLoader = new THREE.TextureLoader();
-  const portalTexture = textureLoader.load('p8.png');  // Replace with your texture file
+  const portalTexture = textureLoader.load('p1.png');  // Replace with your texture file
   const portalGeometry = new THREE.RingGeometry(5, 10, 32);  // Ring shape
   const portalMaterial = new THREE.MeshBasicMaterial({ map: portalTexture, side: THREE.DoubleSide });
   

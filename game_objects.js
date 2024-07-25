@@ -52,6 +52,8 @@ function init() {
   createMoons(scene);  // Call function from moon.js to create moons
   createWorlds(scene);  // Call function from planet.js to create stars
   createStars(scene);  // Call function from star.js to create stars
+    createAsteroids(scene);  // Call function from portal.js to create portals
+
     
   window.addEventListener('resize', onWindowResize, false);
   window.addEventListener('deviceorientation', handleOrientation, true);
@@ -75,6 +77,9 @@ function animate() {
   updatePlanets(spacecraft, speed);  // Call function from planets.js to update planets
   checkPortalCollision(spacecraft);  // Call function from portal.js to check portal collision
 
+    checkAsteroidCollision(spacecraft);  // Call function from portal.js to check portal collision
+
+    
   checkProximityAndPlaySound(spacecraft.position);  // Check proximity and play sound
 
   for (let dust of dusts) {

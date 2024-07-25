@@ -37,7 +37,13 @@ function createStars(scene) {
     // Predetermined random coordinates for stars
     const starCoordinates = [
       { x: 100, y: 1900, z: -8500 },
-      { x: -120, y: -30, z: -100 }
+      { x: -120, y: -30, z: -100 },
+      
+      { x: 100, y: 1000, z: -30500 },
+      { x: 500, y: 900, z: -30500 },
+      { x: 900, y: 400, z: -30500 },
+      { x: -1100, y: -800, z: -30500 },
+      
     ];
 
     for (let i = 0; i < starCoordinates.length; i++) {
