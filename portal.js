@@ -4,8 +4,8 @@ let portals = [];
 const portalCoordinates = [
 
 // Act 1 - Scene 1
-  { x: 15, y: 0, z: -300, targetX: 100, targetY: 1900, targetZ: -9000 },
-  { x: -15, y: 0, z: -300, targetX: 100, targetY: 1900, targetZ: -9000 },
+  { x: 15, y: 0, z: -500, targetX: 100, targetY: 1900, targetZ: -9000 },
+  { x: -15, y: 0, z: -500, targetX: 100, targetY: 1900, targetZ: -9000 },
 
 // Scene 2
   { x: 100, y: 1900, z: -9300, targetX: 100, targetY: 1900, targetZ: -25000 },
