@@ -1,39 +1,27 @@
 class AudioPoint {
-  constructor(x, y, z, audioFile, innerRange, outerRange) {
+  constructor(x, y, z, audioFile) {
     this.x = x;
     this.y = y;
     this.z = z;
     this.audio = new Audio(audioFile);
     this.isPlaying = false;
-    this.innerRange = innerRange;
-    this.outerRange = outerRange;
   }
 
   playAudio() {
     if (!this.isPlaying) {
-      this.audio.loop = true; // Ensure the audio loops continuously
       this.audio.play().catch(error => {
         console.log('Failed to play audio:', error);
       });
       this.isPlaying = true;
+
+      // Ensure the isPlaying flag is reset when the audio ends
+      this.audio.onended = () => {
+        this.isPlaying = false;
+      };
     }
   }
 
-  stopAudio() {
-    if (this.isPlaying) {
-      this.audio.pause();
-      this.audio.currentTime = 0;
-      this.isPlaying = false;
-    }
-  }
-
-  adjustVolume(distance) {
-    let volume = 0;
-    if (distance <= this.innerRange) {
-      volume = 1;
-    } else if (distance <= this.outerRange) {
-      volume = 1 - (distance - this.innerRange) / (this.outerRange - this.innerRange);
-    }
+  setVolume(volume) {
     this.audio.volume = volume;
   }
 
@@ -44,20 +32,23 @@ class AudioPoint {
       Math.pow(position.z - this.z, 2)
     );
 
-    if (distance <= this.outerRange) {
+    // Set a maximum distance at which the audio can be heard
+    const maxDistance = 100; 
+
+    if (distance < maxDistance) {
+      const volume = 1 - (distance / maxDistance);
+      this.setVolume(volume);
       this.playAudio();
-      this.adjustVolume(distance);
     } else {
-      this.adjustVolume(distance);
-      this.stopAudio();
+      this.setVolume(0);
     }
   }
 }
 
-// Create instances of AudioPoint with inner and outer ranges
+// Create instances of AudioPoint outside the function
 const points = [
-  new AudioPoint(100, 1900, -9000, 'Scene2.m4a', 500, 1000),
-  new AudioPoint(0, 0, -850, 'Scene1.m4a', 300, 800)
+  new AudioPoint(100, 1900, -9000, 'Scene2.m4a'),
+  new AudioPoint(0, 0, -300, 'Scene1.m4a')
 ];
 
 function checkProximityAndPlaySound(position) {
@@ -65,5 +56,3 @@ function checkProximityAndPlaySound(position) {
     point.checkProximity(position);
   });
 }
-
-export { checkProximityAndPlaySound }; // Ensure the function is available for import
