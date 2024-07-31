@@ -33,7 +33,7 @@ class AudioPoint {
     );
 
     // Set a maximum distance at which the audio can be heard
-    const maxDistance = 400; 
+    const maxDistance = 800; 
 
     if (distance < maxDistance) {
       const volume = 1 - (distance / maxDistance);
@@ -48,7 +48,7 @@ class AudioPoint {
 // Create instances of AudioPoint outside the function
 const points = [
   new AudioPoint(100, 1900, -9000, 'Scene2.m4a'),
-  new AudioPoint(0, 0, -450, 'Scene1.m4a')
+  new AudioPoint(0, 0, -850, 'Scene1.m4a')
 ];
 
 function checkProximityAndPlaySound(position) {
