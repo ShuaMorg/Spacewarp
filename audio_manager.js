@@ -48,7 +48,10 @@ class AudioPoint {
 // Create instances of AudioPoint outside the function
 const points = [
   new AudioPoint(100, 1900, -9000, 'Scene2.m4a'),
-  new AudioPoint(0, 0, -1850, 'Scene1.m4a')
+  new AudioPoint(-500, 0, -1650, 'Scene1.m4a'),
+new AudioPoint(500, 0, -1650, 'Scene2.m4a')
+
+
 ];
 
 function checkProximityAndPlaySound(position) {
