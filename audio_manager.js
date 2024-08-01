@@ -33,7 +33,7 @@ class AudioPoint {
     );
 
     // Set a maximum distance at which the audio can be heard
-    const maxDistance = 1800; 
+    const maxDistance = 1650; 
 
     if (distance < maxDistance) {
       const volume = 1 - (distance / maxDistance);
