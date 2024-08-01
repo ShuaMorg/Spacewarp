@@ -7,7 +7,10 @@ function createWorlds(scene) {
   
   // Predetermined random coordinates for worlds
   const worldData = [
-    { x: 0, y: 100, z: -650, texture: 'planet.jpg' },
+    { x: 500, y: 0, z: -1650, texture: 'planet.jpg' },
+
+    { x: -500, y: 0, z: -1650, texture: 'planet.jpg' },
+
     { x: -50, y: 200, z: -950, texture: 'p7.png' },
     { x: -50, y: 200, z: -250, texture: 'brown.jpg' },
 
