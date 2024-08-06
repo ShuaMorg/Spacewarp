@@ -1,16 +1,29 @@
-// portal.js
+// This is portal.js
 
 let portals = [];
 const portalCoordinates = [
 
+
+{ x: 15, y: 0, z: 450, targetX: 0, targetY: 0, targetZ: 0 },
+
+
+
 // Act 1 - Scene 1
-  { x: 15, y: 0, z: -650, targetX: 100, targetY: 1900, targetZ: -9000 },
-  { x: -15, y: 0, z: -650, targetX: 100, targetY: 1900, targetZ: -9000 },
+  { x: 0, y: 0, z: -600, targetX: 100, targetY: 1900, targetZ: -9000 },
+  { x: -15, y: 0, z: -850, targetX: 100, targetY: 1900, targetZ: -9000 },
 
 // Scene 2
   { x: 100, y: 1900, z: -9300, targetX: 100, targetY: 1900, targetZ: -25000 },
-  { x: 0, y: 0, z: -19000, targetX: 100, targetY: 1900, targetZ: -9000 },
 
+
+  { x: 0, y: 0, z: -25500, targetX: 9000, targetY: 9000, targetZ: 9000 },
+
+// Scene 3 - 3 moons
+  { x: 50, y: 1950, z: -25500, targetX: 0, targetY: 0, targetZ: 101500 },
+
+// Scene 4
+
+{ x: 0, y: 1465, z: 99000, targetX: 0, targetY: 0, targetZ: 1000 },
 
 
   // Add more portals as needed

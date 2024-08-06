@@ -53,6 +53,10 @@ function init() {
   createWorlds(scene);  // Call function from planet.js to create stars
   createStars(scene);  // Call function from star.js to create stars
     createAsteroids(scene);  // Call function from portal.js to create portals
+createShapes(scene);  // Call function from portal.js to create portals
+
+    
+    createBgs(scene);  // Call function from portal.js to create portals
 
     
   window.addEventListener('resize', onWindowResize, false);
@@ -78,6 +82,8 @@ function animate() {
   checkPortalCollision(spacecraft);  // Call function from portal.js to check portal collision
 
     checkAsteroidCollision(spacecraft);  // Call function from portal.js to check portal collision
+
+       checkShapeCollision(spacecraft);  // Call function from portal.js to check portal collision
 
     
   checkProximityAndPlaySound(spacecraft.position);  // Check proximity and play sound
@@ -149,8 +155,8 @@ function resetGame() {
   }
 }
 
-function onWindowResize() {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-}
+//function onWindowResize() {
+//  camera.aspect = window.innerWidth / window.innerHeight;
+//  camera.updateProjectionMatrix();
+//  renderer.setSize(window.innerWidth, window.innerHeight);
+//}

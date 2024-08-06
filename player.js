@@ -1,9 +1,14 @@
 // player.js
 
 let spacecraft;
-const baseSpeed = 0.9;  // Base forward speed
-const baseTurnSpeed = 0.1;  // Base turn speed
+const baseSpeed = 1;  // Base forward speed
+const baseTurnSpeed = .5;  // Base turn speed
 let shipAudio;
+
+// Variables for keyboard input
+let keyboardPitch = 0;
+let keyboardRoll = 0;
+let keyboardForwardSpeedMultiplier = 1;
 
 function createPlayer(scene) {
   // Load the texture
@@ -33,20 +38,68 @@ function createPlayer(scene) {
   shipAudio.play().catch(error => {
     console.log('Failed to play audio:', error);
   });
+
+  // Add event listeners for keyboard input
+  window.addEventListener('keydown', onKeyDown);
+  window.addEventListener('keyup', onKeyUp);
+}
+
+function onKeyDown(event) {
+  switch (event.code) {
+    case 'ArrowUp':
+      keyboardRoll = 1;
+      break;
+    case 'ArrowDown':
+      keyboardRoll = -1;
+      break;
+    case 'ArrowLeft':
+      keyboardPitch = -1;
+      break;
+    case 'ArrowRight':
+      keyboardPitch = 1;
+      break;
+    case 'Space':
+      keyboardForwardSpeedMultiplier = 2; // Increase speed when space is pressed
+      break;
+  }
+}
+
+function onKeyUp(event) {
+  switch (event.code) {
+    case 'ArrowUp':
+    case 'ArrowDown':
+      keyboardRoll = 0;
+      break;
+    case 'ArrowLeft':
+    case 'ArrowRight':
+      keyboardPitch = 0;
+      break;
+    case 'Space':
+      keyboardForwardSpeedMultiplier = 1; // Reset speed when space is released
+      break;
+  }
 }
 
 function updatePlayer(pitch, roll, forwardSpeedMultiplier) {
-  // Apply tilt based on user input
-  spacecraft.rotation.z = pitch * baseTurnSpeed;
-  spacecraft.rotation.x = -roll * baseTurnSpeed;
+  // Combine external input with keyboard input
+  const combinedPitch = pitch + keyboardPitch;
+  const combinedRoll = roll + keyboardRoll;
+  const combinedForwardSpeedMultiplier = forwardSpeedMultiplier * keyboardForwardSpeedMultiplier;
+
+  // Apply tilt based on combined input
+  spacecraft.rotation.z = combinedPitch * baseTurnSpeed;
+  spacecraft.rotation.x = -combinedRoll * baseTurnSpeed;
 
   // Update the spacecraft's position along the z-axis (forward)
-  const forwardSpeed = baseSpeed * forwardSpeedMultiplier;  // Increase forward speed by the multiplier
+  const forwardSpeed = baseSpeed * combinedForwardSpeedMultiplier;  // Increase forward speed by the multiplier
   spacecraft.position.z -= forwardSpeed;
-  spacecraft.position.x -= pitch * baseTurnSpeed;
-  spacecraft.position.y += roll * baseTurnSpeed;
+  spacecraft.position.x += combinedPitch * baseTurnSpeed;
+  spacecraft.position.y += combinedRoll * baseTurnSpeed;
 }
 
 function resetPlayer() {
   spacecraft.position.set(0, 0, 0);
+  keyboardPitch = 0;
+  keyboardRoll = 0;
+  keyboardForwardSpeedMultiplier = 1;
 }

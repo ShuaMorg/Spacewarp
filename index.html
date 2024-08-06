@@ -1,4 +1,3 @@
-<!-- This is index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,29 +15,67 @@
       padding: 0;
       height: 100vh;
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-family: 'Press Start 2P', cursive;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <button id="startButton">Start</button>
+  <button class="startButton" data-target="0">Start at Portal 1</button>
+  <button class="startButton" data-target="1">Start at Portal 2</button>
+  <button class="startButton" data-target="2">Start at Portal 3</button>
+  <button class="startButton" data-target="3">Start at Portal 4</button>
+  <button class="startButton" data-target="4">Start at Portal 5</button>
+  <button class="startButton" data-target="5">Start at Portal 6</button>
+  <button class="startButton" data-target="6">Scene 4</button>
+  <button class="startButton" data-target="7">Scene 4</button>
+  
   <div id="neonText"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="controls.js"></script>
   <script src="planets_creation.js"></script>
   <script src="planets_update.js"></script>
   <script src="moon.js"></script>
+  <script src="bg.js"></script>
   <script src="world.js"></script>
   <script src="audio.js"></script>
   <script src="star.js"></script>
   <script src="player.js"></script>
   <script src="portal.js"></script>
+  <script src="asteroid.js"></script>
 
- <script src="asteroid.js"></script>
+  <script src="shape.js"></script>
 
 
   <script src="game_objects.js"></script>
   <script src="main.js"></script>
   <script src="message_display.js"></script>
-  <script src="audio_manager.js"></script> <!-- Add this line -->
+  <script src="audio_manager.js"></script>
+
+  <script>
+    window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const targetButton = urlParams.get('button');
+      
+      if (targetButton !== null) {
+        const button = document.querySelector(`.startButton[data-target="${targetButton}"]`);
+        if (button) {
+          button.click();
+        } else {
+          console.error('Button not found for data-target:', targetButton);
+        }
+      } else {
+        console.error('URL parameter "button" not found');
+      }
+    };
+  </script>
 </body>
 </html>
