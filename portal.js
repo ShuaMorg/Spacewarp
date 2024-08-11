@@ -9,7 +9,6 @@ const portalCoordinates = [
 
 
 // Act 1 - Scene 1
-  { x: 0, y: 0, z: -60, targetX: 100, targetY: 1900, targetZ: -9000 },
   { x: -15, y: 0, z: -1400, targetX: 100, targetY: 1900, targetZ: -9000 },
 
 // Scene 2
