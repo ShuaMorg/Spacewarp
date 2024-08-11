@@ -55,6 +55,7 @@ const points = [
 new AudioPoint(0, 0, 0, 'scene1.m4a', 1220, true),
 new AudioPoint(15, 0, -950, 'drum.WAV', 700),
 new AudioPoint(-200, 0, -400, 'Vb3.mp3', 280),
+new AudioPoint(20, -20, -400, 'bells.WAV', 280),
 
 
   new AudioPoint(326, -428, -3286, 'Vb3.mp3', 500), // Will play with distance-based volume
