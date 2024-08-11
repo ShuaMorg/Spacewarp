@@ -4,22 +4,36 @@ let asteroids = [];
 const asteroidCoordinates = [
 
   // Act 1 - Scene 1
-  { x: 100, y: 1900, z: -9100, targetX: 100, targetY: 1900, targetZ: -9000 },
-{ x: 100, y: 1900, z: -9100, targetX: 100, targetY: 1900, targetZ: -9000 },
-{ x: 100, y: 1900, z: -9100, targetX: 100, targetY: 1900, targetZ: -9000 },
-  { x: 100, y: 1900, z: -9200, targetX: 100, targetY: 1900, targetZ: -9000 },
-{ x: 100, y: 1900, z: -9200, targetX: 100, targetY: 1900, targetZ: -9000 },
-{ x: 100, y: 1900, z: -9200, targetX: 100, targetY: 1900, targetZ: -9000 },
-  { x: 100, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 0, y: 1800, z: -9100, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 0, y: 1800, z: -9100, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 0, y: 1800, z: -9100, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 0, y: 1800, z: -9200, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 0, y: 1850, z: -9200, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 0, y: 1850, z: -9200, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 50, y: 1850, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 50, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 50, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 50, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 50, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 50, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 100, y: 1950, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 100, y: 1950, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 100, y: 1950, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 100, y: 1950, z: -9100, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 100, y: 1950, z: -9100, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 100, y: 1950, z: -9100, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 100, y: 2000, z: -9200, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 100, y: 2000, z: -9200, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 100, y: 2000, z: -9200, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 100, y: 2000, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
 { x: 100, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
 { x: 100, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
-  { x: 100, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
 { x: 100, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
-{ x: 100, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
-
-  { x: 100, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
-{ x: 100, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
-{ x: 100, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 150, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 150, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 150, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 150, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
+{ x: 150, y: 1900, z: -9250, targetX: 100, targetY: 1900, targetZ: -9000 },
 
 
 
@@ -45,10 +59,10 @@ function createAsteroids(scene) {
     }
 
     for (let i = 0; i < asteroidCoordinates.length; i++) {
-      for (let j = 0; j < 10; j++) {  // Create a cluster of 10 asteroids
-        const offsetX = (Math.random() - 0.5) * 100;  // Increased range for offset
-        const offsetY = (Math.random() - 0.5) * 100;  // Increased range for offset
-        const offsetZ = (Math.random() - 0.5) * 100;  // Increased range for offset
+      for (let j = 0; j < 20; j++) {  // Create a cluster of 10 asteroids
+        const offsetX = (Math.random() - 0.5) * 200;  // Increased range for offset
+        const offsetY = (Math.random() - 0.5) * 200;  // Increased range for offset
+        const offsetZ = (Math.random() - 0.5) * 200;  // Increased range for offset
         const asteroidGeometry = getRandomAsteroidGeometry();
         const asteroid = new THREE.Mesh(asteroidGeometry, asteroidMaterials);
         asteroid.position.set(

@@ -52,6 +52,7 @@ class AudioPoint {
 const points = [
 
 // Scene 1
+new AudioPoint(0, 0, 0, 'scene1.m4a', 1220, true),
   new AudioPoint(-200, 0, -400, 'Vb3.mp3', 280),
 
 
@@ -86,6 +87,11 @@ const points = [
   new AudioPoint(-700, 300, -19600, 'Vgs.mp3', 500),
   new AudioPoint(800, -600, -20100, 'Ve2.mp3', 500, true),
   new AudioPoint(-400, 700, -20600, 'Vcs2.mp3', 500),
+
+// Scene 2 - Asteroids
+new AudioPoint(100, 1900, -9000, 'scene2.m4a', 1300, true),
+
+
 
 //after asteroid
 

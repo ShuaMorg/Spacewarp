@@ -1,4 +1,4 @@
-// player.js
+// this is player.js
 
 let spacecraft;
 const baseSpeed = 1;  // Base forward speed
@@ -95,6 +95,10 @@ function updatePlayer(pitch, roll, forwardSpeedMultiplier) {
   spacecraft.position.z -= forwardSpeed;
   spacecraft.position.x += combinedPitch * baseTurnSpeed;
   spacecraft.position.y += combinedRoll * baseTurnSpeed;
+
+  // Rotate the camera slightly based on the pitch (left/right movement)
+  const cameraBankAmount = 0.05;  // Adjust this value to control how much the screen rotates
+  camera.rotation.z = combinedPitch * cameraBankAmount;
 }
 
 function resetPlayer() {

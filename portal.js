@@ -9,11 +9,11 @@ const portalCoordinates = [
 
 
 // Act 1 - Scene 1
-  { x: 0, y: 0, z: -600, targetX: 100, targetY: 1900, targetZ: -9000 },
-  { x: -15, y: 0, z: -850, targetX: 100, targetY: 1900, targetZ: -9000 },
+  { x: 0, y: 0, z: -60, targetX: 100, targetY: 1900, targetZ: -9000 },
+  { x: -15, y: 0, z: -1400, targetX: 100, targetY: 1900, targetZ: -9000 },
 
 // Scene 2
-  { x: 100, y: 1900, z: -9300, targetX: 100, targetY: 1900, targetZ: -25000 },
+  { x: 100, y: 1900, z: -9400, targetX: 100, targetY: 1900, targetZ: -25000 },
 
 
   { x: 0, y: 0, z: -25500, targetX: 9000, targetY: 9000, targetZ: 9000 },
@@ -31,13 +31,16 @@ const portalCoordinates = [
 
 function createPortals(scene) {
   const textureLoader = new THREE.TextureLoader();
-  const portalTexture = textureLoader.load('p1.png');  // Replace with your texture file
-  const portalGeometry = new THREE.RingGeometry(5, 10, 32);  // Ring shape
+  const portalTexture = textureLoader.load('stone.webp');  // Replace with your texture file
+  const portalRadius = 5;  // Outer radius of the torus
+  const tubeRadius = 2;  // Thickness of the torus tube
+  const portalGeometry = new THREE.TorusGeometry(portalRadius, tubeRadius, 16, 100);  // Torus shape
   const portalMaterial = new THREE.MeshBasicMaterial({ map: portalTexture, side: THREE.DoubleSide });
-  
+
   for (let i = 0; i < portalCoordinates.length; i++) {
     const portal = new THREE.Mesh(portalGeometry, portalMaterial);
     portal.position.set(portalCoordinates[i].x, portalCoordinates[i].y, portalCoordinates[i].z);
+    portal.rotation.x = Math.PI / 1;  // Rotate to align the torus along the Z-axis (facing forward)
     scene.add(portal);
     portals.push(portal);
   }
