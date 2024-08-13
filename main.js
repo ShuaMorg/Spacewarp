@@ -55,6 +55,8 @@ function init(startCoordinates) {
   createWorlds(scene);  // Call function from planet.js to create stars
   createStars(scene);  // Call function from star.js to create stars
   createAsteroids(scene);  // Call function from asteroids.js to create asteroids
+  createNebulas(scene);  // Call function from asteroids.js to create asteroids
+
   createBgs(scene);  // Call function from backgrounds.js to create backgrounds
 
   window.addEventListener('resize', onWindowResize, false);
@@ -79,6 +81,8 @@ function animate() {
   updatePlanets(spacecraft, speed);  // Call function from planets.js to update planets
   checkPortalCollision(spacecraft);  // Call function from portal.js to check portal collision
   checkAsteroidCollision(spacecraft);  // Call function from asteroids.js to check asteroid collision
+  checkNebulaCollision(spacecraft);  // Call function from asteroids.js to check asteroid collision
+  
   checkShapeCollision(spacecraft);  // Call function from shapes.js to check shape collision
   checkProximityAndPlaySound(spacecraft.position);  // Check proximity and play sound
   updateDusts(spacecraft); // Call function from game_objects.js to update dusts
