@@ -56,6 +56,7 @@ function init(startCoordinates) {
   createStars(scene);  // Call function from star.js to create stars
   createAsteroids(scene);  // Call function from asteroids.js to create asteroids
   createNebulas(scene);  // Call function from asteroids.js to create asteroids
+  createSmokes(scene);  // Call function from asteroids.js to create asteroids
 
   createBgs(scene);  // Call function from backgrounds.js to create backgrounds
 

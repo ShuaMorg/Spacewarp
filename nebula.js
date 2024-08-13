@@ -13,7 +13,7 @@ const nebulaCoordinates = [
 { x: -150, y: 0, z: -9000, texture: 'nebula2.png', count: 150, maxDistance: 400, opacity: 0.5 },
 { x: 150, y: 0, z: -9000, texture: 'nebula2.png', count: 150, maxDistance: 400, opacity: 0.5 },
 
-
+// Pyramid Nebula
   { x: -136, y: 74, z: 101444, texture: 'nebula2.png', count: 250, maxDistance: 375, opacity: 0.3 },
   { x: 45, y: -56, z: 101431, texture: 'nebula.png', count: 100, maxDistance: 300, opacity: 0.2 },
   { x: 76, y: 137, z: 101509, texture: 'nebula2.png', count: 180, maxDistance: 320, opacity: 0.4 },
@@ -46,6 +46,10 @@ const nebulaCoordinates = [
 { x: 82, y: 1273, z: 99928, texture: 'nebula.png', count: 170, maxDistance: 380, opacity: 0.5 },
 { x: -108, y: 1246, z: 100062, texture: 'nebula2.png', count: 140, maxDistance: 400, opacity: 0.3 },
 { x: 74, y: 1334, z: 100012, texture: 'nebula.png', count: 130, maxDistance: 340, opacity: 0.35 },
+
+
+
+
 ];
 
 function createNebulas(scene) {
@@ -71,7 +75,16 @@ function createNebulas(scene) {
         const offsetZ = (Math.random() - 0.5) * coord.maxDistance * distanceFactor;
 
         const nebula = new THREE.Sprite(nebulaMaterial);
-        nebula.scale.set(40 * (1 + distanceFactor), 40 * (1 + distanceFactor), 1);
+
+        // Differentiate between general nebulas and engine plumes
+        if (coord.texture === 'smoke.png') {
+          // Smaller scale for engine plumes
+          nebula.scale.set(10 * (1 + distanceFactor), 10 * (1 + distanceFactor), 1);
+        } else {
+          // Default scale for nebulas
+          nebula.scale.set(40 * (1 + distanceFactor), 40 * (1 + distanceFactor), 1);
+        }
+
         nebula.position.set(
           coord.x + offsetX,
           coord.y + offsetY,
@@ -87,6 +100,7 @@ function createNebulas(scene) {
     });
   }
 }
+
 
 function checkNebulaCollision(player) {
   for (let i = 0; i < nebulas.length; i++) {
