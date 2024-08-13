@@ -1,7 +1,7 @@
 let smokes = [];
 const smokeCoordinates = [
   {
-    startX: 0, startY: 0, startZ: 101400, // Start coordinates
+    startX: 0, startY: -500, startZ: 101600, // Start coordinates
     middleX: 500, middleY: 1300, middleZ: 100209, // Middle coordinates
     endX: 0, endY: 1465, endZ: 99000, // End coordinates
     texture: 'smoke.png',
