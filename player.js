@@ -11,6 +11,7 @@ let shipAudio;
 let keyboardPitch = 0;
 let keyboardRoll = 0;
 let keyboardForwardSpeedMultiplier = 1;
+let keyboardTurnSpeedMultiplier = 1;  // Multiplier for turn speed
 
 // Timing variables
 const keyTapThreshold = 100;  // Time in milliseconds to consider a key press as a light tap
@@ -25,6 +26,7 @@ const positionSmoothFactor = 0.02;  // For smoothing position updates
 let smoothedPitch = 0;
 let smoothedRoll = 0;
 let smoothedForwardSpeedMultiplier = 1;
+let smoothedTurnSpeedMultiplier = 1;  // For smoother turn speed transitions
 let lastPitch = 0;  // Track the last pitch value for smoother transitions
 let lastRoll = 0;  // Track the last roll value for smoother transitions
 
@@ -84,6 +86,7 @@ function onKeyDown(event) {
       break;
     case 'Space':
       keyboardForwardSpeedMultiplier = 20; // Increase speed when space is pressed
+      keyboardTurnSpeedMultiplier = 20; // Increase turn speed when space is pressed
       break;
   }
 }
@@ -110,6 +113,7 @@ function onKeyUp(event) {
       break;
     case 'Space':
       keyboardForwardSpeedMultiplier = 1; // Reset speed when space is released
+      keyboardTurnSpeedMultiplier = 1; // Reset turn speed multiplier when space is released
       break;
   }
 
@@ -122,6 +126,7 @@ function updatePlayer(pitch, roll, forwardSpeedMultiplier) {
   smoothedPitch = THREE.MathUtils.lerp(lastPitch, pitch + keyboardPitch, pitchSmoothFactor);
   smoothedRoll = THREE.MathUtils.lerp(lastRoll, roll + keyboardRoll, rollSmoothFactor);
   smoothedForwardSpeedMultiplier = THREE.MathUtils.lerp(smoothedForwardSpeedMultiplier, forwardSpeedMultiplier * keyboardForwardSpeedMultiplier, positionSmoothFactor);
+  smoothedTurnSpeedMultiplier = THREE.MathUtils.lerp(smoothedTurnSpeedMultiplier, keyboardTurnSpeedMultiplier, positionSmoothFactor);
 
   // Update last values
   lastPitch = smoothedPitch;
@@ -131,6 +136,7 @@ function updatePlayer(pitch, roll, forwardSpeedMultiplier) {
   const combinedPitch = smoothedPitch;
   const combinedRoll = smoothedRoll;
   const combinedForwardSpeedMultiplier = smoothedForwardSpeedMultiplier;
+  const combinedTurnSpeedMultiplier = smoothedTurnSpeedMultiplier;
 
   // Apply tilt based on combined input
   spacecraft.rotation.z = combinedPitch; // Apply base turn speed directly
@@ -139,8 +145,8 @@ function updatePlayer(pitch, roll, forwardSpeedMultiplier) {
   // Update the spacecraft's position along the z-axis (forward)
   const forwardSpeed = baseSpeed * combinedForwardSpeedMultiplier;  // Increase forward speed by the multiplier
   spacecraft.position.z -= forwardSpeed;
-  spacecraft.position.x += combinedPitch * baseTurnSpeed;  // Apply base turn speed directly
-  spacecraft.position.y += combinedRoll * baseTurnSpeed;  // Apply base turn speed directly
+  spacecraft.position.x += combinedPitch * baseTurnSpeed * combinedTurnSpeedMultiplier;  // Apply turn speed multiplier
+  spacecraft.position.y += combinedRoll * baseTurnSpeed * combinedTurnSpeedMultiplier;  // Apply turn speed multiplier
 
   // Rotate the camera slightly based on the pitch (left/right movement)
   const cameraBankAmount = 0.05;  // Adjust this value to control how much the screen rotates
@@ -152,6 +158,7 @@ function resetPlayer() {
   smoothedPitch = 0;
   smoothedRoll = 0;
   smoothedForwardSpeedMultiplier = 1;
+  smoothedTurnSpeedMultiplier = 1;
   lastPitch = 0;
   lastRoll = 0;
   keyboardPitch = 0;
