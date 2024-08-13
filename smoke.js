@@ -3,13 +3,15 @@ const smokeCoordinates = [
   {
     startX: 0, startY: -500, startZ: 101600, // Start coordinates
     middleX: 500, middleY: 1300, middleZ: 100209, // Middle coordinates
-    endX: 0, endY: 1465, endZ: 99000, // End coordinates
+    endX: 0, endY: 1465, endZ: 99200, // End coordinates
     texture: 'smoke.png',
-    count: 1000,
+    count: 5000,
     maxDistanceX: 1,
     maxDistanceY: 1,
     maxDistanceZ: 20,
-    opacity: 0.5
+    opacity: 0.5,
+    spiralTurns: 5, // Number of spiral turns
+    radius: 20 // Radius of the spiral
   },
 
   // Portal is at x: 0, y: 1465, z: 99000
@@ -34,7 +36,7 @@ function createSmokes(scene) {
       });
 
       for (let j = 0; j < coord.count; j++) {
-        const t = Math.random(); // Parameter t for interpolation along the curve
+        const t = j / coord.count; // Parameter t along the spiral
         const distanceFactor = Math.random();
         const offsetX = (Math.random() - 0.5) * coord.maxDistanceX * distanceFactor;
         const offsetY = (Math.random() - 0.5) * coord.maxDistanceY * distanceFactor;
@@ -43,14 +45,20 @@ function createSmokes(scene) {
         const smoke = new THREE.Sprite(smokeMaterial);
 
         // Quadratic Bézier curve interpolation
-        const interpolatedX = (1 - t) * (1 - t) * coord.startX + 2 * (1 - t) * t * coord.middleX + t * t * coord.endX;
-        const interpolatedY = (1 - t) * (1 - t) * coord.startY + 2 * (1 - t) * t * coord.middleY + t * t * coord.endY;
-        const interpolatedZ = (1 - t) * (1 - t) * coord.startZ + 2 * (1 - t) * t * coord.middleZ + t * t * coord.endZ;
+        const curveX = (1 - t) * (1 - t) * coord.startX + 2 * (1 - t) * t * coord.middleX + t * t * coord.endX;
+        const curveY = (1 - t) * (1 - t) * coord.startY + 2 * (1 - t) * t * coord.middleY + t * t * coord.endY;
+        const curveZ = (1 - t) * (1 - t) * coord.startZ + 2 * (1 - t) * t * coord.middleZ + t * t * coord.endZ;
 
+        // Spiral interpolation
+        const angle = t * coord.spiralTurns * Math.PI * 2; // Angle along the spiral
+        const spiralX = coord.radius * Math.cos(angle);
+        const spiralY = coord.radius * Math.sin(angle);
+
+        // Combine the spiral path with the Bézier curve
         smoke.position.set(
-          interpolatedX + offsetX,
-          interpolatedY + offsetY,
-          interpolatedZ + offsetZ
+          curveX + spiralX + offsetX,
+          curveY + spiralY + offsetY,
+          curveZ + offsetZ
         );
 
         if (coord.texture === 'smoke.png') {

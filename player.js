@@ -62,6 +62,10 @@ function createPlayer(scene) {
   // Add event listeners for keyboard input
   window.addEventListener('keydown', onKeyDown);
   window.addEventListener('keyup', onKeyUp);
+
+  // Add event listeners for touch input
+  window.addEventListener('touchstart', onTouchStart);
+  window.addEventListener('touchend', onTouchEnd);
 }
 
 function onKeyDown(event) {
@@ -85,8 +89,7 @@ function onKeyDown(event) {
       keyboardPitch = briefTurnSpeed;  // Apply brief turn speed
       break;
     case 'Space':
-      keyboardForwardSpeedMultiplier = 20; // Increase speed when space is pressed
-      keyboardTurnSpeedMultiplier = 20; // Increase turn speed when space is pressed
+      activateBoost();  // Activate boost when space is pressed
       break;
   }
 }
@@ -112,13 +115,30 @@ function onKeyUp(event) {
       keyboardPitch = 0;
       break;
     case 'Space':
-      keyboardForwardSpeedMultiplier = 1; // Reset speed when space is released
-      keyboardTurnSpeedMultiplier = 1; // Reset turn speed multiplier when space is released
+      deactivateBoost();  // Deactivate boost when space is released
       break;
   }
 
   // Remove the key press start time
   delete keyPressStartTimes[event.code];
+}
+
+function activateBoost() {
+  keyboardForwardSpeedMultiplier = 20; // Increase speed
+  keyboardTurnSpeedMultiplier = 20; // Increase turn speed
+}
+
+function deactivateBoost() {
+  keyboardForwardSpeedMultiplier = 1; // Reset speed
+  keyboardTurnSpeedMultiplier = 1; // Reset turn speed multiplier
+}
+
+function onTouchStart(event) {
+  activateBoost();  // Trigger the same action as space bar press
+}
+
+function onTouchEnd(event) {
+  deactivateBoost();  // Trigger the same action as space bar release
 }
 
 function updatePlayer(pitch, roll, forwardSpeedMultiplier) {
