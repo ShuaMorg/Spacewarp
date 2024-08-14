@@ -1,5 +1,3 @@
-// player.js
-
 let spacecraft;
 const baseSpeed = 1;  // Base forward speed
 const baseTurnSpeed = 1;  // Base turn speed
@@ -66,6 +64,11 @@ function createPlayer(scene) {
   // Add event listeners for touch input
   window.addEventListener('touchstart', onTouchStart);
   window.addEventListener('touchend', onTouchEnd);
+  
+  // Start the gamepad polling
+  window.addEventListener("gamepadconnected", onGamepadConnected);
+  window.addEventListener("gamepaddisconnected", onGamepadDisconnected);
+  pollGamepads();
 }
 
 function onKeyDown(event) {
@@ -141,6 +144,51 @@ function onTouchEnd(event) {
   deactivateBoost();  // Trigger the same action as space bar release
 }
 
+function onGamepadConnected(event) {
+  console.log("Gamepad connected:", event.gamepad);
+}
+
+function onGamepadDisconnected(event) {
+  console.log("Gamepad disconnected:", event.gamepad);
+}
+
+function pollGamepads() {
+  const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+
+  for (let i = 0; i < gamepads.length; i++) {
+    const gamepad = gamepads[i];
+    if (gamepad) {
+      handleGamepadInput(gamepad);
+    }
+  }
+
+  requestAnimationFrame(pollGamepads);
+}
+
+const gamepadTurnSpeedMultiplier = 2.0;  // Adjust this multiplier to increase/decrease turn speed
+
+function handleGamepadInput(gamepad) {
+  const deadZone = 0.1;  // Dead zone to prevent drift
+
+  // Left stick for pitch (up/down) and roll (left/right)
+  let gamepadPitch = gamepad.axes[0] * gamepadTurnSpeedMultiplier;  // Left stick X-axis (left/right)
+  let gamepadRoll = gamepad.axes[1] * gamepadTurnSpeedMultiplier;  // Left stick Y-axis (up/down)
+
+  if (Math.abs(gamepadPitch) < deadZone) gamepadPitch = 0;
+  if (Math.abs(gamepadRoll) < deadZone) gamepadRoll = 0;
+
+  // Trigger buttons for boost
+  const boost = gamepad.buttons[6].pressed || gamepad.buttons[7].pressed;
+
+  if (boost) {
+    activateBoost();
+  } else {
+    deactivateBoost();
+  }
+
+  updatePlayer(gamepadPitch, gamepadRoll, keyboardForwardSpeedMultiplier);
+}
+
 function updatePlayer(pitch, roll, forwardSpeedMultiplier) {
   // Smooth keyboard input
   smoothedPitch = THREE.MathUtils.lerp(lastPitch, pitch + keyboardPitch, pitchSmoothFactor);
@@ -173,7 +221,8 @@ function updatePlayer(pitch, roll, forwardSpeedMultiplier) {
   camera.rotation.z = combinedPitch * cameraBankAmount;
 }
 
-function resetPlayer() {
+
+  function resetPlayer() {
   spacecraft.position.set(0, 0, 0);
   smoothedPitch = 0;
   smoothedRoll = 0;
@@ -184,3 +233,33 @@ function resetPlayer() {
   keyboardPitch = 0;
   keyboardRoll = 0;
 }
+
+// Initialize the game by setting up the scene, player, etc.
+function init() {
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+  const renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  // Create player (spacecraft) and add to the scene
+  createPlayer(scene);
+
+  camera.position.z = 5;
+
+  // Animation loop
+  function animate() {
+    requestAnimationFrame(animate);
+
+    // Update player with current gamepad and keyboard inputs
+    pollGamepads();
+
+    renderer.render(scene, camera);
+  }
+  
+  animate();
+}
+
+// Start the game when the window loads
+window.onload = init;
