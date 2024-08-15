@@ -261,5 +261,20 @@ function init() {
   animate();
 }
 
+function pollGamepads() {
+  const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+
+  for (let i = 0; i < gamepads.length; i++) {
+    const gamepad = gamepads[i];
+    if (gamepad) {
+      console.log("Gamepad detected: ", gamepad);
+      handleGamepadInput(gamepad);
+    }
+  }
+
+  requestAnimationFrame(pollGamepads);
+}
+
+
 // Start the game when the window loads
 window.onload = init;
