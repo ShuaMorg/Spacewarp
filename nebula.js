@@ -54,9 +54,15 @@ const nebulaCoordinates = [
 { x: 74, y: 1334, z: 100012, texture: 'nebula.png', count: 130, maxDistance: 740, opacity: 0.35 },
 
 
+// after pyramid endX: 0, endY: -100000, endZ: 90000
+{ x: 0, y: -100000, z: 100000, texture: 'nebula.png', count: 1200, maxDistance: 400, opacity: 0.7 },
+{ x: 300, y: -100300, z: 100000, texture: 'nebula2.png', count: 400, maxDistance: 300, opacity: 0.5 },
+{ x: -300, y: -90300, z: 100000, texture: 'nebula2.png', count: 400, maxDistance: 300, opacity: 0.5 },
+{ x: 180, y: -100180, z: 100000, texture: 'nebula2.png', count: 400, maxDistance: 300, opacity: 0.5 },
+{ x: 300, y: -100000, z: 100000, texture: 'nebula2.png', count: 400, maxDistance: 300, opacity: 0.5 },
+{ x: 0, y: -100300, z: 100000, texture: 'nebula2.png', count: 400, maxDistance: 300, opacity: 0.5 },
+{ x: -180, y: -100000, z: 100000, texture: 'nebula2.png', count: 400, maxDistance: 300, opacity: 0.5 },];
 
-
-];
 
 function createNebulas(scene) {
   const textureLoader = new THREE.TextureLoader();

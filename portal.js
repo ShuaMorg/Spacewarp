@@ -22,7 +22,7 @@ const portalCoordinates = [
 
 // Scene 4
 
-{ x: 0, y: 1465, z: 99000, targetX: 0, targetY: 0, targetZ: 1000 },
+{ x: 0, y: 1465, z: 99000, targetX: 0, targetY: -100000, targetZ: 101500 },
 
 
   // Add more portals as needed

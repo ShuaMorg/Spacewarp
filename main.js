@@ -35,7 +35,7 @@ function init(startCoordinates) {
 
   createPlayer(scene);  // Call function from player.js to create the player-controlled object
   createPortals(scene);  // Call function from portal.js to create portals
-  createShapes(scene);  // Call function from shapes.js to create shapes
+
     
   // Set the camera and player initial positions
   if (startCoordinates) {
@@ -57,7 +57,7 @@ function init(startCoordinates) {
   createAsteroids(scene);  // Call function from asteroids.js to create asteroids
   createNebulas(scene);  // Call function from asteroids.js to create asteroids
   createSmokes(scene);  // Call function from asteroids.js to create asteroids
-
+  createShapes(scene);  // Call function from shapes.js to create shapes
   createBgs(scene);  // Call function from backgrounds.js to create backgrounds
 
   window.addEventListener('resize', onWindowResize, false);
