@@ -145,12 +145,12 @@ new AudioPoint(0, 1700, 99800, 'Vb2.mp3', 400),
 
 
 // After Pyramid
-new AudioPoint(0, -100000, 101500, 'S5bge.wav', 800),
-new AudioPoint(0, -100000, 101500, '/Music/S6e.wav', 300),
+new AudioPoint(0, -100000, 101500, 'Music/S5bge.wav', 800),
+new AudioPoint(0, -100000, 101500, 'Music/S6e.wav', 300),
 new AudioPoint(0, -100000, 101000, 'S5bge.wav', 800),
 new AudioPoint(0, -100000, 100000, 'Ve3.mp3', 1000),
-new AudioPoint(0, -100000, 100900, '/Music/S4e.wav', 300),
-new AudioPoint(0, -100000, 100000, '/Music/S2e.wav', 600),
+new AudioPoint(0, -100000, 100900, 'Music/S4e.wav', 300),
+new AudioPoint(0, -100000, 100000, 'Music/S2e.wav', 600),
 
 
 
