@@ -11,7 +11,7 @@ document.querySelectorAll('.startButton').forEach(button => {
 
     // Use either portal or warp target coordinates depending on your game logic
     // Example: initializing with warp target coordinates
-    init(warpTargetCoordinates);
+    init(TargetCoordinates);
 
     displayMessages(); // Start displaying messages
   });

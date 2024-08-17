@@ -19,7 +19,7 @@ const smokeCoordinates = [
   {
     startX: 0, startY: -100000, startZ: 101500, // Start coordinates
     middleX: 0, middleY: -100000, middleZ: 101500, // Middle coordinates
-    endX: 0, endY: -100000, endZ: 90000, // End coordinates
+    endX: 0, endY: -100000, endZ: 99100, // End coordinates
     texture: 'smoke.png',
     count: 5000,
     maxDistanceX: 1,
@@ -30,8 +30,6 @@ const smokeCoordinates = [
     radius: 20 // Radius of the spiral
   },
 
-
-  0, -100000, 101500
   // Add more coordinate sets as needed
 ];
 

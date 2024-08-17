@@ -8,7 +8,7 @@ let shipAudio;
 // Variables for keyboard input
 let keyboardPitch = 0;
 let keyboardRoll = 0;
-let keyboardForwardSpeedMultiplier = 1;
+let keyboardForwardSpeedMultiplier = 5;
 let keyboardTurnSpeedMultiplier = 1;  // Multiplier for turn speed
 
 // Timing variables

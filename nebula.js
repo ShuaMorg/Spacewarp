@@ -1,8 +1,8 @@
 let nebulas = [];
 const nebulaCoordinates = [
-  { x: 0, y: 0, z: -100, texture: 'nebula2.png', count: 100, maxDistance: 300, opacity: 0.3 },
-  { x: -150, y: 40, z: -400, texture: 'nebula2.png', count: 200, maxDistance: 350, opacity: 0.5 },
-  { x: -50, y: -50, z: -500, texture: 'nebula.png', count: 150, maxDistance: 400, opacity: 0.4 },
+  { x: 0, y: 0, z: 100, texture: 'nebula2.png', count: 100, maxDistance: 300, opacity: 0.3 },
+  { x: -150, y: 40, z: 400, texture: 'nebula2.png', count: 200, maxDistance: 350, opacity: 0.5 },
+  { x: -50, y: -50, z: 500, texture: 'nebula.png', count: 150, maxDistance: 400, opacity: 0.4 },
 
 //eye
   { x: 0, y: 0, z: -9000, texture: 'nebula.png', count: 250, maxDistance: 250, opacity: 0.7 },
