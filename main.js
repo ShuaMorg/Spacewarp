@@ -1,12 +1,18 @@
-// this is main.js
-
 document.querySelectorAll('.startButton').forEach(button => {
   button.addEventListener('click', (event) => {
     const targetIndex = event.target.getAttribute('data-target');
-    const targetCoordinates = portalCoordinates[targetIndex];
+
+    // Define both portal and warp target coordinates
+    const TargetCoordinates = portalCoordinates[targetIndex];
+    const warpTargetCoordinates = warpCoordinates[targetIndex];
+
     goFullScreen();
     document.querySelectorAll('.startButton').forEach(btn => btn.style.display = 'none');
-    init(targetCoordinates);
+
+    // Use either portal or warp target coordinates depending on your game logic
+    // Example: initializing with warp target coordinates
+    init(warpTargetCoordinates);
+
     displayMessages(); // Start displaying messages
   });
 });
@@ -34,8 +40,10 @@ function init(startCoordinates) {
   document.body.appendChild(renderer.domElement);
 
   createPlayer(scene);  // Call function from player.js to create the player-controlled object
-  createPortals(scene);  // Call function from portal.js to create portals
-
+  createPortals(scene, renderer);  // Pass renderer to create portals
+  createWarps(scene, renderer);  // Pass renderer to create warps
+  
+  createShapes(scene);  // Call function from shapes.js to create shapes
     
   // Set the camera and player initial positions
   if (startCoordinates) {
@@ -49,15 +57,13 @@ function init(startCoordinates) {
   bgTexture = textureLoader.load('bg1.png');
 
   createDust(scene); // Call function from game_objects.js to create dust
-
   createPlanets(scene);  // Call function from planets.js to create planets
   createMoons(scene);  // Call function from moon.js to create moons
-  createWorlds(scene);  // Call function from planet.js to create stars
+  createWorlds(scene);  // Call function from planet.js to create worlds
   createStars(scene);  // Call function from star.js to create stars
   createAsteroids(scene);  // Call function from asteroids.js to create asteroids
-  createNebulas(scene);  // Call function from asteroids.js to create asteroids
-  createSmokes(scene);  // Call function from asteroids.js to create asteroids
-  createShapes(scene);  // Call function from shapes.js to create shapes
+  createNebulas(scene);  // Call function from asteroids.js to create nebulas
+  createSmokes(scene);  // Call function from asteroids.js to create smokes
   createBgs(scene);  // Call function from backgrounds.js to create backgrounds
 
   window.addEventListener('resize', onWindowResize, false);
@@ -68,6 +74,10 @@ function init(startCoordinates) {
 
 function animate() {
   requestAnimationFrame(animate);
+
+  // Update the portal and warp views
+  updatePortals(renderer, scene);  // Call function to update the portals' render targets
+  updateWarps(renderer, scene);  // Call function to update the warps' render targets
 
   updatePlayer(pitch, roll, speed);  // Call function from player.js to update the player-controlled object
 
@@ -81,9 +91,10 @@ function animate() {
 
   updatePlanets(spacecraft, speed);  // Call function from planets.js to update planets
   checkPortalCollision(spacecraft);  // Call function from portal.js to check portal collision
-  checkAsteroidCollision(spacecraft);  // Call function from asteroids.js to check asteroid collision
-  checkNebulaCollision(spacecraft);  // Call function from asteroids.js to check asteroid collision
+  checkWarpCollision(spacecraft);  // Call function from warp.js to check warp collision
   
+  checkAsteroidCollision(spacecraft);  // Call function from asteroids.js to check asteroid collision
+  checkNebulaCollision(spacecraft);  // Call function from nebulas.js to check nebula collision
   checkShapeCollision(spacecraft);  // Call function from shapes.js to check shape collision
   checkProximityAndPlaySound(spacecraft.position);  // Check proximity and play sound
   updateDusts(spacecraft); // Call function from game_objects.js to update dusts
