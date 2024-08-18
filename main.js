@@ -11,7 +11,7 @@ document.querySelectorAll('.startButton').forEach(button => {
 
     // Use either portal or warp target coordinates depending on your game logic
     // Example: initializing with warp target coordinates
-    init(TargetCoordinates);
+    init(warpTargetCoordinates);
 
     displayMessages(); // Start displaying messages
   });
@@ -75,11 +75,11 @@ function init(startCoordinates) {
 function animate() {
   requestAnimationFrame(animate);
 
-  // Update the portal and warp views
-  updatePortals(renderer, scene);  // Call function to update the portals' render targets
-  updateWarps(renderer, scene);  // Call function to update the warps' render targets
+  // Update the portal and warp views, pass the player (spacecraft) to the updatePortals function
+  updatePortals(renderer, scene, spacecraft);  // Now we pass the player object to update portals
+  updateWarps(renderer, scene);  // Update the warps' render targets
 
-  updatePlayer(pitch, roll, speed);  // Call function from player.js to update the player-controlled object
+  updatePlayer(pitch, roll, speed);  // Update the player-controlled object
 
   camera.position.x = spacecraft.position.x;
   camera.position.y = spacecraft.position.y + 2;
@@ -89,17 +89,17 @@ function animate() {
   bgTexture.offset.x -= pitch * speed * 0.01;
   bgTexture.offset.y += roll * speed * 0.01;
 
-  updatePlanets(spacecraft, speed);  // Call function from planets.js to update planets
-  checkPortalCollision(spacecraft);  // Call function from portal.js to check portal collision
-  checkWarpCollision(spacecraft);  // Call function from warp.js to check warp collision
+  updatePlanets(spacecraft, speed);  // Update planets
+  checkPortalCollision(spacecraft);  // Check portal collision
+  checkWarpCollision(spacecraft);  // Check warp collision
   
-  checkAsteroidCollision(spacecraft);  // Call function from asteroids.js to check asteroid collision
-  checkNebulaCollision(spacecraft);  // Call function from nebulas.js to check nebula collision
-  checkShapeCollision(spacecraft);  // Call function from shapes.js to check shape collision
+  checkAsteroidCollision(spacecraft);  // Check asteroid collision
+  checkNebulaCollision(spacecraft);  // Check nebula collision
+  checkShapeCollision(spacecraft);  // Check shape collision
   checkProximityAndPlaySound(spacecraft.position);  // Check proximity and play sound
-  updateDusts(spacecraft); // Call function from game_objects.js to update dusts
+  updateDusts(spacecraft);  // Update dusts
 
-  animateShapes();  // Call the twinkling function to animate shapes
+  animateShapes();  // Animate shapes
 
   renderer.render(scene, camera);
 }
