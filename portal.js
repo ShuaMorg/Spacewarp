@@ -35,7 +35,7 @@ function createPortals(scene, renderer) {
 
   for (let i = 0; i < portalCoordinates.length; i++) {
     // Create a new render target for the portal
-    const renderTarget = new THREE.WebGLRenderTarget(12, 12);  // Adjust resolution as needed
+    const renderTarget = new THREE.WebGLRenderTarget(1048, 1048);  // Adjust resolution as needed
     portalRenderTargets.push(renderTarget);
 
     // Create a camera for each portal that will render the scene from the target location
