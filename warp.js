@@ -2,10 +2,9 @@ let warps = [];
 let warpCameras = [];
 let warpRenderTargets = [];
 const warpCoordinates = [
-  { x: 0, y: 0, z: 100, targetX: 0, targetY: 0, targetZ: 0, cameraX: 10, cameraY: 10, cameraZ: -150, lookAtX: 0, lookAtY: 0, lookAtZ: 100 },
-
-  { x: 0, y: 0, z: -100, targetX: 0, targetY: 0, targetZ: -600, cameraX: 10, cameraY: 10, cameraZ: -150, lookAtX: 0, lookAtY: 0, lookAtZ: 100 },
-];
+  { x: 0, y: -100000, z: 99700, targetX: 100000, targetY: 100000, targetZ: 100000, cameraX: 0, cameraY: -100000, cameraZ: 99730, lookAtX: 0, lookAtY: -100000, lookAtZ: 99900 },
+  
+ ];
 
 function createWarps(scene, renderer) {
   const warpRadius = 20;  // Increased size for the spheres
