@@ -14,7 +14,7 @@ function createWarps(scene, renderer) {
 
   for (let i = 0; i < warpCoordinates.length; i++) {
     // Create a new render target for the warp
-    const renderTarget = new THREE.WebGLRenderTarget(2048, 2048);  // Adjust resolution as needed
+    const renderTarget = new THREE.WebGLRenderTarget(512, 512);  // Adjust resolution as needed
     warpRenderTargets.push(renderTarget);
 
     // Create a camera for each warp that will render the scene from the camera position
