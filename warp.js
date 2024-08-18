@@ -50,7 +50,14 @@ function createWarps(scene, renderer) {
 
 function updateWarps(renderer, scene) {
   for (let i = 0; i < warps.length; i++) {
-    // Position the camera at the camera coordinates
+ 
+    // Skip rendering if the portal is farther than 800 units away
+    if (distance > 800) {
+      continue;
+    }
+
+
+   // Position the camera at the camera coordinates
     warpCameras[i].position.set(
       warpCoordinates[i].cameraX,
       warpCoordinates[i].cameraY,
