@@ -2,10 +2,9 @@ let warps = [];
 let warpCameras = [];
 let warpRenderTargets = [];
 const warpCoordinates = [
-  { x: 0, y: -100000, z: 99700, targetX: 100000, targetY: 100000, targetZ: 100000, cameraX: 0, cameraY: -100000, cameraZ: 99730, lookAtX: 0, lookAtY: -100000, lookAtZ: 99900 },
-  //{ x: 0, y: 0, z: -150, targetX: 0, targetY: 0, targetZ: -600, cameraX: 0, cameraY: 0, cameraZ: -150, lookAtX: 0, lookAtY: 0, lookAtZ: 100 },
+  { x: 0, y: 0, z: 100, targetX: 0, targetY: 0, targetZ: 0, cameraX: 10, cameraY: 10, cameraZ: -150, lookAtX: 0, lookAtY: 0, lookAtZ: 100 },
 
-  // Add more warps as needed
+  { x: 0, y: 0, z: -100, targetX: 0, targetY: 0, targetZ: -600, cameraX: 10, cameraY: 10, cameraZ: -150, lookAtX: 0, lookAtY: 0, lookAtZ: 100 },
 ];
 
 function createWarps(scene, renderer) {
@@ -14,7 +13,7 @@ function createWarps(scene, renderer) {
 
   for (let i = 0; i < warpCoordinates.length; i++) {
     // Create a new render target for the warp
-    const renderTarget = new THREE.WebGLRenderTarget(512, 512);  // Adjust resolution as needed
+    const renderTarget = new THREE.WebGLRenderTarget(2048, 2048);  // Adjust resolution as needed
     warpRenderTargets.push(renderTarget);
 
     // Create a camera for each warp that will render the scene from the camera position
@@ -50,14 +49,9 @@ function createWarps(scene, renderer) {
 
 function updateWarps(renderer, scene) {
   for (let i = 0; i < warps.length; i++) {
- 
-    // Skip rendering if the portal is farther than 800 units away
-    if (distance > 800) {
-      continue;
-    }
-
-
-   // Position the camera at the camera coordinates
+    
+    
+    // Position the camera at the camera coordinates
     warpCameras[i].position.set(
       warpCoordinates[i].cameraX,
       warpCoordinates[i].cameraY,
