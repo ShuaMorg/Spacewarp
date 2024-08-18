@@ -3,29 +3,23 @@ let portalCameras = [];
 let portalRenderTargets = [];
 const portalCoordinates = [
   { x: 55, y: 0, z: 250, targetX: 0, targetY: 0, targetZ: 0 },
-
   { x: -155, y: 0, z: -250, targetX: -155, targetY: 0, targetZ: -200 },
-
-// Act 1 - Scene 1
+  
+  // Act 1 - Scene 1
   { x: -15, y: 0, z: -1400, targetX: 100, targetY: 1900, targetZ: -9000 },
-
-// Scene 2
+  
+  // Scene 2
   { x: 100, y: 1900, z: -9400, targetX: 100, targetY: 1900, targetZ: -25000 },
-
-
+  
   { x: 0, y: 0, z: -25500, targetX: 9000, targetY: 9000, targetZ: 9000 },
-
-// Scene 3 - 3 moons
+  
+  // Scene 3 - 3 moons
   { x: 50, y: 1950, z: -25500, targetX: 0, targetY: 0, targetZ: 101500 },
-
-// Scene 4
-
-{ x: 0, y: 1465, z: 99000, targetX: 0, targetY: -100000, targetZ: 101500 },
-
-
+  
+  // Scene 4
+  { x: 0, y: 1465, z: 99000, targetX: 0, targetY: -100000, targetZ: 101500 },
+  
   // Add more portals as needed
-
-
 ];
 
 function createPortals(scene, renderer) {
@@ -69,9 +63,15 @@ function createPortals(scene, renderer) {
     portals.push({ torus: portalTorus, plane: portalPlane });
   }
 }
-
-function updatePortals(renderer, scene) {
+function updatePortals(renderer, scene, player) {
   for (let i = 0; i < portals.length; i++) {
+    const distance = player.position.distanceTo(portals[i].torus.position);
+    
+    // Skip rendering if the portal is farther than 800 units away
+    if (distance > 800) {
+      continue;
+    }
+
     // Position the camera at the target coordinates
     portalCameras[i].position.set(
       portalCoordinates[i].targetX,
@@ -85,6 +85,7 @@ function updatePortals(renderer, scene) {
     renderer.setRenderTarget(null);  // Go back to rendering the main scene
   }
 }
+
 
 function checkPortalCollision(player) {
   for (let i = 0; i < portals.length; i++) {
