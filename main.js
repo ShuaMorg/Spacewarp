@@ -57,7 +57,7 @@ function init(startCoordinates) {
   bgTexture = textureLoader.load('bg1.png');
 
   createDust(scene); // Call function from game_objects.js to create dust
-  createPlanets(scene);  // Call function from planets.js to create planets
+ // createPlanets(scene);  // Call function from planets.js to create planets
   createMoons(scene);  // Call function from moon.js to create moons
   createWorlds(scene);  // Call function from planet.js to create worlds
   createStars(scene);  // Call function from star.js to create stars
@@ -89,7 +89,7 @@ function animate() {
   bgTexture.offset.x -= pitch * speed * 0.01;
   bgTexture.offset.y += roll * speed * 0.01;
 
-  updatePlanets(spacecraft, speed);  // Update planets
+ // updatePlanets(spacecraft, speed);  // Update planets
   checkPortalCollision(spacecraft);  // Check portal collision
   checkWarpCollision(spacecraft);  // Check warp collision
   

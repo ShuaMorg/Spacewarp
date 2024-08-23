@@ -34,7 +34,7 @@ const nebulaCoordinates = [
 { x: -57, y: 391, z: 100994, texture: 'nebula.png', count: 360, maxDistance: 455, opacity: 0.3 },
 { x: 54, y: 477, z: 101045, texture: 'nebula2.png', count: 320, maxDistance: 500, opacity: 0.4 },
 { x: -88, y: 640, z: 100511, texture: 'nebula.png', count: 330, maxDistance: 325, opacity: 0.35 },
-{ x: 84, y: 689, z: 100870, texture: 'nebula2.png', count: 250, maxDistance: 350, opacity: 0.45 },
+{ x: 84, y: 689, z: 100870, texture: 'nebula2.png', count: 250, maxDistance: 350, o1pacity: 0.45 },
 { x: 79, y: 824, z: 100837, texture: 'nebula.png', count: 270, maxDistance: 880, opacity: 0.5 },
 { x: -31, y: 616, z: 100494, texture: 'nebula2.png', count: 200, maxDistance: 800, opacity: 0.3 },
 { x: -91, y: 730, z: 100609, texture: 'nebula.png', count: 230, maxDistance: 840, opacity: 0.35 },
@@ -61,7 +61,35 @@ const nebulaCoordinates = [
 { x: 180, y: -100180, z: 100000, texture: 'nebula2.png', count: 400, maxDistance: 300, opacity: 0.5 },
 { x: 300, y: -100000, z: 100000, texture: 'nebula2.png', count: 400, maxDistance: 300, opacity: 0.5 },
 { x: 0, y: -100300, z: 100000, texture: 'nebula2.png', count: 400, maxDistance: 300, opacity: 0.5 },
-{ x: -180, y: -100000, z: 100000, texture: 'nebula2.png', count: 400, maxDistance: 300, opacity: 0.5 },];
+{ x: -180, y: -100000, z: 100000, texture: 'nebula2.png', count: 400, maxDistance: 300, opacity: 0.5 },
+
+// sky
+{ x: 98500, y: 100000, z: 98000, texture: 'cloud.png', count: 10, maxDistance: 10, opacity: 0.5 },
+{ x: 99000, y: 100000, z: 98000, texture: 'cloud.png', count: 50, maxDistance: 50, opacity: 0.5 },
+{ x: 99500, y: 100000, z: 98000, texture: 'cloud.png', count: 100, maxDistance: 100, opacity: 0.5 },
+{ x: 100000, y: 100000, z: 98000, texture: 'cloud.png', count: 200, maxDistance: 200, opacity: 0.5 },
+{ x: 100500, y: 100000, z: 98000, texture: 'cloud.png', count: 300, maxDistance: 300, opacity: 0.5 },
+{ x: 101000, y: 100000, z: 98000, texture: 'cloud.png', count: 400, maxDistance: 400, opacity: 0.5 },
+{ x: 101500, y: 100000, z: 98000, texture: 'cloud.png', count: 500, maxDistance: 500, opacity: 0.5 },
+
+
+{ x: 98500, y: 100600, z: 98000, texture: 'cloud.png', count: 10, maxDistance: 500, opacity: 0.5 },
+{ x: 99000, y: 100600, z: 98000, texture: 'cloud.png', count: 50, maxDistance: 400, opacity: 0.5 },
+{ x: 99500, y: 100600, z: 98000, texture: 'cloud.png', count: 100, maxDistance: 300, opacity: 0.5 },
+{ x: 100000, y: 100600, z: 98000, texture: 'cloud.png', count: 200, maxDistance: 200, opacity: 0.5 },
+{ x: 100500, y: 100600, z: 98000, texture: 'cloud.png', count: 300, maxDistance: 100, opacity: 0.5 },
+{ x: 101000, y: 100600, z: 98000, texture: 'cloud.png', count: 400, maxDistance: 50, opacity: 0.5 },
+{ x: 101500, y: 100600, z: 98000, texture: 'cloud.png', count: 500, maxDistance: 10, opacity: 0.5 },
+
+{ x: 98500, y: 99400, z: 98000, texture: 'cloud.png', count: 500, maxDistance: 10, opacity: 0.5 },
+{ x: 99000, y: 99400, z: 98000, texture: 'cloud.png', count: 400, maxDistance: 50, opacity: 0.5 },
+{ x: 99500, y: 99400, z: 98000, texture: 'cloud.png', count: 300, maxDistance: 100, opacity: 0.5 },
+{ x: 100000, y: 99400, z: 98000, texture: 'cloud.png', count: 200, maxDistance: 200, opacity: 0.5 },
+{ x: 100500, y: 99400, z: 98000, texture: 'cloud.png', count: 100, maxDistance: 300, opacity: 0.5 },
+{ x: 101000, y: 99400, z: 98000, texture: 'cloud.png', count: 50, maxDistance: 400, opacity: 0.5 },
+{ x: 101500, y: 99400, z: 98000, texture: 'cloud.png', count: 10, maxDistance: 500, opacity: 0.5 },
+
+];
 
 
 function createNebulas(scene) {

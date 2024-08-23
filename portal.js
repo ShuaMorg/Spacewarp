@@ -5,6 +5,8 @@ const portalCoordinates = [
   { x: 0, y: 0, z: 250, targetX: 0, targetY: 0, targetZ: 0 },
  // { x: -155, y: 0, z: -250, targetX: -155, targetY: 0, targetZ: -200 },
   
+
+ { x: 0, y: 0, z: -5, targetX: 100000, targetY: 100000, targetZ: 100000 },
   // Act 1 - Scene 1
   { x: -15, y: 0, z: -1400, targetX: 100, targetY: 1900, targetZ: -9000 },
   
