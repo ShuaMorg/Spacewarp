@@ -26,7 +26,7 @@ const smokeCoordinates = [
     maxDistanceY: 1,
     maxDistanceZ: 20,
     opacity: 0.5,
-    spiralTurns: 20, // Number of spiral turns
+    spiralTurns: 5, // Number of spiral turns
     radius: 20 // Radius of the spiral
   },
 
