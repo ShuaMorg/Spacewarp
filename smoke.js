@@ -18,7 +18,7 @@ const smokeCoordinates = [
 
   {
     startX: 0, startY: -100000, startZ: 101500, // Start coordinates
-    middleX: 1000, middleY: -100400, middleZ: 100000, // Middle coordinates
+    middleX: -700, middleY: -90600, middleZ: 100000, // Middle coordinates
     endX: 0, endY: -100000, endZ: 99710, // End coordinates
     texture: 'smoke.png',
     count: 5000,
