@@ -17,7 +17,7 @@ const smokeCoordinates = [
   // Portal is at x: 0, y: 1465, z: 99000
 
   {
-    startX: 0, startY: -100000, startZ: 101150, // Start coordinates
+    startX: 0, startY: -100000, startZ: 101450, // Start coordinates
     middleX: -700, middleY: -99900, middleZ: 100000, // Middle coordinates
     endX: 0, endY: -100000, endZ: 99710, // End coordinates
     texture: 'smoke.png',
