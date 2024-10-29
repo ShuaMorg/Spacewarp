@@ -77,7 +77,7 @@ function animate() {
 
   // Update the portal and warp views, pass the player (spacecraft) to the updatePortals function
   updatePortals(renderer, scene, spacecraft);  // Now we pass the player object to update portals
-  updateWarps(renderer, scene);  // Update the warps' render targets
+ // updateWarps(renderer, scene);  // Update the warps' render targets
 
   updatePlayer(pitch, roll, speed);  // Update the player-controlled object
 

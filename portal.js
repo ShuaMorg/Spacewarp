@@ -2,13 +2,16 @@ let portals = [];
 let portalCameras = [];
 let portalRenderTargets = [];
 const portalCoordinates = [
+
+
+
   { x: 0, y: 0, z: 250, targetX: 0, targetY: 0, targetZ: 0 },
  // { x: -155, y: 0, z: -250, targetX: -155, targetY: 0, targetZ: -200 },
   
 
- { x: 0, y: 0, z: -5, targetX: 100000, targetY: 100000, targetZ: 100000 },
+ { x: 0, y: 0, z: 250, targetX: 0, targetY: 0, targetZ: 0 },
   // Act 1 - Scene 1
-  { x: -15, y: 0, z: -1400, targetX: 100, targetY: 1900, targetZ: -9000 },
+  { x: -15, y: 0, z: -2400, targetX: 100, targetY: 1900, targetZ: -9000 },
   
   // Scene 2
   { x: 100, y: 1900, z: -9400, targetX: 100, targetY: 1900, targetZ: -25000 },
@@ -21,7 +24,9 @@ const portalCoordinates = [
   // Scene 4
   { x: 0, y: 1465, z: 99000, targetX: 0, targetY: -100000, targetZ: 101500 },
   
-  // Add more portals as needed
+  // Sky
+  { x: 100000, y: 100000, z: 100100, targetX: 100000, targetY: 100000, targetZ: 100000 },
+  { x: 100000, y: 100000, z: 98000, targetX: 0, targetY: 0, targetZ: 0 },
 ];
 
 function createPortals(scene, renderer) {

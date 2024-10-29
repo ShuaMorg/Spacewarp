@@ -52,47 +52,19 @@ class AudioPoint {
 const points = [
 
 // Scene 1
-new AudioPoint(0, 0, 0, 'Scene1.m4a', 1220, true),
-new AudioPoint(15, 0, -950, 'drum.WAV', 700),
-new AudioPoint(-200, 0, -400, 'Vb3.mp3', 280),
-new AudioPoint(20, -20, -400, 'bells.WAV', 280),
+new AudioPoint(0, 0, -1400, 'Scene1.m4a', 1000, true),
+new AudioPoint(-10, 0, -300, 'Scene 1 - Genny.wav', 125),
+new AudioPoint(20, -20, -400, 'Scene 1 - Genny.wav', 125),
+new AudioPoint(-20, 50, -900, 'Scene 1 - Genny.wav', 125),
+
+new AudioPoint(-200, 0, -400, 'Scene 1 - Base.wav', 6080),
+//new AudioPoint(20, -20, -400, 'bells.WAV', 280),
 
 
-  new AudioPoint(326, -428, -3286, 'Vb3.mp3', 500), // Will play with distance-based volume
-  new AudioPoint(602, 598, -5136, 'Ve2.mp3', 500),
-  new AudioPoint(-90, -200, -5744, 'Vcs2.mp3', 500),
-  new AudioPoint(-708, -588, -6084, 'Ve2.mp3', 500),
-  new AudioPoint(-218, 112, -6828, 'Vgs.mp3', 500),
-  new AudioPoint(452, 644, -7305, 'Ve2.mp3', 500),
-  new AudioPoint(50, 790, -7689, 'Vcs2.mp3', 500),
-  new AudioPoint(-480, 692, -8052, 'Vcs2.mp3', 500),
-  new AudioPoint(146, -496, -8988, 'Vcs2.mp3', 500),
-  new AudioPoint(502, -792, -9250, 'Vb3.mp3', 500),
-  new AudioPoint(416, -708, -10616, 'Ve3.mp3', 500),
-  new AudioPoint(44, 228, -10916, 'Ve2.mp3', 500, true),
-  new AudioPoint(-190, -142, -11506, 'Ve3.mp3', 500),
-  new AudioPoint(-544, -462, -11806, 'Vcs.mp3', 500, true),
-  new AudioPoint(506, -520, -13448, 'Vb2.mp3', 500),
-  new AudioPoint(-62, -618, -12886, 'Vfs.mp3', 500, true),
-  new AudioPoint(776, -52, -14410, 'Vb3.mp3', 500),
-  new AudioPoint(-218, 112, -14610, 'Vgs.mp3', 500, true),
-  new AudioPoint(452, 644, -14910, 'Ve2.mp3', 500),
-  new AudioPoint(50, 790, -15658, 'Vcs2.mp3', 500, true),
-  new AudioPoint(-480, 692, -15958, 'Vcs2.mp3', 500),
-  new AudioPoint(146, -496, -16218, 'Vcs2.mp3', 500, true),
-  new AudioPoint(-300, 500, -16600, 'Vb3.mp3', 500),
-  new AudioPoint(400, -300, -17100, 'Vcs2.mp3', 500, true),
-  new AudioPoint(-600, 600, -17600, 'Vgs.mp3', 500),
-  new AudioPoint(500, 200, -18100, 'Vfs.mp3', 500, true),
-  new AudioPoint(-200, -500, -18600, 'Vcs2.mp3', 500),
-  new AudioPoint(600, -400, -19100, 'Vb3.mp3', 500, true),
-  new AudioPoint(-700, 300, -19600, 'Vgs.mp3', 500),
-  new AudioPoint(800, -600, -20100, 'Ve2.mp3', 500, true),
-  new AudioPoint(-400, 700, -20600, 'Vcs2.mp3', 500),
 
 // Scene 2 - Asteroids
 new AudioPoint(100, 1900, -9000, 'scene2.m4a', 1300, true),
-
+new AudioPoint(100, 1900, -9000, 'Scene 1 - Base.wav', 1080),
 
 
 //after asteroid
@@ -152,7 +124,8 @@ new AudioPoint(0, -100000, 100000, 'Ve3.mp3', 1000),
 new AudioPoint(0, -100000, 100900, 'S4e.wav', 300),
 new AudioPoint(0, -100000, 100000, 'S2e.wav', 600),
 
-
+new AudioPoint(100000, 101000, 96000, 'Sky Decon.wav', 3000),
+new AudioPoint(0, -100000, 100000, 'S2e.wav', 600),
 
 
 ];

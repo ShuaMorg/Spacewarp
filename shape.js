@@ -6,7 +6,9 @@ const shapeCoordinates = [
    
    { x: 0, y: 1400, z: 99000, targetX: 0, targetY: 0, targetZ: -50, shapeType: 'pyramid', textureImage: 'p3.png', size: 100, count: 1, radius: 0, twinkle: false },
 
- //  { x: 0, y: -100000, z: 99000, targetX: 0, targetY: 0, targetZ: -50, shapeType: 'sphere', textureImage: 'ship.jpg', size: 200, count: 10, radius: 0, twinkle: false },
+
+   // Scene 6 - The Craft
+   { x: 100000, y: 101000, z: 94000, targetX: 0, targetY: 0, targetZ: -50, shapeType: 'odecahedron', textureImage: 'ship.jpg', size: 2000, count: 1, radius: 0, twinkle: false },
 
 ];
 

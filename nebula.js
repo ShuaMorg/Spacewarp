@@ -1,8 +1,12 @@
 let nebulas = [];
 const nebulaCoordinates = [
-  { x: 0, y: 0, z: 100, texture: 'nebula2.png', count: 100, maxDistance: 300, opacity: 0.3 },
-  { x: -150, y: 40, z: 400, texture: 'nebula2.png', count: 200, maxDistance: 350, opacity: 0.5 },
-  { x: -50, y: -50, z: 500, texture: 'nebula.png', count: 150, maxDistance: 400, opacity: 0.4 },
+  { x: 0, y: 0, z: -100, texture: 'nebula2.png', count: 100, maxDistance: 300, opacity: 0.3 },
+  { x: -150, y: 40, z: -400, texture: 'nebula2.png', count: 200, maxDistance: 350, opacity: 0.5 },
+  { x: -50, y: -50, z: -500, texture: 'nebula.png', count: 150, maxDistance: 400, opacity: 0.4 },
+  
+  { x: -20, y: 50, z: -900, texture: 'nebula2.png', count: 150, maxDistance: 800, opacity: 0.3 },
+  { x: -20, y: 50, z: -900, texture: 'nebula.png', count: 150, maxDistance: 800, opacity: 0.3 },
+
 
 //eye
   { x: 0, y: 0, z: -9000, texture: 'nebula.png', count: 250, maxDistance: 250, opacity: 0.7 },
@@ -64,30 +68,27 @@ const nebulaCoordinates = [
 { x: -180, y: -100000, z: 100000, texture: 'nebula2.png', count: 400, maxDistance: 300, opacity: 0.5 },
 
 // sky
-{ x: 98500, y: 100000, z: 98000, texture: 'cloud.png', count: 10, maxDistance: 10, opacity: 0.5 },
-{ x: 99000, y: 100000, z: 98000, texture: 'cloud.png', count: 50, maxDistance: 50, opacity: 0.5 },
-{ x: 99500, y: 100000, z: 98000, texture: 'cloud.png', count: 100, maxDistance: 100, opacity: 0.5 },
-{ x: 100000, y: 100000, z: 98000, texture: 'cloud.png', count: 200, maxDistance: 200, opacity: 0.5 },
-{ x: 100500, y: 100000, z: 98000, texture: 'cloud.png', count: 300, maxDistance: 300, opacity: 0.5 },
-{ x: 101000, y: 100000, z: 98000, texture: 'cloud.png', count: 400, maxDistance: 400, opacity: 0.5 },
-{ x: 101500, y: 100000, z: 98000, texture: 'cloud.png', count: 500, maxDistance: 500, opacity: 0.5 },
+{ x: 99000, y: 100000, z: 99000, texture: 'cloud.png', count: 50, maxDistance: 50, opacity: 0.5 },
+{ x: 99550, y: 100050, z: 99050, texture: 'cloud.png', count: 100, maxDistance: 200, opacity: 0.5 },
+{ x: 99490, y: 100000, z: 99000, texture: 'cloud.png', count: 100, maxDistance: 200, opacity: 0.5 },
+{ x: 99600, y: 100100, z: 99150, texture: 'cloud.png', count: 100, maxDistance: 200, opacity: 0.5 },
+{ x: 99500, y: 99990, z: 99990, texture: 'cloud.png', count: 100, maxDistance: 200, opacity: 0.5 },
+{ x: 100000, y: 100000, z: 99940, texture: 'cloud.png', count: 200, maxDistance: 300, opacity: 0.5 },
 
 
-{ x: 98500, y: 100600, z: 98000, texture: 'cloud.png', count: 10, maxDistance: 500, opacity: 0.5 },
-{ x: 99000, y: 100600, z: 98000, texture: 'cloud.png', count: 50, maxDistance: 400, opacity: 0.5 },
-{ x: 99500, y: 100600, z: 98000, texture: 'cloud.png', count: 100, maxDistance: 300, opacity: 0.5 },
-{ x: 100000, y: 100600, z: 98000, texture: 'cloud.png', count: 200, maxDistance: 200, opacity: 0.5 },
-{ x: 100500, y: 100600, z: 98000, texture: 'cloud.png', count: 300, maxDistance: 100, opacity: 0.5 },
-{ x: 101000, y: 100600, z: 98000, texture: 'cloud.png', count: 400, maxDistance: 50, opacity: 0.5 },
-{ x: 101500, y: 100600, z: 98000, texture: 'cloud.png', count: 500, maxDistance: 10, opacity: 0.5 },
-
-{ x: 98500, y: 99400, z: 98000, texture: 'cloud.png', count: 500, maxDistance: 10, opacity: 0.5 },
-{ x: 99000, y: 99400, z: 98000, texture: 'cloud.png', count: 400, maxDistance: 50, opacity: 0.5 },
-{ x: 99500, y: 99400, z: 98000, texture: 'cloud.png', count: 300, maxDistance: 100, opacity: 0.5 },
-{ x: 100000, y: 99400, z: 98000, texture: 'cloud.png', count: 200, maxDistance: 200, opacity: 0.5 },
+{ x: 99500, y: 100600, z: 97000, texture: 'cloud.png', count: 100, maxDistance: 300, opacity: 0.5 },
+{ x: 100000, y: 99700, z: 98100, texture: 'cloud.png', count: 200, maxDistance: 200, opacity: 0.5 },
+{ x: 100500, y: 99400, z: 98300, texture: 'cloud.png', count: 100, maxDistance: 300, opacity: 0.5 },
+{ x: 101000, y: 99200, z: 99900, texture: 'cloud.png', count: 100, maxDistance: 300, opacity: 0.5 },
+{ x: 101500, y: 99800, z: 98200, texture: 'cloud.png', count: 100, maxDistance: 300, opacity: 0.5 },
+{ x: 99500, y: 100600, z: 97300, texture: 'cloud.png', count: 100, maxDistance: 300, opacity: 0.5 },
+{ x: 100000, y: 99700, z: 98000, texture: 'cloud.png', count: 200, maxDistance: 200, opacity: 0.5 },
 { x: 100500, y: 99400, z: 98000, texture: 'cloud.png', count: 100, maxDistance: 300, opacity: 0.5 },
-{ x: 101000, y: 99400, z: 98000, texture: 'cloud.png', count: 50, maxDistance: 400, opacity: 0.5 },
-{ x: 101500, y: 99400, z: 98000, texture: 'cloud.png', count: 10, maxDistance: 500, opacity: 0.5 },
+{ x: 101000, y: 99200, z: 99000, texture: 'cloud.png', count: 100, maxDistance: 300, opacity: 0.5 },
+{ x: 101500, y: 99800, z: 98000, texture: 'cloud.png', count: 100, maxDistance: 300, opacity: 0.5 },
+
+{ x: 100000, y: 101000, z: 96000, texture: 'cloud.png', count: 1000, maxDistance: 600, opacity: 0.5 },
+{ x: 100800, y: 101000, z: 96000, texture: 'cloud.png', count: 1000, maxDistance: 300, opacity: 0.5 },
 
 ];
 

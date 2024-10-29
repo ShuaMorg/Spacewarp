@@ -8,10 +8,10 @@ function createBgs(scene) {
   const bgData = [
     { x: 0, y: 0, z: 0, texture: 'bg1.png', size: 100000, repeat: { x: 12, y: 12 } },
     { x: 0, y: -200, z: 0, texture: 'sky.png', size: 200000, repeat: { x: 1, y: 1 } }, // Increased size to cover the whole background
-    { x: 0, y: -100000, z: 101500, texture: 'bg1.png', size: 5000, repeat: { x: 12, y: 12 }  },
-    { x: 100000, y: 100000, z: 100000, texture: 'skybg1.jpg', size: 5000, repeat: { x: 1, y: 1 }  },
+    { x: 0, y: -100000, z: 101500, texture: 'bg6.png', size: 5000, repeat: { x: 1, y: 1 }  },
+    { x: 100000, y: 100000, z: 100000, texture: 'skybg1.jpg', size: 8000, repeat: { x: 1, y: 1 }  },
   ];
-
+ 
   for (let i = 0; i < bgData.length; i++) {
     const bgTexture = textureLoader.load(bgData[i].texture);  // Load the specific texture for this bg
     bgTexture.wrapS = THREE.RepeatWrapping;  // Enable repeating in the horizontal direction

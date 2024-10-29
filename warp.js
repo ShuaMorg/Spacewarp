@@ -4,11 +4,17 @@ let warpRenderTargets = [];
 const warpCoordinates = [
   { x: 0, y: -100000, z: 99700, targetX: 100000, targetY: 100000, targetZ: 100000, cameraX: 0, cameraY: -100000, cameraZ: 99730, lookAtX: 0, lookAtY: -100000, lookAtZ: 99900 },
   
+
+// The Sky
+
+//{ x: 100000, y: 100000, z: 99000, targetX: 100000, targetY: 100000, targetZ: 100000, cameraX: 100000, cameraY: 100000, cameraZ: 100000, lookAtX: 100000, lookAtY: 100000, lookAtZ: 00000 },
+  
+
  ];
 
 function createWarps(scene, renderer) {
   const warpRadius = 20;  // Increased size for the spheres
-  const warpGeometry = new THREE.SphereGeometry(warpRadius, 32, 32);  // Sphere shape
+  const warpGeometry = new THREE.SphereGeometry(warpRadius, 132, 132);  // Sphere shape
 
   for (let i = 0; i < warpCoordinates.length; i++) {
     // Create a new render target for the warp
