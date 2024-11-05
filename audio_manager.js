@@ -53,11 +53,15 @@ const points = [
 
 // Scene 1
 new AudioPoint(0, 0, -1400, 'Scene1.m4a', 1000, true),
-new AudioPoint(-10, 0, -300, 'Scene 1 - Genny.wav', 125),
-new AudioPoint(20, -20, -400, 'Scene 1 - Genny.wav', 125),
-new AudioPoint(-20, 50, -900, 'Scene 1 - Genny.wav', 125),
+new AudioPoint(-500, 0, -500, 'Scene 1 - Base.wav', 6080),
+new AudioPoint(400, 100, -300, 'Scene 1 - Genny.wav', 625),
 
-new AudioPoint(-200, 0, -400, 'Scene 1 - Base.wav', 6080),
+
+//new AudioPoint(-10, 0, -300, 'Scene 1 - Genny.wav', 125),
+//new AudioPoint(20, -20, -400, 'Scene 1 - Genny.wav', 125),
+
+
+
 //new AudioPoint(20, -20, -400, 'bells.WAV', 280),
 
 
