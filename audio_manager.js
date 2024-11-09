@@ -52,9 +52,9 @@ class AudioPoint {
 const points = [
 
 // Scene 1
-new AudioPoint(0, 0, -1400, 'Scene1.m4a', 1000, true),
-new AudioPoint(-500, 0, -500, 'Scene 1 - Base.wav', 6080),
-new AudioPoint(400, 100, -300, 'Scene 1 - Genny.wav', 625),
+new AudioPoint(100, 900, -9400, 'Scene1.m4a', 1000, true),
+new AudioPoint(-500, -3000, -500, 'Scene 1 - Base.wav', 6080),
+new AudioPoint(400, -3100, -300, 'Scene 1 - Genny.wav', 425),
 
 
 //new AudioPoint(-10, 0, -300, 'Scene 1 - Genny.wav', 125),

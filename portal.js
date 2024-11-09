@@ -5,16 +5,18 @@ const portalCoordinates = [
 
 
 
-  { x: 400, y: 100, z: -300, targetX: -200, targetY: 0, targetZ: 1900 },
+  { x: 400, y: -3100, z: -300, targetX: -0, targetY: -3000, targetZ: 15000 },
+  { x: -0, y: -3100, z: 14500, targetX: -200, targetY: -3000, targetZ: 9000 },
+  { x: 0, y: -3000, z: 8500, targetX: -200, targetY: -3000, targetZ: 1900 },
  // { x: -155, y: 0, z: -250, targetX: -155, targetY: 0, targetZ: -200 },
   
 
  { x: 400, y: 100, z: -350, targetX: 0, targetY: 0, targetZ: 0 },
   // Act 1 - Scene 1
-  { x: -15, y: 0, z: -2400, targetX: 100, targetY: 1900, targetZ: -9000 },
+  { x: -15, y: -3000, z: -2400, targetX: 100, targetY: 1900, targetZ: -9000 },
   
   // Scene 2
-  { x: 100, y: 1900, z: -9400, targetX: 100, targetY: 1900, targetZ: -25000 },
+  { x: 100, y: 900, z: -9400, targetX: 100, targetY: 1900, targetZ: -25000 },
   
   { x: 0, y: 0, z: -25500, targetX: 9000, targetY: 9000, targetZ: 9000 },
   
@@ -35,7 +37,7 @@ function createPortals(scene, renderer) {
   
   // Increase the size by 400%
   const portalRadius = 20;  // Increased from 5 to 20
-  const tubeRadius = 8;  // Increased from 2 to 8
+  const tubeRadius = 5;  // Increased from 2 to 8
 
   const portalGeometry = new THREE.TorusGeometry(portalRadius, tubeRadius, 16, 100);  // Torus shape
   const portalMaterial = new THREE.MeshBasicMaterial({ map: portalTexture, side: THREE.DoubleSide });

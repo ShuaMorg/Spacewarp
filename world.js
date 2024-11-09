@@ -9,8 +9,8 @@ function createWorlds(scene) {
   const worldData = [
     
     // Scene 1
-    { x: -500, y: 0, z: -500, texture: '8k_jupiter.jpg', size: 500, darknessLevel: 0.9 },
-    { x: 400, y: 100, z: -300, texture: '8k_mercury.jpg', size: 100, darknessLevel: 0.8 },
+    { x: -500, y: -3000, z: -500, texture: '8k_jupiter.jpg', size: 500, darknessLevel: 0.9 },
+    { x: 400, y: -3100, z: -300, texture: '8k_mercury.jpg', size: 100, darknessLevel: 0.8 },
     // { x: -50, y: 0, z: -800, texture: 'p1.png', size: 50, darknessLevel: 0.7 },
     
     // After asteroid scene
