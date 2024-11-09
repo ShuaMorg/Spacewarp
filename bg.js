@@ -3,7 +3,7 @@ let bgs = [];
 
 function createBgs(scene) {
   // Parameters for the starry sky
-  const starCount = 50000; // Further increased number of stars to make spirals even thicker and add more stars in between
+  const starCount = 4000000; // Further increased number of stars to make spirals even thicker and add more stars in between
   const starDistance = 100000; // Spread of stars
   const galacticThickness = 20000; // Thickness of the galactic plane (z-axis)
   const spiralArms = 5; // Number of spiral arms in the galaxy
@@ -53,14 +53,14 @@ function createBgs(scene) {
     starPositions[i * 3 + 2] = z + galaxyOffset.z;
 
     // Assign a random size to the star
-    starSizes[i] = Math.random() * 30.0 + 10.0; // Vary size between 10.0 and 40.0 for greater variation
+    starSizes[i] = (Math.random() * 7.5) + 2.5; // Vary size between 10.0 and 40.0 for greater variation
   }
 
   // Set star positions and sizes in geometry
   starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
   starGeometry.setAttribute('size', new THREE.BufferAttribute(starSizes, 1));
 
-  // Custom shader material for stars
+  // Custom shader material for stars that ensures background remains static
   const starMaterial = new THREE.ShaderMaterial({
     uniforms: {
       color: { value: new THREE.Color(0xffffff) }
@@ -70,7 +70,9 @@ function createBgs(scene) {
       varying vec3 vColor;
       void main() {
         vColor = vec3(1.0, 1.0, 1.0);
-        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+        vec4 worldPosition = vec4(position, 1.0);
+        worldPosition.xyz += cameraPosition; // Keep stars static relative to the camera
+        vec4 mvPosition = modelViewMatrix * worldPosition;
         gl_PointSize = size * (1000.0 / -mvPosition.z);
         gl_Position = projectionMatrix * mvPosition;
       }

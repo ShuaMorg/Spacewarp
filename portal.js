@@ -17,7 +17,7 @@ const portalCoordinates = [
   { x: -15, y: -3000, z: -2400, targetX: 100, targetY: 1900, targetZ: -9000 },
   
   // Scene 2
-  { x: 100, y: 900, z: -9400, targetX: 100, targetY: 1900, targetZ: -25000 },
+  { x: 100, y: 1900, z: -9400, targetX: 100, targetY: 1900, targetZ: -25000 },
   
   { x: 0, y: 0, z: -25500, targetX: 9000, targetY: 9000, targetZ: 9000 },
   
