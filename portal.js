@@ -6,9 +6,7 @@ const portalCoordinates = [
 
 
   { x: 400, y: -3100, z: -300, targetX: -0, targetY: -3000, targetZ: 15000 },
-  { x: -0, y: -3100, z: 14000, targetX: -200, targetY: -3000, targetZ: 9000 },
-    { x: -0, y: -3100, z: 8000, targetX: -200, targetY: -3000, targetZ: 3000 },
-  { x: 0, y: -3000, z: 2500, targetX: -200, targetY: -3000, targetZ: 1900 },
+
  // { x: -155, y: 0, z: -250, targetX: -155, targetY: 0, targetZ: -200 },
   
 
@@ -30,7 +28,17 @@ const portalCoordinates = [
   // Sky
   { x: 100000, y: 100000, z: 100100, targetX: 100000, targetY: 100000, targetZ: 100000 },
   { x: 100000, y: 100000, z: 98000, targetX: 0, targetY: 0, targetZ: 0 },
+
+
+//Scene1
+
+{ x: -0, y: -3100, z: 14000, targetX: -200, targetY: -3000, targetZ: 9000 },
+{ x: -0, y: -3100, z: 8000, targetX: -200, targetY: -3000, targetZ: 3000 },
+{ x: 0, y: -3000, z: 2500, targetX: -200, targetY: -3000, targetZ: 1900 },
+
 ];
+
+
 
 function createPortals(scene, renderer) {
   const textureLoader = new THREE.TextureLoader();

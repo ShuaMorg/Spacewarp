@@ -6,7 +6,7 @@ const smokeCoordinates = [
     startX: -250, startY: -3050, startZ: 1950, // Start coordinates
     middleX: 500, middleY: -3000, middleZ: -500, // Middle coordinates
     endX: -15, endY: -3000, endZ: -2350, // End coordinates
-    texture: 'smoke.png',
+    texture: 'smoke.webp',
     count: 5000,
     maxDistanceX: 1,
     maxDistanceY: 1,
@@ -19,10 +19,10 @@ const smokeCoordinates = [
 
 
   {
-    startX: 0, startY: -3500, startZ: 101600, // Start coordinates
-    middleX: 500, middleY: -1700, middleZ: 100209, // Middle coordinates
-    endX: 0, endY: -1535, endZ: 99200, // End coordinates
-    texture: 'smoke.png',
+    startX: 0, startY: -100, startZ: 101500, // Start coordinates
+    middleX: 500, middleY: 1400, middleZ: 100209, // Middle coordinates
+    endX: 0, endY: 1465, endZ: 99200, // End coordinates
+    texture: 'smoke.webp',
     count: 5000,
     maxDistanceX: 1,
     maxDistanceY: 1,
@@ -38,7 +38,7 @@ const smokeCoordinates = [
     startX: 0, startY: -100000, startZ: 101450, // Start coordinates
     middleX: -100, middleY: -99980, middleZ: 100000, // Middle coordinates
     endX: 0, endY: -100000, endZ: 99710, // End coordinates
-    texture: 'smoke.png',
+    texture: 'smoke.webp',
     count: 5000,
     maxDistanceX: 1,
     maxDistanceY: 1,
