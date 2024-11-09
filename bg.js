@@ -1,72 +1,91 @@
-/* // bg.js
-let bgs = [];
-
-function createBgs(scene) {
-  const textureLoader = new THREE.TextureLoader();
-
-  // Predetermined random coordinates, textures, sizes, and repeat values for bgs
-  const bgData = [
-    { x: 0, y: 0, z: 0, texture: 'bg1.png', size: 110000, repeat: { x: 12, y: 12 } },
-    { x: 0, y: -200, z: 0, texture: 'sky.png', size: 200000, repeat: { x: 1, y: 1 } }, // Increased size to cover the whole background
-    { x: 0, y: -100000, z: 101500, texture: 'bg6.png', size: 5000, repeat: { x: 1, y: 1 }  },
-    { x: 100000, y: 100000, z: 100000, texture: 'skybg1.jpg', size: 8000, repeat: { x: 1, y: 1 }  },
-  ];
- 
-  for (let i = 0; i < bgData.length; i++) {
-    const bgTexture = textureLoader.load(bgData[i].texture);  // Load the specific texture for this bg
-    bgTexture.wrapS = THREE.RepeatWrapping;  // Enable repeating in the horizontal direction
-    bgTexture.wrapT = THREE.RepeatWrapping;  // Enable repeating in the vertical direction
-    bgTexture.repeat.set(bgData[i].repeat.x, bgData[i].repeat.y); // Set the repeat values
-
-    const bgMaterial = new THREE.MeshBasicMaterial({ 
-      map: bgTexture,
-      side: THREE.BackSide // Render the inside faces of the sphere
-    }); 
-    const bgGeometry = new THREE.SphereGeometry(bgData[i].size, 32, 32);  // Use specific size for each bg
-    const bg = new THREE.Mesh(bgGeometry, bgMaterial);
-    bg.position.set(bgData[i].x, bgData[i].y, bgData[i].z);
-    scene.add(bg);
-    bgs.push(bg);
-  }
-}
- */
-
 // bg.js
 let bgs = [];
 
 function createBgs(scene) {
   // Parameters for the starry sky
-  const starCount = 10000; // Number of stars
+  const starCount = 50000; // Further increased number of stars to make spirals even thicker and add more stars in between
   const starDistance = 100000; // Spread of stars
+  const galacticThickness = 20000; // Thickness of the galactic plane (z-axis)
+  const spiralArms = 5; // Number of spiral arms in the galaxy
+  const armSpread = 8000; // Increased spread of stars around each arm to make spirals even thicker
+  const armTwistFactor = 6; // Controls how tightly the arms twist
+  const galaxyOffset = { x: 50000, y: 50000, z: 0 }; // Offset to move the galaxy away from the center
 
   // Geometry to hold all star positions
   const starGeometry = new THREE.BufferGeometry();
   const starPositions = new Float32Array(starCount * 3); // Each star has an x, y, z position
+  const starSizes = new Float32Array(starCount); // Each star has a size
 
   for (let i = 0; i < starCount; i++) {
-    // Randomly position each star within a large sphere
-    const theta = Math.random() * 2 * Math.PI;
-    const phi = Math.acos(2 * Math.random() - 1);
-    const radius = starDistance * (0.5 + Math.random() * 0.5);
+    // Randomly decide if the star should be part of a spiral arm or in between
+    const isInSpiralArm = Math.random() < 0.8; // 80% chance to be in a spiral arm, 20% chance to be in between
 
-    const x = radius * Math.sin(phi) * Math.cos(theta);
-    const y = radius * Math.sin(phi) * Math.sin(theta);
-    const z = radius * Math.cos(phi);
+    let x, y, z;
+    if (isInSpiralArm) {
+      // Position star within a spiral arm
+      const armIndex = Math.floor(Math.random() * spiralArms); // Choose a spiral arm
+      const angleOffset = (armIndex / spiralArms) * 2 * Math.PI; // Offset angle for arm position
 
-    // Assign the position to the star
-    starPositions[i * 3] = x;
-    starPositions[i * 3 + 1] = y;
-    starPositions[i * 3 + 2] = z;
+      const radius = starDistance * Math.sqrt(Math.random()); // Stars concentrated towards center
+      const theta = armTwistFactor * radius / starDistance + angleOffset; // Spiral angle with tighter twist
+      z = galacticThickness * (Math.random() - 0.5); // Spread stars within galactic plane
+
+      // Convert to Cartesian coordinates for x, y, z
+      x = radius * Math.cos(theta);
+      y = radius * Math.sin(theta);
+
+      // Add some random offset to make the spiral arms thicker
+      const offsetX = (Math.random() - 0.5) * armSpread;
+      const offsetY = (Math.random() - 0.5) * armSpread;
+
+      x += offsetX;
+      y += offsetY;
+    } else {
+      // Position star randomly in between the spiral arms
+      x = (Math.random() - 0.5) * starDistance * 2;
+      y = (Math.random() - 0.5) * starDistance * 2;
+      z = galacticThickness * (Math.random() - 0.5); // Spread stars within galactic plane
+    }
+
+    // Assign the position to the star, including the galaxy offset
+    starPositions[i * 3] = x + galaxyOffset.x;
+    starPositions[i * 3 + 1] = y + galaxyOffset.y;
+    starPositions[i * 3 + 2] = z + galaxyOffset.z;
+
+    // Assign a random size to the star
+    starSizes[i] = Math.random() * 30.0 + 10.0; // Vary size between 10.0 and 40.0 for greater variation
   }
 
-  // Set star positions in geometry
+  // Set star positions and sizes in geometry
   starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+  starGeometry.setAttribute('size', new THREE.BufferAttribute(starSizes, 1));
 
-  // Material for stars
-  const starMaterial = new THREE.PointsMaterial({
-    color: 0xffffff,      // White stars
-    size: 1,              // Size of each star
-    sizeAttenuation: true // Stars get smaller with distance
+  // Custom shader material for stars
+  const starMaterial = new THREE.ShaderMaterial({
+    uniforms: {
+      color: { value: new THREE.Color(0xffffff) }
+    },
+    vertexShader: `
+      attribute float size;
+      varying vec3 vColor;
+      void main() {
+        vColor = vec3(1.0, 1.0, 1.0);
+        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+        gl_PointSize = size * (1000.0 / -mvPosition.z);
+        gl_Position = projectionMatrix * mvPosition;
+      }
+    `,
+    fragmentShader: `
+      varying vec3 vColor;
+      void main() {
+        float distanceToCenter = length(gl_PointCoord - vec2(0.5));
+        if (distanceToCenter > 0.5) {
+          discard;
+        }
+        gl_FragColor = vec4(vColor, 1.0);
+      }
+    `,
+    transparent: true
   });
 
   // Create the star points and add to the scene
