@@ -39,13 +39,13 @@ const smokeCoordinates = [
     middleX: -100, middleY: -99980, middleZ: 100000, // Middle coordinates
     endX: 0, endY: -100000, endZ: 99710, // End coordinates
     texture: 'smoke.webp',
-    count: 5000,
+    count: 500,
     maxDistanceX: 1,
     maxDistanceY: 1,
     maxDistanceZ: 20,
-    opacity: 0.5,
+    opacity: 0.3,
     spiralTurns: 5, // Number of spiral turns
-    radius: 20 // Radius of the spiral
+    radius: 50 // Radius of the spiral
   },
 
 
