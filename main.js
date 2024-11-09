@@ -13,7 +13,7 @@ document.querySelectorAll('.startButton').forEach(button => {
     // Example: initializing with warp target coordinates
     init(TargetCoordinates);
 
-    displayMessages(); // Start displaying messages
+   // displayMessages(); // Start displaying messages
   });
 });
 
