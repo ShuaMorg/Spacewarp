@@ -19,6 +19,34 @@ document.querySelectorAll('.startButton').forEach(button => {
 
 function goFullScreen() {
   if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen().then(() => onWindowResize());
+  } else if (document.documentElement.mozRequestFullScreen) {
+    document.documentElement.mozRequestFullScreen().then(() => onWindowResize());
+  } else if (document.documentElement.webkitRequestFullscreen) {
+    document.documentElement.webkitRequestFullscreen().then(() => onWindowResize());
+  } else if (document.documentElement.msRequestFullscreen) {
+    document.documentElement.msRequestFullscreen().then(() => onWindowResize());
+  }
+}
+
+// Update the renderer and camera on window resize
+function onWindowResize() {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  camera.aspect = width / height;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(width, height);
+  renderer.setPixelRatio(window.devicePixelRatio);  // Ensures the resolution matches the display
+}
+
+// Attach resize event listener
+window.addEventListener('resize', onWindowResize, false);
+
+/* Replaced this with the code above as it was causing resolution to decrease when used on a phone.
+function goFullScreen() {
+  if (document.documentElement.requestFullscreen) {
     document.documentElement.requestFullscreen();
   } else if (document.documentElement.mozRequestFullScreen) {
     document.documentElement.mozRequestFullScreen();
@@ -27,7 +55,7 @@ function goFullScreen() {
   } else if (document.documentElement.msRequestFullscreen) {
     document.documentElement.msRequestFullscreen();
   }
-}
+} */
 
 // Modify the init function to accept starting coordinates
 function init(startCoordinates) {

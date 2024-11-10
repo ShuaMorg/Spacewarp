@@ -37,16 +37,21 @@ let currentInputMethod = 'keyboard';  // Default to keyboard
 function createPlayer(scene) {
     // Load the texture
     const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load('ship.jpg');
+    const wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x39ff14, wireframe: true });
     
-    // Create the main body of the spacecraft as a sphere with the texture
+    // Create the main body of the spacecraft as a sphere with the wireframe material initially
     const geometry = new THREE.SphereGeometry(0.5, 32, 32);
-    const material = new THREE.MeshStandardMaterial({ map: texture, metalness: 0.6, roughness: 0.4 });
-    spacecraft = new THREE.Mesh(geometry, material);
+    spacecraft = new THREE.Mesh(geometry, wireframeMaterial);
     
     // Set initial position and add to scene
     spacecraft.position.set(0, 0, 0);
     scene.add(spacecraft);
+
+    // Load the texture and update the material once it's loaded
+    textureLoader.load('ship.jpg', (texture) => {
+        const material = new THREE.MeshStandardMaterial({ map: texture, metalness: 0.6, roughness: 0.4 });
+        spacecraft.material = material;
+    });
 
     // Add lights to the scene for better shading
     const light = new THREE.DirectionalLight(0xffffff, 1);
@@ -235,8 +240,7 @@ function updatePlayer(pitch, roll, forwardSpeedMultiplier) {
   camera.rotation.z = combinedPitch * cameraBankAmount;
 }
 
-
-  function resetPlayer() {
+function resetPlayer() {
   spacecraft.position.set(0, 0, 0);
   smoothedPitch = 0;
   smoothedRoll = 0;

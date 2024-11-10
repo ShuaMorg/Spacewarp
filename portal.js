@@ -2,58 +2,31 @@ let portals = [];
 let portalCameras = [];
 let portalRenderTargets = [];
 const portalCoordinates = [
-
-
-
   { x: 400, y: -3100, z: -300, targetX: -0, targetY: -3000, targetZ: 15000 },
-
- // { x: -155, y: 0, z: -250, targetX: -155, targetY: 0, targetZ: -200 },
-  
-
- { x: 400, y: 100, z: -350, targetX: 0, targetY: 0, targetZ: 0 },
-  // Act 1 - Scene 1
+  { x: 400, y: 100, z: -350, targetX: 0, targetY: 0, targetZ: 0 },
   { x: -15, y: -3000, z: -2400, targetX: 100, targetY: 1900, targetZ: -9000 },
-  
-  // Scene 2
   { x: 100, y: 1900, z: -9400, targetX: 100, targetY: 1900, targetZ: -25000 },
-  
   { x: 0, y: 0, z: -25500, targetX: 9000, targetY: 9000, targetZ: 9000 },
-  
-  // Scene 3 - 3 moons
   { x: 50, y: 1950, z: -25500, targetX: 0, targetY: 0, targetZ: 101500 },
-  
-  // Scene 4
   { x: 0, y: 1465, z: 99000, targetX: 0, targetY: -100000, targetZ: 101500 },
-  
-  // Sky
   { x: 100000, y: 100000, z: 100100, targetX: 100000, targetY: 100000, targetZ: 100000 },
   { x: 100000, y: 100000, z: 98000, targetX: 0, targetY: 0, targetZ: 0 },
-
-
-//Scene1
-
-{ x: -0, y: -3100, z: 14000, targetX: -200, targetY: -3000, targetZ: 9000 },
-{ x: -0, y: -3100, z: 8000, targetX: -200, targetY: -3000, targetZ: 3000 },
-{ x: 0, y: -3000, z: 2500, targetX: -200, targetY: -3000, targetZ: 1900 },
-
+  { x: -0, y: -3100, z: 14000, targetX: -200, targetY: -3000, targetZ: 9000 },
+  { x: -0, y: -3100, z: 8000, targetX: -200, targetY: -3000, targetZ: 3000 },
+  { x: 0, y: -3000, z: 2500, targetX: -200, targetY: -3000, targetZ: 1900 },
 ];
-
-
 
 function createPortals(scene, renderer) {
   const textureLoader = new THREE.TextureLoader();
-  const portalTexture = textureLoader.load('stone.webp');  // Replace with your texture file
-  
-  // Increase the size by 400%
-  const portalRadius = 20;  // Increased from 5 to 20
-  const tubeRadius = 5;  // Increased from 2 to 8
+  const portalRadius = 20;
+  const tubeRadius = 5;
 
-  const portalGeometry = new THREE.TorusGeometry(portalRadius, tubeRadius, 16, 100);  // Torus shape
-  const portalMaterial = new THREE.MeshBasicMaterial({ map: portalTexture, side: THREE.DoubleSide });
+  const portalGeometry = new THREE.TorusGeometry(portalRadius, tubeRadius, 16, 100);
+  const wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x39ff14, wireframe: true });
 
   for (let i = 0; i < portalCoordinates.length; i++) {
     // Create a new render target for the portal
-    const renderTarget = new THREE.WebGLRenderTarget(1048, 1048);  // Adjust resolution as needed
+    const renderTarget = new THREE.WebGLRenderTarget(1048, 1048);
     portalRenderTargets.push(renderTarget);
 
     // Create a camera for each portal that will render the scene from the target location
@@ -62,16 +35,13 @@ function createPortals(scene, renderer) {
     portalCameras.push(portalCamera);
 
     // Create a plane geometry for the portal "view" in the center of the torus
-    const planeGeometry = new THREE.PlaneGeometry(portalRadius * 1.8, portalRadius * 1.8);  // Increased to match the new size
+    const planeGeometry = new THREE.PlaneGeometry(portalRadius * 1.8, portalRadius * 1.8);
     const planeMaterial = new THREE.MeshBasicMaterial({ map: renderTarget.texture });
-
     const portalPlane = new THREE.Mesh(planeGeometry, planeMaterial);
-
-    // Position the plane in the center of the torus
     portalPlane.position.set(portalCoordinates[i].x, portalCoordinates[i].y, portalCoordinates[i].z);
 
-    // Create the portal mesh (torus) and add it to the scene
-    const portalTorus = new THREE.Mesh(portalGeometry, portalMaterial);
+    // Create the portal mesh (torus) with the wireframe material initially
+    const portalTorus = new THREE.Mesh(portalGeometry, wireframeMaterial);
     portalTorus.position.set(portalCoordinates[i].x, portalCoordinates[i].y, portalCoordinates[i].z);
 
     // Add both the torus and the plane (portal "window") to the scene
@@ -79,12 +49,19 @@ function createPortals(scene, renderer) {
     scene.add(portalPlane);
 
     portals.push({ torus: portalTorus, plane: portalPlane });
+
+    // Load the texture and update the material once it's loaded
+    textureLoader.load('stone.webp', (texture) => {
+      const portalMaterial = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
+      portalTorus.material = portalMaterial;
+    });
   }
 }
+
 function updatePortals(renderer, scene, player) {
   for (let i = 0; i < portals.length; i++) {
     const distance = player.position.distanceTo(portals[i].torus.position);
-    
+
     // Skip rendering if the portal is farther than 800 units away
     if (distance > 800) {
       continue;
@@ -103,7 +80,6 @@ function updatePortals(renderer, scene, player) {
     renderer.setRenderTarget(null);  // Go back to rendering the main scene
   }
 }
-
 
 function checkPortalCollision(player) {
   for (let i = 0; i < portals.length; i++) {
