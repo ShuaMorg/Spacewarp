@@ -8,7 +8,7 @@ function createWorlds(scene) {
   // Adjusted coordinates to space them further apart on the z-axis by 100 to 400 units
   const worldData = [
     // Scene 1
-    { x: -500, y: -3000, z: -500, texture: 'jupiter.webp', size: 500, darknessLevel: 0.9 },
+    { x: -500, y: -3000, z: -500, texture: 'jupiter.webp', size: 5000, darknessLevel: 0.9 },
     { x: 400, y: -3100, z: -300, texture: '8k_mercury.webp', size: 100, darknessLevel: 0.8 },
     // After asteroid scene
     { x: 100, y: 1900, z: -25200, texture: 'moon.jpg', size: 5, darknessLevel: 0.9 },
