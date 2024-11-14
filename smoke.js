@@ -2,6 +2,8 @@ let smokes = [];
 const smokeCoordinates = [
 
   // Scene 1
+
+
   {
     startX: -250, startY: -3050, startZ: 1950, // Start coordinates
     middleX: 500, middleY: -3000, middleZ: -500, // Middle coordinates
@@ -15,7 +17,6 @@ const smokeCoordinates = [
     spiralTurns: 5, // Number of spiral turns
     radius: 20 // Radius of the spiral
   },
-
 
 
   {
@@ -47,7 +48,19 @@ const smokeCoordinates = [
     spiralTurns: 5, // Number of spiral turns
     radius: 50 // Radius of the spiral
   },
-
+  {
+    startX: 0, startY: 100300, startZ: -200, // Start coordinates
+    middleX: 3600, middleY: 101500, middleZ: -3500, // Middle coordinates
+    endX: 0, endY: 101300, endZ: -6350, // End coordinates
+    texture: 'smoke.webp',
+    count: 500,
+    maxDistanceX: 1,
+    maxDistanceY: 1,
+    maxDistanceZ: 20,
+    opacity: .7,
+    spiralTurns: 5, // Number of spiral turns
+    radius: 20 // Radius of the spiral
+  },
 
 /*   {
     startX: 100000, startY: 100000, startZ: 100000, // Start coordinates

@@ -84,7 +84,30 @@ function init(startCoordinates) {
   window.addEventListener('resize', onWindowResize, false);
   window.addEventListener('deviceorientation', handleOrientation, true);
 
+  // Create the HUD for displaying player coordinates
+  createHUD();
+
   animate();
+}
+
+function createHUD() {
+  const hud = document.createElement('div');
+  hud.id = 'hud';
+  hud.style.position = 'absolute';
+  hud.style.top = '10px';
+  hud.style.left = '10px';
+  hud.style.color = 'white';
+  hud.style.fontSize = '20px';
+  hud.style.fontFamily = 'Arial, sans-serif';
+  hud.style.zIndex = '100';
+  document.body.appendChild(hud);
+}
+
+function updateHUD() {
+  const hud = document.getElementById('hud');
+  if (hud && spacecraft) {
+    hud.innerHTML = `Coordinates: X: ${spacecraft.position.x.toFixed(2)}, Y: ${spacecraft.position.y.toFixed(2)}, Z: ${spacecraft.position.z.toFixed(2)}`;
+  }
 }
 
 function animate() {
@@ -115,6 +138,8 @@ function animate() {
   updateDusts(spacecraft);  // Update dusts
 
   animateShapes();  // Animate shapes
+
+  updateHUD();  // Update HUD with current coordinates
 
   renderer.render(scene, camera);
 }

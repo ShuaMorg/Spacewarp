@@ -18,10 +18,8 @@ const portalCoordinates = [
   { x: 0, y: 0, z: 0, targetX: 0, targetY: 100300, targetZ: 0 },
   { x: 0, y: 0, z: 0, targetX: 99999950, targetY: 9999991950, targetZ: -99999925400 },
   { x: 0, y: 100600, z: -500, targetX: 0, targetY: 100300, targetZ: 0 },
+  { x: 0, y: 101300, z: -6350, targetX: 0, targetY: -3000, targetZ: 15000 },
 ];
-
-// Load the bell sound
-const bellSound = new Audio('bell.ogg');
 
 function createPortals(scene, renderer) {
   const textureLoader = new THREE.TextureLoader();
@@ -92,7 +90,7 @@ function checkPortalCollision(player) {
   for (let i = 0; i < portals.length; i++) {
     if (player.position.distanceTo(portals[i].torus.position) < 20) {  // Adjust collision threshold for larger portals
       teleportPlayer(player, portalCoordinates[i].targetX, portalCoordinates[i].targetY, portalCoordinates[i].targetZ);
-      bellSound.play();  // Play the bell sound when the player goes through a portal
+      playBellSound();  // Play the bell sound when the player goes through a portal
       break;
     }
   }
@@ -100,4 +98,9 @@ function checkPortalCollision(player) {
 
 function teleportPlayer(player, x, y, z) {
   player.position.set(x, y, z);
+}
+
+function playBellSound() {
+  const bell = new Audio('bell.ogg');
+  bell.play();
 }

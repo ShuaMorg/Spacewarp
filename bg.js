@@ -27,7 +27,7 @@ function createBgs(scene) {
       const angleOffset = (armIndex / spiralArms) * 2 * Math.PI; // Offset angle for arm position
   
       // More stars concentrated towards the center by using a power function for radius
-      const radius = starDistance * Math.pow(Math.random(), 10); // Squaring random number to favor smaller radii
+      const radius = starDistance * Math.pow(Math.random(), 12); // Squaring random number to favor smaller radii
       const theta = armTwistFactor * radius / starDistance + angleOffset; // Spiral angle with tighter twist
       z = galacticThickness * (Math.random() - 0.5); // Spread stars within galactic plane
   
@@ -59,7 +59,7 @@ function createBgs(scene) {
     starPositions[i * 3 + 2] = z + galaxyOffset.z;
   
     // Assign a random size to the star
-    starSizes[i] = (Math.random() * 37.5) + 2.5; // Vary size between 10.0 and 40.0 for greater variation
+    starSizes[i] = (Math.random() * 37.5) + 0.5; // Vary size between 10.0 and 40.0 for greater variation
   }
   
 

@@ -91,6 +91,25 @@ const nebulaCoordinates = [
 { x: 100000, y: 101000, z: 96000, texture: 'smoke2.webp', count: 1000, maxDistance: 600, opacity: 0.5 },
 { x: 100800, y: 101000, z: 96000, texture: 'smoke2.webp', count: 1000, maxDistance: 300, opacity: 0.5 },
 
+//Surface
+{ x: 0, y: 100300, z: -300, texture: 'smoke2.webp', count: 100, maxDistance: 300, opacity: 0.5 },
+{ x: 325, y: 100650, z: -650, texture: 'smoke2.webp', count: 2900, maxDistance: 2800, opacity: 0.5 },
+
+
+
+
+{ x: -520, y: 100450, z: -4570, texture: 'smoke2.webp', count: 100, maxDistance: 300, opacity: 0.5 },
+{ x: 280, y: 101200, z: -2200, texture: 'smoke2.webp', count: 100, maxDistance: 300, opacity: 0.5 },
+{ x: -350, y: 100800, z: -6100, texture: 'smoke2.webp', count: 100, maxDistance: 300, opacity: 0.5 },
+{ x: 150, y: 100550, z: -3333, texture: 'smoke2.webp', count: 100, maxDistance: 300, opacity: 0.5 },
+{ x: -400, y: 100765, z: -4820, texture: 'smoke2.webp', count: 100, maxDistance: 300, opacity: 0.5 },
+{ x: 100, y: 101050, z: -125, texture: 'smoke2.webp', count: 100, maxDistance: 300, opacity: 0.5 },
+{ x: -222, y: 100390, z: -5550, texture: 'smoke2.webp', count: 100, maxDistance: 300, opacity: 0.5 },
+{ x: 370, y: 101170, z: -2800, texture: 'smoke2.webp', count: 100, maxDistance: 300, opacity: 0.5 },
+{ x: -150, y: 100999, z: -3020, texture: 'smoke2.webp', count: 100, maxDistance: 300, opacity: 0.5 },
+
+
+
 ];
 
 

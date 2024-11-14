@@ -139,8 +139,8 @@ function onKeyUp(event) {
 }
 
 function activateBoost() {
-    keyboardForwardSpeedMultiplier = 20; // Increase speed
-    keyboardTurnSpeedMultiplier = 20; // Increase turn speed
+    keyboardForwardSpeedMultiplier = 120; // Increase speed
+    keyboardTurnSpeedMultiplier = 120; // Increase turn speed
 }
 
 function deactivateBoost() {
