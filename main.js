@@ -50,11 +50,6 @@ function init(startCoordinates) {
 
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 50000000); // Increased far clipping plane to include distant stars
-  
-  // Enable both layers for the camera to render both stars and planets
-  camera.layers.enable(0); // Enable layer 0 (stars)
-  camera.layers.enable(1); // Enable layer 1 (planets)
-
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
@@ -91,7 +86,6 @@ function init(startCoordinates) {
 
   animate();
 }
-
 
 function animate() {
   requestAnimationFrame(animate);

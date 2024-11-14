@@ -22,7 +22,7 @@ function createWorlds(scene) {
     // Scene X - The Surface
    
     
-    { x: 5300, y: 14300, z: -10000, texture: '8k_mercury.webp', size: 1000, darknessLevel: 0 },
+    { x: 5300, y: 15300, z: -15000, texture: '8k_mercury.webp', size: 700, darknessLevel: 0 },
   ];
 
   const wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x39ff14, wireframe: true });

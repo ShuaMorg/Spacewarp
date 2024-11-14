@@ -3,12 +3,12 @@ let bgs = [];
 
 function createBgs(scene) {
   // Parameters for the starry sky
-  const starCount = 4000000; // Further increased number of stars to make spirals even thicker and add more stars in between
-  const starDistance = 100000; // Spread of stars
+  const starCount = 2000000; // Further increased number of stars to make spirals even thicker and add more stars in between
+  const starDistance = 200000; // Spread of stars
   const galacticThickness = 20000; // Thickness of the galactic plane (z-axis)
-  const spiralArms = 5; // Number of spiral arms in the galaxy
-  const armSpread = 8000; // Increased spread of stars around each arm to make spirals even thicker
-  const armTwistFactor = 6; // Controls how tightly the arms twist
+  const spiralArms = 3; // Number of spiral arms in the galaxy
+  const armSpread = 12000; // Increased spread of stars around each arm to make spirals even thicker
+  const armTwistFactor = 5; // Controls how tightly the arms twist
   const galaxyOffset = { x: 50000, y: 50000, z: 0 }; // Offset to move the galaxy away from the center
 
   // Geometry to hold all star positions
@@ -18,7 +18,7 @@ function createBgs(scene) {
 
   for (let i = 0; i < starCount; i++) {
     // Randomly decide if the star should be part of a spiral arm or in between
-    const isInSpiralArm = Math.random() < 0.8; // 80% chance to be in a spiral arm, 20% chance to be in between
+    const isInSpiralArm = Math.random() < 0.5; // 80% chance to be in a spiral arm, 20% chance to be in between
 
     let x, y, z;
     if (isInSpiralArm) {
@@ -47,13 +47,18 @@ function createBgs(scene) {
       z = galacticThickness * (Math.random() - 0.5); // Spread stars within galactic plane
     }
 
+    // Ensure stars never appear within 10000 units of z=0
+    if (Math.abs(z) < 15000) {
+      z = (z < 0) ? -15000 : 15000;
+    }
+
     // Assign the position to the star, including the galaxy offset
     starPositions[i * 3] = x + galaxyOffset.x;
     starPositions[i * 3 + 1] = y + galaxyOffset.y;
     starPositions[i * 3 + 2] = z + galaxyOffset.z;
 
     // Assign a random size to the star
-    starSizes[i] = (Math.random() * 7.5) + 2.5; // Vary size between 10.0 and 40.0 for greater variation
+    starSizes[i] = (Math.random() * 37.5) + 2.5; // Vary size between 10.0 and 40.0 for greater variation
   }
 
   // Set star positions and sizes in geometry
