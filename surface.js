@@ -7,8 +7,8 @@ function createSurfaces(scene) {
 
   // Adjusted coordinates to space them further apart on the z-axis by 100 to 400 units
   const surfaceData = [
-    { x: 0, y: 10200, z: 0, texture: 'p5.png', size: 15000, darknessLevel: 0.9, heightVariation: 1000, heightDistribution: 0.001, textureRepeat: 14 },
-    { x: 0, y: 10000, z: 0, texture: 'p6.png', size: 16000, darknessLevel: 0.5, heightVariation: 0, heightDistribution: 0.002, textureRepeat: 16 },
+    { x: 0, y: 100200, z: 0, texture: 'p5.png', size: 15000, darknessLevel: 0.9, heightVariation: 1000, heightDistribution: 0.001, textureRepeat: 14 },
+    { x: 0, y: 100000, z: 0, texture: 'sea.jpg', size: 16000, darknessLevel: 0.9, heightVariation: 0, heightDistribution: 0.002, textureRepeat: 26 },
   ];
 
   const wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x39ff14, wireframe: true });
