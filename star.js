@@ -3,7 +3,36 @@ let starFrameRate = 5;  // Keeping this in case you want to add any animation lo
 
 function createStars(scene) {
   // Create a basic white material for the stars
-  const starMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 1, transparent: true });
+  const starMaterial = new THREE.ShaderMaterial({
+    uniforms: {
+      color: { value: new THREE.Color(0xffffff) }
+    },
+    vertexShader: `
+      attribute float size;
+      varying vec3 vColor;
+      void main() {
+        vColor = vec3(1.0, 1.0, 1.0);
+        vec4 worldPosition = vec4(position, 1.0);
+        worldPosition.xyz += cameraPosition; // Keep stars static relative to the camera
+        vec4 mvPosition = modelViewMatrix * worldPosition;
+        gl_PointSize = size * (1000.0 / -mvPosition.z);
+        gl_Position = projectionMatrix * mvPosition;
+      }
+    `,
+    fragmentShader: `
+      varying vec3 vColor;
+      void main() {
+        float distanceToCenter = length(gl_PointCoord - vec2(0.5));
+        if (distanceToCenter > 0.5) {
+          discard;
+        }
+        gl_FragColor = vec4(vColor, 1.0);
+      }
+    `,
+    transparent: true,
+    depthTest: true, // Ensures proper depth testing
+  });
+  
 
   // Predetermined random coordinates for stars
   const starCoordinates = [

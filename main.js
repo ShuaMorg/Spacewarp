@@ -1,3 +1,5 @@
+// main.js
+
 document.querySelectorAll('.startButton').forEach(button => {
   button.addEventListener('click', (event) => {
     const targetIndex = event.target.getAttribute('data-target');
@@ -12,8 +14,6 @@ document.querySelectorAll('.startButton').forEach(button => {
     // Use either portal or warp target coordinates depending on your game logic
     // Example: initializing with warp target coordinates
     init(TargetCoordinates);
-
-   // displayMessages(); // Start displaying messages
   });
 });
 
@@ -44,25 +44,17 @@ function onWindowResize() {
 // Attach resize event listener
 window.addEventListener('resize', onWindowResize, false);
 
-/* Replaced this with the code above as it was causing resolution to decrease when used on a phone.
-function goFullScreen() {
-  if (document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen();
-  } else if (document.documentElement.mozRequestFullScreen) {
-    document.documentElement.mozRequestFullScreen();
-  } else if (document.documentElement.webkitRequestFullscreen) {
-    document.documentElement.webkitRequestFullscreen();
-  } else if (document.documentElement.msRequestFullscreen) {
-    document.documentElement.msRequestFullscreen();
-  }
-} */
-
 // Modify the init function to accept starting coordinates
 function init(startCoordinates) {
   audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
   scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100000);
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 50000000); // Increased far clipping plane to include distant stars
+  
+  // Enable both layers for the camera to render both stars and planets
+  camera.layers.enable(0); // Enable layer 0 (stars)
+  camera.layers.enable(1); // Enable layer 1 (planets)
+
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
@@ -85,9 +77,9 @@ function init(startCoordinates) {
   bgTexture = textureLoader.load('bg1.png');
 
   createDust(scene); // Call function from game_objects.js to create dust
- // createPlanets(scene);  // Call function from planets.js to create planets
   createMoons(scene);  // Call function from moon.js to create moons
   createWorlds(scene);  // Call function from planet.js to create worlds
+  createSurfaces(scene);  // Call function from planet.js to create surfaces
   createStars(scene);  // Call function from star.js to create stars
   createAsteroids(scene);  // Call function from asteroids.js to create asteroids
   createNebulas(scene);  // Call function from asteroids.js to create nebulas
@@ -100,13 +92,13 @@ function init(startCoordinates) {
   animate();
 }
 
+
 function animate() {
   requestAnimationFrame(animate);
 
   // Update the portal and warp views, pass the player (spacecraft) to the updatePortals function
   updatePortals(renderer, scene, spacecraft);  // Now we pass the player object to update portals
- // updateWarps(renderer, scene);  // Update the warps' render targets
-
+  
   updatePlayer(pitch, roll, speed);  // Update the player-controlled object
 
   camera.position.x = spacecraft.position.x;
@@ -114,10 +106,11 @@ function animate() {
   camera.position.z = spacecraft.position.z + 4;  // Adjusted camera distance
 
   // Move the background texture to create a sense of motion
-  bgTexture.offset.x -= pitch * speed * 0.01;
-  bgTexture.offset.y += roll * speed * 0.01;
+  if (bgTexture) {
+    bgTexture.offset.x -= pitch * speed * 0.01;
+    bgTexture.offset.y += roll * speed * 0.01;
+  }
 
- // updatePlanets(spacecraft, speed);  // Update planets
   checkPortalCollision(spacecraft);  // Check portal collision
   checkWarpCollision(spacecraft);  // Check warp collision
   

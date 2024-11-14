@@ -17,6 +17,12 @@ function createWorlds(scene) {
     { x: 50, y: 1950, z: -25400, texture: 'p5.png', size: 15, darknessLevel: 0.7 },
     // Scene 4 - The Planet
     { x: 0, y: -200, z: 99000, texture: 'p5.png', size: 1600, darknessLevel: 0.6 },
+
+
+    // Scene X - The Surface
+   
+    
+    { x: 5300, y: 14300, z: -10000, texture: '8k_mercury.webp', size: 1000, darknessLevel: 0 },
   ];
 
   const wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x39ff14, wireframe: true });
@@ -26,9 +32,10 @@ function createWorlds(scene) {
     const worldGeometry = new THREE.SphereGeometry(worldData[i].size, 32, 32);
     const world = new THREE.Mesh(worldGeometry, wireframeMaterial);
     world.position.set(worldData[i].x, worldData[i].y, worldData[i].z);
+    world.renderOrder = 0;  // Render planets after stars
     scene.add(world);
     worlds.push(world);
-
+  
     // Load the texture and update the material once it's loaded
     textureLoader.load(worldData[i].texture, (texture) => {
       const worldMaterial = new THREE.MeshStandardMaterial({
@@ -38,24 +45,24 @@ function createWorlds(scene) {
         emissiveIntensity: 0,
         roughness: 1,
         metalness: 0.1,
+        depthTest: true,  // Planets should respect depth test
+        depthWrite: true  // Planets should write to depth buffer
       });
       world.material = worldMaterial;
     });
   }
-
-  // Add a directional light to create non-uniform lighting
+  
+  
+  // Add directional and ambient lights to the scene
   const directionalLight = new THREE.DirectionalLight(0xffffff, 12);
   directionalLight.position.set(2000, 1000, 500);
   directionalLight.castShadow = true;
-  directionalLight.shadow.mapSize.width = 2048;
-  directionalLight.shadow.mapSize.height = 2048;
-  directionalLight.shadow.camera.near = 0.5;
-  directionalLight.shadow.camera.far = 5000;
   scene.add(directionalLight);
-
-  // Add ambient light for subtle fill lighting to reduce uniformity
+  
   const ambientLight = new THREE.AmbientLight(0x404040, 0.2);
   scene.add(ambientLight);
+  
+  
 }
 
 // Usage example:

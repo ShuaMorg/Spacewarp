@@ -2,6 +2,11 @@ let portals = [];
 let portalCameras = [];
 let portalRenderTargets = [];
 const portalCoordinates = [
+
+
+  
+
+
   { x: 400, y: -3100, z: -300, targetX: -0, targetY: -3000, targetZ: 15000 },
   { x: 400, y: 100, z: -350, targetX: 0, targetY: 0, targetZ: 0 },
   { x: -15, y: -3000, z: -2400, targetX: 100, targetY: 1900, targetZ: -9000 },
@@ -14,6 +19,12 @@ const portalCoordinates = [
   { x: -0, y: -3100, z: 14000, targetX: -200, targetY: -3000, targetZ: 9000 },
   { x: -0, y: -3100, z: 8000, targetX: -200, targetY: -3000, targetZ: 3000 },
   { x: 0, y: -3000, z: 2500, targetX: -200, targetY: -3000, targetZ: 1900 },
+// Surface:
+  { x: 0, y: 0, z: 0, targetX: 0, targetY: 10300, targetZ: 0 },
+
+
+  { x: 0, y: 0, z: 0, targetX: 99999950, targetY: 9999991950, targetZ: -99999925400 },
+  { x: 0, y: 100600, z: -500, targetX: 0, targetY: 100300, targetZ: 0 },
 ];
 
 function createPortals(scene, renderer) {
