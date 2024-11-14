@@ -100,7 +100,11 @@ function teleportPlayer(player, x, y, z) {
   player.position.set(x, y, z);
 }
 
+let bellIndex = 0;
+const bellSounds = ['bell.ogg', 'bell2.ogg', 'bell3.ogg', 'bell4.ogg', 'bell5.ogg'];
+
 function playBellSound() {
-  const bell = new Audio('bell.ogg');
+  const bell = new Audio(bellSounds[bellIndex]);
   bell.play();
+  bellIndex = (bellIndex + 1) % bellSounds.length;
 }

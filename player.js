@@ -85,7 +85,7 @@ function createPlayer(scene) {
 function onKeyDown(event) {
     currentInputMethod = 'keyboard';
     const currentTime = Date.now();
-    if (event.code === 'ArrowUp' || event.code === 'ArrowDown' || event.code === 'ArrowLeft' || event.code === 'ArrowRight' || event.code === 'Space') {
+    if (event.code === 'ArrowUp' || event.code === 'ArrowDown' || event.code === 'ArrowLeft' || event.code === 'ArrowRight' || event.code === 'Space' || event.code === 'KeyB') {
         keyPressStartTimes[event.code] = currentTime;
         console.log(`Key down: ${event.code}`);  // Debugging line
     }
@@ -105,6 +105,9 @@ function onKeyDown(event) {
             break;
         case 'Space':
             activateBoost();  // Activate boost when space is pressed
+            break;
+        case 'KeyB':
+            activateBoost(true);  // Activate boost twice as fast when 'b' is pressed
             break;
     }
 }
@@ -130,7 +133,8 @@ function onKeyUp(event) {
             keyboardPitch = 0;
             break;
         case 'Space':
-            deactivateBoost();  // Deactivate boost when space is released
+        case 'KeyB':
+            deactivateBoost();  // Deactivate boost when space or 'b' is released
             break;
     }
 
@@ -138,9 +142,14 @@ function onKeyUp(event) {
     delete keyPressStartTimes[event.code];
 }
 
-function activateBoost() {
-    keyboardForwardSpeedMultiplier = 120; // Increase speed
-    keyboardTurnSpeedMultiplier = 120; // Increase turn speed
+function activateBoost(isDouble = false) {
+    if (isDouble) {
+        keyboardForwardSpeedMultiplier = 420; // Increase speed twice as fast
+        keyboardTurnSpeedMultiplier = 420; // Increase turn speed twice as fast
+    } else {
+        keyboardForwardSpeedMultiplier = 60; // Increase speed
+        keyboardTurnSpeedMultiplier = 60; // Increase turn speed
+    }
 }
 
 function deactivateBoost() {
