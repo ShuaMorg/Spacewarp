@@ -77,6 +77,20 @@ function createPlayer(scene) {
     window.addEventListener('touchend', onTouchEnd);
     window.addEventListener('touchmove', onPinch); // Add event listener for pinch gesture
 
+    // Add an invisible banner for touch reset
+    const banner = document.createElement('div');
+    banner.style.position = 'fixed';
+    banner.style.top = '0';
+    banner.style.left = '0';
+    banner.style.width = '100%';
+    banner.style.height = '10%';
+    banner.style.zIndex = '1000';
+    banner.style.opacity = '0';
+    banner.addEventListener('touchstart', () => {
+        resetToClosestTarget();
+    });
+    document.body.appendChild(banner);
+
     // Start the gamepad polling
     window.addEventListener("gamepadconnected", onGamepadConnected);
     window.addEventListener("gamepaddisconnected", onGamepadDisconnected);
