@@ -2,43 +2,81 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>3D Space Game</title>
+  <title>Warpstones</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     body {
-      background-image: url('start.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    button {
-      margin: 10px;
-      padding: 10px 20px;
+      background-color: black;
+      color: lime;
       font-family: 'Press Start 2P', cursive;
+      text-align: center;
+      padding: 0;
+      margin: 0;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .container {
+      border: 5px solid lime;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      background-color: black;
+      box-sizing: border-box;
+      margin: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    h1 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+
+    .instructions {
+      font-size: 0.8em;
+      margin-bottom: 20px;
+    }
+
+    .startButton {
+      color: black;
+      padding: 10px;
+      border: 5px solid transparent;
       cursor: pointer;
+      text-decoration: dotted;
+      display: inline-block;
+      box-sizing: border-box;
+      background-color: lime;
+      border-radius: 10px;
+      font-size: 0.8em;
+      font-family: 'Press Start 2P', cursive;
+      margin: 10px;
+    }      
+    .startButton:hover {
+      border-color: darkred;
+      border-width: 5px;
+      border-style: dashed;
     }
   </style>
 </head>
 <body>
-   <button class="startButton" data-target="0">Scene 1 - Warp Stones</button>
-  <button class="startButton" data-target="2">Scene 2 - Asteroids</button>
-  <button class="startButton" data-target="3">Scene 3 - 3 Moons</button>
-  <button class="startButton" data-target="5">Scene 4 - Fragments</button>
-  <button class="startButton" data-target="6">Scene 5 - SpaceWarp</button>
-  <button class="startButton" data-target="7">Scene 6 - Sky</button>
-  
-  <button class="startButton" data-target="8">Scene 7 - The Surface</button>
-  
-  <div id="neonText"></div>
+  <div class="container" id="menu-container">
+    <h1>Warpstones</h1>
+    <div class="instructions">Space Bar to boost, Arrow keys to move, R to reset. <br><Br>If using phone then tilt to steer and tap to boost.</div>
+    <button class="startButton" data-target="0">Scene 1 - Warp Stones</button>
+    <button class="startButton" data-target="2">Scene 2 - Asteroids</button>
+    <button class="startButton" data-target="3">Scene 3 - 3 Moons</button>
+    <button class="startButton" data-target="5">Scene 4 - Fragments</button>
+    <button class="startButton" data-target="6">Scene 5 - SpaceWarp</button>
+    <button class="startButton" data-target="7">Scene 6 - Sky</button>
+    <button class="startButton" data-target="8">Scene 7 - The Surface</button>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="controls.js"></script>
   <script src="planets_creation.js"></script>
@@ -50,19 +88,15 @@
   <script src="light.js"></script>
   <script src="audio.js"></script>
   <script src="star.js"></script>
-  <script src="player.js"></script>
   <script src="portal.js"></script>
+  <script src="player.js"></script>
   <script src="warp.js"></script>
-  
   <script src="asteroid.js"></script>
-
-   <script src="nebula.js"></script>
-   <script src="smoke.js"></script>
-  
+  <script src="nebula.js"></script>
+  <script src="smoke.js"></script>
   <script src="shape.js"></script>
   <script src="game_objects.js"></script>
   <script src="main.js"></script>
-  <!-- <script src="message_display.js"></script> -->
   <script src="audio_manager.js"></script>
 
   <script>
@@ -74,6 +108,7 @@
         const button = document.querySelector(`.startButton[data-target="${targetButton}"]`);
         if (button) {
           button.click();
+          document.getElementById('menu-container').style.display = 'none';
         } else {
           console.error('Button not found for data-target:', targetButton);
         }
@@ -81,6 +116,12 @@
         console.error('URL parameter "button" not found');
       }
     };
+
+    document.querySelectorAll('.startButton').forEach(button => {
+      button.addEventListener('click', () => {
+        document.getElementById('menu-container').style.display = 'none';
+      });
+    });
   </script>
 </body>
 </html>

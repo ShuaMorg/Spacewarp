@@ -1,7 +1,7 @@
-let portals = [];
-let portalCameras = [];
-let portalRenderTargets = [];
-const portalCoordinates = [
+var portals = [];
+var portalCameras = [];
+var portalRenderTargets = [];
+var portalCoordinates = [
   { x: 400, y: -3100, z: -300, targetX: -0, targetY: -3000, targetZ: 15000 },
   { x: 400, y: 100, z: -350, targetX: 0, targetY: 0, targetZ: 0 },
   { x: -15, y: -3000, z: -2400, targetX: 100, targetY: 1900, targetZ: -9000 },

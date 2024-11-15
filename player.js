@@ -24,7 +24,7 @@ const positionSmoothFactor = 0.02;  // For smoothing position updates
 let smoothedPitch = 0;
 let smoothedRoll = 0;
 let smoothedForwardSpeedMultiplier = 1;
-let smoothedTurnSpeedMultiplier = 1;  // For smoother turn speed transitions
+let smoothedTurnSpeedMultiplier = 1;
 let lastPitch = 0;  // Track the last pitch value for smoother transitions
 let lastRoll = 0;  // Track the last roll value for smoother transitions
 
@@ -75,7 +75,8 @@ function createPlayer(scene) {
     // Add event listeners for touch input
     window.addEventListener('touchstart', onTouchStart);
     window.addEventListener('touchend', onTouchEnd);
-    
+    window.addEventListener('touchmove', onPinch); // Add event listener for pinch gesture
+
     // Start the gamepad polling
     window.addEventListener("gamepadconnected", onGamepadConnected);
     window.addEventListener("gamepaddisconnected", onGamepadDisconnected);
@@ -108,6 +109,9 @@ function onKeyDown(event) {
             break;
         case 'KeyB':
             activateBoost(true);  // Activate boost twice as fast when 'b' is pressed
+            break;
+        case 'KeyR':
+            resetToClosestTarget();  // Reset to the closest target when 'r' is pressed
             break;
     }
 }
@@ -164,6 +168,26 @@ function onTouchStart(event) {
 
 function onTouchEnd(event) {
     deactivateBoost();  // Trigger the same action as space bar release
+}
+
+function onPinch(event) {
+    if (event.touches.length === 2) {
+        // Calculate the distance between the two touch points
+        const dx = event.touches[0].pageX - event.touches[1].pageX;
+        const dy = event.touches[0].pageY - event.touches[1].pageY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (!this.lastPinchDistance) {
+            this.lastPinchDistance = distance;
+            return;
+        }
+
+        const pinchDelta = distance - this.lastPinchDistance;
+        if (Math.abs(pinchDelta) > 10) {  // Threshold for pinch detection
+            resetToClosestTarget();  // Reset to the closest target when pinching
+        }
+        this.lastPinchDistance = distance;
+    }
 }
 
 function onGamepadConnected(event) {
@@ -243,50 +267,29 @@ function updatePlayer(pitch, roll, forwardSpeedMultiplier) {
     spacecraft.position.z -= forwardSpeed;
     spacecraft.position.x += combinedPitch * baseTurnSpeed * combinedTurnSpeedMultiplier;  // Apply turn speed multiplier
     spacecraft.position.y += combinedRoll * baseTurnSpeed * combinedTurnSpeedMultiplier;  // Apply turn speed multiplier
-
-  // Rotate the camera slightly based on the pitch (left/right movement)
-  const cameraBankAmount = 0.05;  // Adjust this value to control how much the screen rotates
-  camera.rotation.z = combinedPitch * cameraBankAmount;
 }
 
-function resetPlayer() {
-  spacecraft.position.set(0, 0, 0);
-  smoothedPitch = 0;
-  smoothedRoll = 0;
-  smoothedForwardSpeedMultiplier = 1;
-  smoothedTurnSpeedMultiplier = 1;
-  lastPitch = 0;
-  lastRoll = 0;
-  keyboardPitch = 0;
-  keyboardRoll = 0;
+function resetToClosestTarget() {
+    if (!spacecraft || typeof portalCoordinates === 'undefined') return;
+
+    let closestTargetIndex = 0;
+    let minDistance = Infinity;
+
+    // Find the closest target coordinates based on the player position
+    for (let i = 0; i < portalCoordinates.length; i++) {
+        const target = portalCoordinates[i];
+        const distance = spacecraft.position.distanceTo(new THREE.Vector3(target.targetX, target.targetY, target.targetZ));
+        if (distance < minDistance) {
+            minDistance = distance;
+            closestTargetIndex = i;
+        }
+    }
+
+    // Set the player position to the closest target coordinates
+    const closestTarget = portalCoordinates[closestTargetIndex];
+    teleportPlayer(spacecraft, closestTarget.targetX, closestTarget.targetY, closestTarget.targetZ);
 }
 
-// Initialize the game by setting up the scene, player, etc.
-function init() {
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-  const renderer = new THREE.WebGLRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
-
-  // Create player (spacecraft) and add to the scene
-  createPlayer(scene);
-
-  camera.position.z = 5;
-
-  // Animation loop
-  function animate() {
-    requestAnimationFrame(animate);
-
-    // Update player with current gamepad and keyboard inputs
-    pollGamepads();
-
-    renderer.render(scene, camera);
-  }
-  
-  animate();
+function teleportPlayer(player, x, y, z) {
+    player.position.set(x, y, z);
 }
-
-// Start the game when the window loads
-window.onload = init;
