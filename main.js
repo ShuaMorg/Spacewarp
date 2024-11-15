@@ -96,9 +96,9 @@ function createHUD() {
   hud.style.position = 'absolute';
   hud.style.top = '10px';
   hud.style.left = '10px';
-  hud.style.color = 'white';
-  hud.style.fontSize = '20px';
-  hud.style.fontFamily = 'Arial, sans-serif';
+  hud.style.color = 'neon green';
+  hud.style.fontSize = '8px';
+  hud.style.fontFamily = "'Press Start 2P', cursive";
   hud.style.zIndex = '100';
   document.body.appendChild(hud);
 }
