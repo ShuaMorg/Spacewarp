@@ -106,7 +106,7 @@ function createHUD() {
 function updateHUD() {
   const hud = document.getElementById('hud');
   if (hud && spacecraft) {
-    hud.innerHTML = `Coordinates: X: ${spacecraft.position.x.toFixed(2)}, Y: ${spacecraft.position.y.toFixed(2)}, Z: ${spacecraft.position.z.toFixed(2)}`;
+    hud.innerHTML = `X: ${spacecraft.position.x.toFixed(2)}, Y: ${spacecraft.position.y.toFixed(2)}, Z: ${spacecraft.position.z.toFixed(2)}`;
   }
 }
 
