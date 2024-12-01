@@ -33,6 +33,11 @@ const gamepadTurnSpeedMultiplier = 2.0;  // Adjust this multiplier to increase/d
 const gamepadAccelerationMultiplier = 0.3;  // Multiplier to reduce gamepad acceleration
 
 let currentInputMethod = 'keyboard';  // Default to keyboard
+let collisionCooldown = false;  // Variable to control collision cooldown
+
+// Raycaster for collision detection
+const raycaster = new THREE.Raycaster();
+const rayDirection = new THREE.Vector3(0, -1, 0);  // Cast downwards
 
 function createPlayer(scene) {
     // Load the texture
@@ -75,22 +80,7 @@ function createPlayer(scene) {
     // Add event listeners for touch input
     window.addEventListener('touchstart', onTouchStart);
     window.addEventListener('touchend', onTouchEnd);
-    window.addEventListener('touchmove', onPinch); // Add event listener for pinch gesture
-
-    // Add an invisible banner for touch reset
-    const banner = document.createElement('div');
-    banner.style.position = 'fixed';
-    banner.style.top = '0';
-    banner.style.left = '0';
-    banner.style.width = '100%';
-    banner.style.height = '10%';
-    banner.style.zIndex = '1000';
-    banner.style.opacity = '0';
-    banner.addEventListener('touchstart', () => {
-        resetToClosestTarget();
-    });
-    document.body.appendChild(banner);
-
+    
     // Start the gamepad polling
     window.addEventListener("gamepadconnected", onGamepadConnected);
     window.addEventListener("gamepaddisconnected", onGamepadDisconnected);
@@ -184,26 +174,6 @@ function onTouchEnd(event) {
     deactivateBoost();  // Trigger the same action as space bar release
 }
 
-function onPinch(event) {
-    if (event.touches.length === 2) {
-        // Calculate the distance between the two touch points
-        const dx = event.touches[0].pageX - event.touches[1].pageX;
-        const dy = event.touches[0].pageY - event.touches[1].pageY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-        if (!this.lastPinchDistance) {
-            this.lastPinchDistance = distance;
-            return;
-        }
-
-        const pinchDelta = distance - this.lastPinchDistance;
-        if (Math.abs(pinchDelta) > 10) {  // Threshold for pinch detection
-            resetToClosestTarget();  // Reset to the closest target when pinching
-        }
-        this.lastPinchDistance = distance;
-    }
-}
-
 function onGamepadConnected(event) {
     console.log("Gamepad connected:", event.gamepad);
 }
@@ -281,6 +251,10 @@ function updatePlayer(pitch, roll, forwardSpeedMultiplier) {
     spacecraft.position.z -= forwardSpeed;
     spacecraft.position.x += combinedPitch * baseTurnSpeed * combinedTurnSpeedMultiplier;  // Apply turn speed multiplier
     spacecraft.position.y += combinedRoll * baseTurnSpeed * combinedTurnSpeedMultiplier;  // Apply turn speed multiplier
+
+    if (!collisionCooldown) {
+        checkSurfaceCollision();  // Check for collisions with surfaces if not in cooldown
+    }
 }
 
 function resetToClosestTarget() {
@@ -299,11 +273,35 @@ function resetToClosestTarget() {
         }
     }
 
-    // Set the player position to the closest target coordinates
+    // Set the player position to the closest target coordinates with a slight offset
     const closestTarget = portalCoordinates[closestTargetIndex];
-    teleportPlayer(spacecraft, closestTarget.targetX, closestTarget.targetY, closestTarget.targetZ);
+    const offset = 50;  // Set an offset to move the player away from the surface
+    teleportPlayer(spacecraft, closestTarget.targetX, closestTarget.targetY + offset, closestTarget.targetZ);
+
+    // Enable a cooldown period to avoid immediate re-collision
+    collisionCooldown = true;
+    setTimeout(() => {
+        collisionCooldown = false;
+    }, 1000);  // 1-second cooldown
 }
 
 function teleportPlayer(player, x, y, z) {
     player.position.set(x, y, z);
+}
+
+function checkSurfaceCollision() {
+    if (!spacecraft || typeof surfaces === 'undefined' || surfaces.length === 0) return;
+
+    // Use raycaster to cast a ray downwards from the spacecraft
+    raycaster.set(spacecraft.position, rayDirection);
+    const intersects = raycaster.intersectObjects(surfaces);
+
+    // If the raycaster detects an intersection and the player is close enough to the surface
+    if (intersects.length > 0) {
+        const distanceToSurface = intersects[0].distance;
+        if (distanceToSurface < 5) {  // Adjust this threshold as needed
+            console.log('Collision detected with surface');
+            resetToClosestTarget();  // Automatically reset player to closest target
+        }
+    }
 }

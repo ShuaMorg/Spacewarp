@@ -1,11 +1,8 @@
-// surface.js
-
 let surfaces = [];
 
 function createSurfaces(scene) {
   const textureLoader = new THREE.TextureLoader();
 
-  // Adjusted coordinates to space them further apart on the z-axis by 100 to 400 units
   const surfaceData = [
     { x: 0, y: 100200, z: 0, texture: '8k_jupiter.webp', size: 15000, darknessLevel: 0.9, heightVariation: 1000, heightDistribution: 0.003, textureRepeat: 52 },
     { x: 0, y: 100000, z: 0, texture: 'sea.jpg', size: 16000, darknessLevel: 0.9, heightVariation: 0, heightDistribution: 0.002, textureRepeat: 26 },
@@ -17,7 +14,6 @@ function createSurfaces(scene) {
     // Create a surface with mountains and valleys
     const surfaceGeometry = new THREE.PlaneGeometry(surfaceData[i].size * 2, surfaceData[i].size * 2, 64, 64);
     
-    // Add height variation for mountains and valleys
     const positionAttribute = surfaceGeometry.attributes.position;
     for (let j = 0; j < positionAttribute.count; j++) {
       const vertex = new THREE.Vector3().fromBufferAttribute(positionAttribute, j);
@@ -30,7 +26,7 @@ function createSurfaces(scene) {
     surface.position.set(surfaceData[i].x, surfaceData[i].y, surfaceData[i].z);
     surface.rotation.x = -Math.PI / 2; // Rotate to make it horizontal
     scene.add(surface);
-    surfaces.push(surface);
+    surfaces.push(surface);  // Add the surface to the surfaces array
 
     // Load the texture and update the material once it's loaded
     textureLoader.load(surfaceData[i].texture, (texture) => {
@@ -64,6 +60,3 @@ function createSurfaces(scene) {
   const ambientLight = new THREE.AmbientLight(0x404040, 0.2);
   scene.add(ambientLight);
 }
-
-// Usage example:
-// createSurfaces(scene);
