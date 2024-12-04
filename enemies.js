@@ -1,4 +1,3 @@
-
 // enemies.js
 
 let enemies = [];
@@ -21,12 +20,14 @@ function spawnEnemy(scene) {
   const enemySpacecraft = new THREE.Mesh(geometry, wireframeMaterial);
 
   // Set random initial position for the enemy
-  const x = Math.random() * 1000 - 500;
-  const y = Math.random() * 1000 - 500;
-  const z = Math.random() * 1000 - 500;
-  enemySpacecraft.position.set(x, y, z);
-  scene.add(enemySpacecraft);
-  enemies.push(enemySpacecraft);
+// Set random initial position for the enemy
+const x = Math.random() * 1000 - 500;   // Adjusted for a range centered around 0
+const y = Math.random() * 3000 - 3000;  // Adjusted for a range centered around -3000
+const z = Math.random() * 14000 + 500; // Adjusted for a range centered around 14000
+enemySpacecraft.position.set(x, y, z);
+scene.add(enemySpacecraft);
+enemies.push(enemySpacecraft);
+
 
   // Load texture and update the material once it's loaded
   textureLoader.load('enemy_texture.jpg', (texture) => {
@@ -100,7 +101,7 @@ function updateEnemies() {
     }
 
     // Remove projectiles that are far away from the scene
-    if (projectile.position.length() > 2000) {
+    if (projectile.position.length() > 15000) {
       projectile.geometry.dispose();
       projectile.material.dispose();
       scene.remove(projectile);
@@ -138,7 +139,7 @@ function updateEnemies() {
     }
 
     // Remove projectiles that are far away from the scene
-    if (projectile.position.length() > 2000) {
+    if (projectile.position.length() > 15000) {
       projectile.geometry.dispose();
       projectile.material.dispose();
       scene.remove(projectile);
