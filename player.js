@@ -253,7 +253,7 @@ function updatePlayer(pitch, roll, forwardSpeedMultiplier) {
     spacecraft.position.y += combinedRoll * baseTurnSpeed * combinedTurnSpeedMultiplier;  // Apply turn speed multiplier
 
     if (!collisionCooldown) {
-        checkSurfaceCollision();  // Check for collisions with surfaces if not in cooldown
+        checkCollision();  // Check for collisions with surfaces and worlds if not in cooldown
     }
 }
 
@@ -275,7 +275,7 @@ function resetToClosestTarget() {
 
     // Set the player position to the closest target coordinates with a slight offset
     const closestTarget = portalCoordinates[closestTargetIndex];
-    const offset = 50;  // Set an offset to move the player away from the surface
+    const offset = 50;  // Set an offset to move the player away from the surface or world
     teleportPlayer(spacecraft, closestTarget.targetX, closestTarget.targetY + offset, closestTarget.targetZ);
 
     // Enable a cooldown period to avoid immediate re-collision
@@ -289,19 +289,20 @@ function teleportPlayer(player, x, y, z) {
     player.position.set(x, y, z);
 }
 
-function checkSurfaceCollision() {
-    if (!spacecraft || typeof surfaces === 'undefined' || surfaces.length === 0) return;
+function checkCollision() {
+    if (!spacecraft) return;
 
     // Use raycaster to cast a ray downwards from the spacecraft
     raycaster.set(spacecraft.position, rayDirection);
-    const intersects = raycaster.intersectObjects(surfaces);
+    const surfaceIntersects = raycaster.intersectObjects(surfaces);
+    const worldIntersects = raycaster.intersectObjects(worlds);
 
-    // If the raycaster detects an intersection and the player is close enough to the surface
-    if (intersects.length > 0) {
-        const distanceToSurface = intersects[0].distance;
-        if (distanceToSurface < 5) {  // Adjust this threshold as needed
-            console.log('Collision detected with surface');
-            resetToClosestTarget();  // Automatically reset player to closest target
-        }
+    // If the raycaster detects an intersection with surfaces or worlds and the player is close enough
+    if (surfaceIntersects.length > 0 && surfaceIntersects[0].distance < 5) {
+        console.log('Collision detected with surface');
+        resetToClosestTarget();  // Automatically reset player to closest target
+    } else if (worldIntersects.length > 0 && worldIntersects[0].distance < 5) {
+        console.log('Collision detected with world');
+        resetToClosestTarget();  // Automatically reset player to closest target
     }
 }

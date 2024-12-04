@@ -1,5 +1,7 @@
 // main.js
 
+// Assuming enemies.js has been included as a script before this file
+
 document.querySelectorAll('.startButton').forEach(button => {
   button.addEventListener('click', (event) => {
     const targetIndex = event.target.getAttribute('data-target');
@@ -59,7 +61,9 @@ function init(startCoordinates) {
   createWarps(scene, renderer);  // Pass renderer to create warps
   
   createShapes(scene);  // Call function from shapes.js to create shapes
-    
+  
+  createEnemies(scene);  // Start spawning enemies from enemies.js
+
   // Set the camera and player initial positions
   if (startCoordinates) {
     camera.position.set(startCoordinates.x, startCoordinates.y + 2, startCoordinates.z + 4);
@@ -136,6 +140,8 @@ function animate() {
   checkShapeCollision(spacecraft);  // Check shape collision
   checkProximityAndPlaySound(spacecraft.position);  // Check proximity and play sound
   updateDusts(spacecraft);  // Update dusts
+
+  updateEnemies();  // Update enemies and their projectiles
 
   animateShapes();  // Animate shapes
 
