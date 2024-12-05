@@ -1,8 +1,18 @@
-// enemies.js
-
 let enemies = [];
 let enemyProjectiles = [];
 let playerProjectiles = [];
+let killCount = 0; // Variable to track the number of enemy kills
+
+// Create an HTML element to display the kill count
+const killDisplay = document.createElement('div');
+killDisplay.style.position = 'absolute';
+killDisplay.style.top = '10px';
+killDisplay.style.right = '10px';
+killDisplay.style.fontSize = '24px';
+killDisplay.style.color = 'white';
+killDisplay.style.zIndex = '10';
+killDisplay.innerText = `Kills: ${killCount}`;
+document.body.appendChild(killDisplay);
 
 function createEnemies(scene) {
   setInterval(() => {
@@ -16,18 +26,16 @@ function spawnEnemy(scene) {
   const wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
 
   // Create enemy spacecraft
-  const geometry = new THREE.SphereGeometry(1, 16, 16);
+  const geometry = new THREE.SphereGeometry(10, 16, 16);
   const enemySpacecraft = new THREE.Mesh(geometry, wireframeMaterial);
 
   // Set random initial position for the enemy
-// Set random initial position for the enemy
-const x = Math.random() * 1000 - 500;   // Adjusted for a range centered around 0
-const y = Math.random() * 3000 - 3000;  // Adjusted for a range centered around -3000
-const z = Math.random() * 14000 + 500; // Adjusted for a range centered around 14000
-enemySpacecraft.position.set(x, y, z);
-scene.add(enemySpacecraft);
-enemies.push(enemySpacecraft);
-
+  const x = Math.random() * 1000 - 500;   // Adjusted for a range centered around 0
+  const y = Math.random() * 3000 - 3000;  // Adjusted for a range centered around -3000
+  const z = Math.random() * 14000 + 500; // Adjusted for a range centered around 14000
+  enemySpacecraft.position.set(x, y, z);
+  scene.add(enemySpacecraft);
+  enemies.push(enemySpacecraft);
 
   // Load texture and update the material once it's loaded
   textureLoader.load('enemy_texture.jpg', (texture) => {
@@ -64,7 +72,7 @@ function shootAtPlayer(scene, enemy) {
 }
 
 function shootPlayerProjectile(scene) {
-  const projectileGeometry = new THREE.SphereGeometry(0.1, 8, 8);
+  const projectileGeometry = new THREE.SphereGeometry(.6, 8, 8);
   const projectileMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
   const projectile = new THREE.Mesh(projectileGeometry, projectileMaterial);
 
@@ -97,7 +105,7 @@ function updateEnemies() {
       projectile.material.dispose();
       scene.remove(projectile);
       enemyProjectiles.splice(i, 1);
-      i--;
+      i--; // Decrement to correctly handle array indexing
     }
 
     // Remove projectiles that are far away from the scene
@@ -118,7 +126,7 @@ function updateEnemies() {
     // Check collision with enemies
     for (let j = 0; j < enemies.length; j++) {
       const enemy = enemies[j];
-      if (projectile.position.distanceTo(enemy.position) < 1) {
+      if (projectile.position.distanceTo(enemy.position) < 10) { // Increase the threshold for collision detection
         console.log('Enemy hit by player projectile!');
 
         // Remove the enemy from the scene and the array
@@ -126,15 +134,19 @@ function updateEnemies() {
         enemy.material.dispose();
         scene.remove(enemy);
         enemies.splice(j, 1);
-        j--;
+        j--; // Decrement to handle array modification properly
 
         // Remove the projectile from the scene and the array
         projectile.geometry.dispose();
         projectile.material.dispose();
         scene.remove(projectile);
         playerProjectiles.splice(i, 1);
-        i--;
-        break;
+        i--; // Decrement to handle array modification properly
+
+        // Increment kill count
+        killCount++;
+        killDisplay.innerText = `Kills: ${killCount}`; // Update the kill count display
+        break; // Exit inner loop once an enemy is hit
       }
     }
 
