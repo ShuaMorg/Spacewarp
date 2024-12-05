@@ -168,6 +168,13 @@ function deactivateBoost() {
 function onTouchStart(event) {
     currentInputMethod = 'touch';
     activateBoost();  // Trigger the same action as space bar press
+    fireProjectileOnTap(event);  // Fire projectile on tap
+}
+
+function fireProjectileOnTap(event) {
+    if (event.touches.length === 1) {  // Ensure it's a single tap
+        shootPlayerProjectile(scene);  // Call the function to shoot a player projectile
+    }
 }
 
 function onTouchEnd(event) {
