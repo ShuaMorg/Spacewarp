@@ -204,7 +204,7 @@ function pollGamepads() {
 
 function handleGamepadInput(gamepad) {
     currentInputMethod = 'gamepad';
-    const deadZone = 0.1;  // Dead zone to prevent drift
+    const deadZone = 0.1; // Dead zone to prevent drift
 
     // Left stick for pitch (up/down) and roll (left/right)
     let gamepadPitch = gamepad.axes[0] * gamepadTurnSpeedMultiplier;
@@ -222,9 +222,20 @@ function handleGamepadInput(gamepad) {
         deactivateBoost();
     }
 
+    // Handle 'A' button for firing
+    if (gamepad.buttons[0].pressed) {
+        shootPlayerProjectile(scene); // Call firing function
+    }
+
+        // Handle 'Y' button for reset (index 3 on most Xbox controllers)
+        if (gamepad.buttons[3].pressed) {
+            resetToClosestTarget();
+        }
+
     // Pass the gamepad input and the current multiplier to the player update function
     updatePlayer(gamepadPitch, gamepadRoll, keyboardForwardSpeedMultiplier);
 }
+
 
 function updatePlayer(pitch, roll, forwardSpeedMultiplier) {
     let accelerationMultiplier = 1;

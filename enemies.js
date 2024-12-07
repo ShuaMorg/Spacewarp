@@ -77,7 +77,6 @@ function spawnEnemy(scene) {
   }, 1500);
 }
 
-
 function shootAtPlayer(scene, enemy) {
   if (!spacecraft) return;
 
@@ -127,6 +126,65 @@ function shootPlayerProjectile(scene) {
 
   // Play the laser sound each time a projectile is shot
   playLaserSound();
+}
+
+function createExplosion(scene, position) {
+  const particleCount = 1500; // Increased number of particles for larger explosion
+  const particles = [];
+  const particleGeometry = new THREE.SphereGeometry(0.7, 16, 16); // Larger sphere for particles
+
+  for (let i = 0; i < particleCount; i++) {
+    const color = i < particleCount / 3 ? 0xff0000 : i < (2 * particleCount) / 3 ? 0xffffff : 0xffff00;
+    const particleMaterial = new THREE.MeshBasicMaterial({ color: color });
+    const particle = new THREE.Mesh(particleGeometry, particleMaterial);
+
+    // Randomize initial position around the explosion point
+    particle.position.set(
+      position.x + Math.random() * 30 - 15,
+      position.y + Math.random() * 30 - 15,
+      position.z + Math.random() * 30 - 15
+    );
+
+    // Assign random velocity
+    particle.userData.velocity = new THREE.Vector3(
+      (Math.random() - 0.5) * 10,
+      (Math.random() - 0.5) * 10,
+      (Math.random() - 0.5) * 10
+    );
+
+    // Add particle to the scene and array
+    scene.add(particle);
+    particles.push(particle);
+  }
+
+  // Animate particles
+  const startTime = Date.now();
+  const animationDuration = 2000; // 2 seconds for a larger explosion
+  function animateParticles() {
+    const elapsed = Date.now() - startTime;
+    if (elapsed > animationDuration) {
+      // Remove particles from the scene
+      particles.forEach(p => {
+        p.geometry.dispose();
+        p.material.dispose();
+        scene.remove(p);
+      });
+      return;
+    }
+
+    // Update particle positions
+    particles.forEach(p => {
+      p.position.add(p.userData.velocity);
+      const fadeFactor = 1 - elapsed / animationDuration;
+      p.material.opacity = fadeFactor; // Fade out particles
+      p.material.transparent = true; // Enable transparency
+    });
+
+    // Continue animating
+    requestAnimationFrame(animateParticles);
+  }
+
+  animateParticles();
 }
 
 function updateEnemies() {
@@ -195,6 +253,9 @@ function updateEnemies() {
         console.log('Enemy hit by player projectile!');
         playExplosionSound();  // Play explosion sound when enemy is hit
 
+        // Trigger explosion
+        createExplosion(scene, enemy.position);
+
         // Remove the enemy from the scene and the array
         enemy.geometry.dispose();
         enemy.material.dispose();
@@ -228,17 +289,9 @@ function updateEnemies() {
   }
 }
 
-function getRandomInterval(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 // Event listener to shoot player projectile
 window.addEventListener('keydown', (event) => {
   if ((event.code === 'ControlLeft' || event.code === 'ControlRight') && !event.repeat) {
     shootPlayerProjectile(scene);
   }
 });
-
-// Usage example:
-// createEnemies(scene);
-// In the animate loop, call updateEnemies();
