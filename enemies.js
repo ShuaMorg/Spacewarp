@@ -36,17 +36,31 @@ function playExplosionSound() {
   explosion.play();
 }
 
+// Predefined enemy positions
+let enemyData = [
+  { x: 0, y: 100400, z: -500 },
+  { x: 100000, y: 100300, z: 98000 },
+  { x: 400, y: -500, z: 1500 },
+  { x: 0, y: 0, z: 2000 },
+  { x: 200, y: -300, z: 2500 }
+];
+
 function createEnemies(scene) {
-  // Spawn all 50 enemies immediately
-  for (let i = 0; i < maxEnemies; i++) {
-    spawnEnemy(scene);
+  const textureLoader = new THREE.TextureLoader();
+
+  // Spawn enemies using predefined positions from enemyData
+  for (let i = 0; i < enemyData.length; i++) {
+    spawnEnemy(scene, enemyData[i], textureLoader);
+  }
+
+  // Spawn additional enemies randomly to match maxEnemies
+  while (enemies.length < maxEnemies) {
+    spawnEnemy(scene, null, textureLoader);
   }
 }
 
-function spawnEnemy(scene) {
-  const textureLoader = new THREE.TextureLoader();
 
-  // Define an array of random geometries
+function spawnEnemy(scene, positionData, textureLoader) {
   const geometries = [
     () => new THREE.BoxGeometry(50, 50, 50),
     () => new THREE.SphereGeometry(40, 46, 46),
@@ -56,46 +70,45 @@ function spawnEnemy(scene) {
     () => new THREE.TorusGeometry(40, 8, 46, 200)
   ];
 
-  // Select a random geometry and scale
   const randomGeometry = geometries[Math.floor(Math.random() * geometries.length)]();
   const scaleFactor = Math.random() * 3 + 1; // Random scale between 1 and 4
   randomGeometry.scale(scaleFactor, scaleFactor, scaleFactor);
 
-  // Create enemy spacecraft with random geometry
-  const enemySpacecraft = new THREE.Mesh(
-    randomGeometry,
-    new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true })
-  );
+  const material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
+  const enemy = new THREE.Mesh(randomGeometry, material);
 
-  // Set random initial position for the enemy
-  const x = Math.random() * 2000 - 2000;   // Adjusted for a range centered around 0
-  const y = Math.random() * 3000 - 3000;  // Adjusted for a range centered around -3000
-  const z = Math.random() * 14000 + 500; // Adjusted for a range centered around 14000
-  enemySpacecraft.position.set(x, y, z);
-  scene.add(enemySpacecraft);
-  enemies.push(enemySpacecraft);
+  // Set position from provided data or randomize
+  if (positionData) {
+    enemy.position.set(positionData.x, positionData.y, positionData.z);
+  } else {
+    enemy.position.set(
+      Math.random() * 2000 - 1000,
+      Math.random() * 3000 - 1500,
+      Math.random() * 14000 + 500
+    );
+  }
 
-  // Load the ship texture and apply it to the enemy spacecraft
+  scene.add(enemy);
+  enemies.push(enemy);
+
+  // Load texture for the enemy
   textureLoader.load('ship2.png', (texture) => {
     const enemyMaterial = new THREE.MeshBasicMaterial({
-      map: texture,           // Apply ship.jpg texture
-      wireframe: false         // Ensure the texture is visible without wireframe
+      map: texture,
+      wireframe: false
     });
-    enemySpacecraft.material = enemyMaterial;
+    enemy.material = enemyMaterial;
   });
-
-  // Increment the count of current enemies
-  currentEnemies++;
 
   // Make the enemy shoot at the player every 3 seconds
   setInterval(() => {
-    shootAtPlayer(scene, enemySpacecraft);
-  }, 1500);
+    shootAtPlayer(scene, enemy);
+  }, 3000);
 }
 
 
 function shootAtPlayer(scene, enemy) {
-  if (!spacecraft) return;
+  if (!spacecraft || !enemy) return;
 
   const projectileGeometry = new THREE.SphereGeometry(2, 8, 8);
   const projectileMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
@@ -104,7 +117,9 @@ function shootAtPlayer(scene, enemy) {
   // Set the initial position of the projectile to the enemy's position
   projectile.position.copy(enemy.position);
   scene.add(projectile);
-  enemyProjectiles.push(projectile);
+
+  // Link the projectile to its parent enemy
+  projectile.userData.parentEnemy = enemy;
 
   // Store the time when the projectile was fired (in milliseconds)
   projectile.userData.fireTime = Date.now();
@@ -116,7 +131,10 @@ function shootAtPlayer(scene, enemy) {
   // Set projectile velocity
   const velocity = direction.multiplyScalar(5);
   projectile.userData.velocity = velocity;
+
+  enemyProjectiles.push(projectile);
 }
+
 
 function shootPlayerProjectile(scene) {
   const textureLoader = new THREE.TextureLoader();
@@ -240,6 +258,19 @@ function updateEnemies() {
   // Update enemy projectiles
   for (let i = 0; i < enemyProjectiles.length; i++) {
     const projectile = enemyProjectiles[i];
+
+    // Check if the parent enemy is still in the scene
+    if (!enemies.includes(projectile.userData.parentEnemy)) {
+      // Remove the projectile if its parent enemy is destroyed
+      projectile.geometry.dispose();
+      projectile.material.dispose();
+      scene.remove(projectile);
+      enemyProjectiles.splice(i, 1);
+      i--;
+      continue;
+    }
+
+    // Update projectile position
     projectile.position.add(projectile.userData.velocity);
 
     // Check if the projectile has been alive for more than 10 seconds
@@ -269,7 +300,7 @@ function updateEnemies() {
     }
 
     // Remove projectiles that are far away from the scene
-    if (projectile.position.length() > 15000) {
+    if (projectile.position.length() > 2015000) {
       projectile.geometry.dispose();
       projectile.material.dispose();
       scene.remove(projectile);
@@ -302,7 +333,6 @@ function updateEnemies() {
       if (projectileBoundingBox.intersectsBox(enemyBoundingBox)) {
         console.log('Enemy hit by player projectile!');
         playExplosionSound();
-        // Calculate enemy size as the average scale of its geometry
         const enemySize = (enemy.geometry.boundingBox.max.x - enemy.geometry.boundingBox.min.x) / 50;
         createExplosion(scene, enemy.position, enemySize);
 
@@ -325,7 +355,7 @@ function updateEnemies() {
       }
     }
 
-    if (projectile.position.length() > 25000) {
+    if (projectile.position.length() > 2500000) {
       projectile.geometry.dispose();
       projectile.material.dispose();
       scene.remove(projectile);
@@ -334,6 +364,7 @@ function updateEnemies() {
     }
   }
 }
+
 
 
 // Event listener to shoot player projectile
