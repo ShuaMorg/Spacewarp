@@ -154,7 +154,7 @@ function shootPlayerProjectile(scene) {
 function createExplosion(scene, position, enemySize) {
   // Load a texture for the explosion particles
   const textureLoader = new THREE.TextureLoader();
-  const particleTexture = textureLoader.load('particle.webp'); // Replace 'particle.png' with your texture path
+  const particleTexture = textureLoader.load('particle2.png'); // Replace 'particle.png' with your texture path
 
   // Adjust the number of particles based on the enemy size
   const particleCount = Math.floor(1500 * enemySize);

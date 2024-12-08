@@ -229,12 +229,28 @@ function handleGamepadInput(gamepad) {
     currentInputMethod = 'gamepad';
     const deadZone = 0.1; // Dead zone to prevent drift
 
-    // Left stick for pitch (up/down) and roll (left/right)
+    // Left stick for movement
     let gamepadPitch = gamepad.axes[0] * gamepadTurnSpeedMultiplier;
     let gamepadRoll = gamepad.axes[1] * gamepadTurnSpeedMultiplier;
 
     if (Math.abs(gamepadPitch) < deadZone) gamepadPitch = 0;
     if (Math.abs(gamepadRoll) < deadZone) gamepadRoll = 0;
+
+    // Right stick for looking around
+    let lookHorizontal = gamepad.axes[2]; // Horizontal axis of right stick
+    let lookVertical = gamepad.axes[3];   // Vertical axis of right stick
+
+    if (Math.abs(lookHorizontal) > deadZone) {
+        targetRotationY += lookHorizontal * 0.05; // Adjust the multiplier for sensitivity
+    } else {
+        targetRotationY = THREE.MathUtils.lerp(targetRotationY, 0, 0.05); // Smoothly return to forward view
+    }
+
+    if (Math.abs(lookVertical) > deadZone) {
+        camera.rotation.x += lookVertical * 0.05; // Adjust the multiplier for sensitivity
+    } else {
+        camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, 0, 0.05); // Smoothly return to forward view
+    }
 
     // Trigger buttons for boost
     const boost = gamepad.buttons[6].pressed || gamepad.buttons[7].pressed;
@@ -250,14 +266,15 @@ function handleGamepadInput(gamepad) {
         shootPlayerProjectile(scene); // Call firing function
     }
 
-        // Handle 'Y' button for reset (index 3 on most Xbox controllers)
-        if (gamepad.buttons[3].pressed) {
-            resetToClosestTarget();
-        }
+    // Handle 'Y' button for reset (index 3 on most Xbox controllers)
+    if (gamepad.buttons[3].pressed) {
+        resetToClosestTarget();
+    }
 
     // Pass the gamepad input and the current multiplier to the player update function
     updatePlayer(gamepadPitch, gamepadRoll, keyboardForwardSpeedMultiplier);
 }
+
 
 
 function updatePlayer(pitch, roll, forwardSpeedMultiplier) {
