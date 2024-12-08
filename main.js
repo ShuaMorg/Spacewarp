@@ -117,6 +117,7 @@ function updateHUD() {
 function animate() {
   requestAnimationFrame(animate);
 
+    updateCameraRotation(); // Smoothly update camera rotation
   // Update the portal and warp views, pass the player (spacecraft) to the updatePortals function
   updatePortals(renderer, scene, spacecraft);  // Now we pass the player object to update portals
   

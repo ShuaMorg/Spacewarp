@@ -90,10 +90,10 @@ function createPlayer(scene) {
 function onKeyDown(event) {
     currentInputMethod = 'keyboard';
     const currentTime = Date.now();
-    if (event.code === 'ArrowUp' || event.code === 'ArrowDown' || event.code === 'ArrowLeft' || event.code === 'ArrowRight' || event.code === 'Space' || event.code === 'KeyB') {
-        keyPressStartTimes[event.code] = currentTime;
-        console.log(`Key down: ${event.code}`);  // Debugging line
-    }
+
+    // Track key press start times for debugging
+    keyPressStartTimes[event.code] = currentTime;
+    console.log(`Key down: ${event.code}`);
 
     switch (event.code) {
         case 'ArrowUp':
@@ -117,6 +117,15 @@ function onKeyDown(event) {
         case 'KeyR':
             resetToClosestTarget();  // Reset to the closest target when 'r' is pressed
             break;
+        case 'ShiftRight': // Look behind
+            targetRotationY = Math.PI;  // Set target rotation for smooth turning
+            break;
+        case 'PageUp': // Look to the left
+            targetRotationY = Math.PI / 2;  // Set target rotation for smooth turning
+            break;
+        case 'PageDown': // Look to the right
+            targetRotationY = -Math.PI / 2;  // Set target rotation for smooth turning
+            break;
     }
 }
 
@@ -127,28 +136,42 @@ function onKeyUp(event) {
 
     // Determine if the key press was brief or sustained
     const isBriefTap = duration < keyTapThreshold;
-    console.log(`Key up: ${event.code} - Duration: ${duration}ms - Brief Tap: ${isBriefTap}`);  // Debugging line
+    console.log(`Key up: ${event.code} - Duration: ${duration}ms - Brief Tap: ${isBriefTap}`);
 
     switch (event.code) {
         case 'ArrowUp':
         case 'ArrowDown':
-            // Stop roll movement after releasing
-            keyboardRoll = 0;
+            keyboardRoll = 0;  // Stop roll movement after releasing
             break;
         case 'ArrowLeft':
         case 'ArrowRight':
-            // Stop pitch movement after releasing
-            keyboardPitch = 0;
+            keyboardPitch = 0;  // Stop pitch movement after releasing
             break;
         case 'Space':
         case 'KeyB':
             deactivateBoost();  // Deactivate boost when space or 'b' is released
             break;
+        case 'ShiftRight': // Stop looking behind
+        case 'PageUp': // Stop looking left
+        case 'PageDown': // Stop looking right
+            targetRotationY = 0;  // Reset target rotation to default forward view
+            break;
     }
 
-    // Remove the key press start time
     delete keyPressStartTimes[event.code];
 }
+
+let targetRotationY = 0;
+const rotationSmoothFactor = 0.05; // Adjust for smoother turning
+
+function updateCameraRotation() {
+    if (camera) {
+        camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, targetRotationY, rotationSmoothFactor);
+    }
+}
+
+
+
 
 function activateBoost(isDouble = false) {
     if (isDouble) {
