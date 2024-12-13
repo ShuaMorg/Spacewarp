@@ -36,13 +36,13 @@ function playExplosionSound() {
   explosion.play();
 }
 
-// Predefined enemy positions
+// Predefined enemy positions with range and number of enemies
 let enemyData = [
-  { x: 0, y: 100400, z: -500 },
-  { x: 100000, y: 100300, z: 98000 },
-  { x: 400, y: -500, z: 1500 },
-  { x: 0, y: 0, z: 2000 },
-  { x: 200, y: -300, z: 2500 }
+  { x: 0, y: 100400, z: -500, count: 5, spread: 800 },  // 5 enemies with a spread of 100 units
+  { x: 100000, y: 100300, z: 98000, count: 50, spread: 1950 },
+ // { x: 400, y: -500, z: 1500, count: 2, spread: 1200 },
+  { x: 0, y: 2000, z: -26000, count: 4, spread: 1150 },
+ // { x: 200, y: -300, z: 2500, count: 6, spread: 475 }
 ];
 
 function createEnemies(scene) {
@@ -50,7 +50,7 @@ function createEnemies(scene) {
 
   // Spawn enemies using predefined positions from enemyData
   for (let i = 0; i < enemyData.length; i++) {
-    spawnEnemy(scene, enemyData[i], textureLoader);
+    spawnEnemiesAtPosition(scene, enemyData[i], textureLoader);
   }
 
   // Spawn additional enemies randomly to match maxEnemies
@@ -59,6 +59,24 @@ function createEnemies(scene) {
   }
 }
 
+function spawnEnemiesAtPosition(scene, positionData, textureLoader) {
+  // Calculate spread and number of enemies at this position
+  for (let i = 0; i < positionData.count; i++) {
+    const randomOffsetX = Math.random() * positionData.spread - positionData.spread / 2;
+    const randomOffsetY = Math.random() * positionData.spread - positionData.spread / 2;
+    const randomOffsetZ = Math.random() * positionData.spread - positionData.spread / 2;
+
+    // Create a new position with the spread
+    const position = {
+      x: positionData.x + randomOffsetX,
+      y: positionData.y + randomOffsetY,
+      z: positionData.z + randomOffsetZ
+    };
+
+    // Spawn the enemy at the new position
+    spawnEnemy(scene, position, textureLoader);
+  }
+}
 
 function spawnEnemy(scene, positionData, textureLoader) {
   const geometries = [
@@ -67,7 +85,9 @@ function spawnEnemy(scene, positionData, textureLoader) {
     () => new THREE.ConeGeometry(60, 30, 16),
     () => new THREE.DodecahedronGeometry(50),
     () => new THREE.IcosahedronGeometry(50),
-    () => new THREE.TorusGeometry(40, 8, 46, 200)
+    () => new THREE.TorusGeometry(40, 8, 46, 200),
+    
+    () => new THREE.TorusKnotGeometry(40, 8, 46, 200)
   ];
 
   const randomGeometry = geometries[Math.floor(Math.random() * geometries.length)]();
@@ -106,7 +126,6 @@ function spawnEnemy(scene, positionData, textureLoader) {
   }, 3000);
 }
 
-
 function shootAtPlayer(scene, enemy) {
   if (!spacecraft || !enemy) return;
 
@@ -134,7 +153,6 @@ function shootAtPlayer(scene, enemy) {
 
   enemyProjectiles.push(projectile);
 }
-
 
 function shootPlayerProjectile(scene) {
   const textureLoader = new THREE.TextureLoader();
@@ -167,7 +185,6 @@ function shootPlayerProjectile(scene) {
     playLaserSound();
   });
 }
-
 
 function createExplosion(scene, position, enemySize) {
   // Load a texture for the explosion particles
@@ -251,8 +268,6 @@ function createExplosion(scene, position, enemySize) {
 
   animateParticles();
 }
-
-
 
 function updateEnemies() {
   // Update enemy projectiles
@@ -364,8 +379,6 @@ function updateEnemies() {
     }
   }
 }
-
-
 
 // Event listener to shoot player projectile
 window.addEventListener('keydown', (event) => {
