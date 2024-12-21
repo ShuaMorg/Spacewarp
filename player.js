@@ -53,7 +53,7 @@ function createPlayer(scene) {
     scene.add(spacecraft);
 
     // Load the texture and update the material once it's loaded
-    textureLoader.load('ship.jpg', (texture) => {
+    textureLoader.load('xship.jpg', (texture) => {
         const material = new THREE.MeshStandardMaterial({ map: texture, metalness: 0.6, roughness: 0.4 });
         spacecraft.material = material;
     });

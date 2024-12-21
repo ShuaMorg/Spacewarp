@@ -4,7 +4,7 @@ function createSurfaces(scene) {
   const textureLoader = new THREE.TextureLoader();
 
   const surfaceData = [
-    { x: 0, y: 100200, z: 0, texture: '8k_jupiter.webp', size: 15000, darknessLevel: 0.9, heightVariation: 1000, heightDistribution: 0.003, textureRepeat: 52 },
+    { x: 0, y: 100200, z: 0, texture: 'tree.jpg', size: 15000, darknessLevel: 0.9, heightVariation: 1000, heightDistribution: 0.003, textureRepeat: 52 },
     { x: 0, y: 100000, z: 0, texture: 'sea.jpg', size: 16000, darknessLevel: 0.9, heightVariation: 0, heightDistribution: 0.002, textureRepeat: 26 },
   ];
 

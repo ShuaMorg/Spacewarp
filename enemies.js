@@ -17,22 +17,22 @@ killDisplay.innerText = `Kills: ${killCount}`;
 document.body.appendChild(killDisplay);
 
 // Load the laser sound
-const laserSound = new Audio('laser.ogg');
+const laserSound = new Audio('laser.mp3');
 laserSound.loop = false;  // Ensures the sound does not loop, so it can play each time the player shoots.
 
 // Load the explosion sound
-const explosionSound = new Audio('explosion.ogg');
+const explosionSound = new Audio('hoho.mp3');
 explosionSound.loop = false;  // Ensures the sound does not loop
 
 // Function to play the laser sound
 function playLaserSound() {
-  const laser = new Audio('laser.ogg'); // Create a new Audio object to play the sound each time a shot is fired
+  const laser = new Audio('laser.mp3'); // Create a new Audio object to play the sound each time a shot is fired
   laser.play();
 }
 
 // Function to play the explosion sound
 function playExplosionSound() {
-  const explosion = new Audio('explosion.ogg'); // Create a new Audio object to play the sound when an explosion occurs
+  const explosion = new Audio('hoho.mp3'); // Create a new Audio object to play the sound when an explosion occurs
   explosion.play();
 }
 
@@ -80,14 +80,21 @@ function spawnEnemiesAtPosition(scene, positionData, textureLoader) {
 
 function spawnEnemy(scene, positionData, textureLoader) {
   const geometries = [
-    () => new THREE.BoxGeometry(50, 50, 50),
+  //  () => new THREE.BoxGeometry(50, 50, 50),
     () => new THREE.SphereGeometry(40, 46, 46),
-    () => new THREE.ConeGeometry(60, 30, 16),
-    () => new THREE.DodecahedronGeometry(50),
-    () => new THREE.IcosahedronGeometry(50),
-    () => new THREE.TorusGeometry(40, 8, 46, 200),
-    
-    () => new THREE.TorusKnotGeometry(40, 8, 46, 200)
+  //  () => new THREE.ConeGeometry(60, 30, 16),
+  //  () => new THREE.DodecahedronGeometry(50),
+  //  () => new THREE.IcosahedronGeometry(50),
+  //  () => new THREE.TorusGeometry(40, 8, 46, 200),
+  //  () => new THREE.TorusKnotGeometry(40, 8, 46, 200)
+  ];
+
+  const textures = [
+    'xtex1.jpg',
+    'xtex2.jpg',
+    'xtex3.jpg',
+    'xtex4.jpeg',
+    'xtex5.jpg'
   ];
 
   const randomGeometry = geometries[Math.floor(Math.random() * geometries.length)]();
@@ -111,8 +118,9 @@ function spawnEnemy(scene, positionData, textureLoader) {
   scene.add(enemy);
   enemies.push(enemy);
 
-  // Load texture for the enemy
-  textureLoader.load('ship2.png', (texture) => {
+  // Load a random texture for the enemy
+  const randomTexture = textures[Math.floor(Math.random() * textures.length)];
+  textureLoader.load(randomTexture, (texture) => {
     const enemyMaterial = new THREE.MeshBasicMaterial({
       map: texture,
       wireframe: false
@@ -157,7 +165,7 @@ function shootAtPlayer(scene, enemy) {
 function shootPlayerProjectile(scene) {
   const textureLoader = new THREE.TextureLoader();
 
-  textureLoader.load('plasma.jpg', (texture) => {
+  textureLoader.load('snow.png', (texture) => {
     const projectileGeometry = new THREE.SphereGeometry(3.6, 8, 8);
     const projectileMaterial = new THREE.MeshBasicMaterial({ map: texture });
 
@@ -189,7 +197,7 @@ function shootPlayerProjectile(scene) {
 function createExplosion(scene, position, enemySize) {
   // Load a texture for the explosion particles
   const textureLoader = new THREE.TextureLoader();
-  const particleTexture = textureLoader.load('particle2.png'); // Replace 'particle.png' with your texture path
+  const particleTexture = textureLoader.load('snow.png'); // Replace 'particle.png' with your texture path
 
   // Adjust the number of particles based on the enemy size
   const particleCount = Math.floor(1500 * enemySize);
